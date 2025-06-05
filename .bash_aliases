@@ -29,8 +29,9 @@ alias gpu_log="log stream --predicate '(eventMessage CONTAINS[c] "GPU" OR eventM
 #_____________________________________________________________________________________________________________________
 alias gs="git status"
 alias gb="git branch"
+alias gpl="git pull"
 alias gaa="git add ."
-alias gp="git push"
+alias gpu="git push"
 alias grv="git remote -v"
 
 gcm() {
