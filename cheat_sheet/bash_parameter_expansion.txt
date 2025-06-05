@@ -1,0 +1,95 @@
+
+# Bash Parameter Expansion Cheat Sheet
+
+# 1. Remove patterns from a string:
+# - From the end of the string:
+${var%pattern}  # Remove shortest match from the end
+${var%%pattern} # Remove longest match from the end
+
+# - From the beginning of the string:
+${var#pattern}  # Remove shortest match from the start
+${var##pattern} # Remove longest match from the start
+
+# Example:
+filename="2025-05-12_notes.txt"
+echo "${filename%.txt}"   # 2025-05-12_notes
+echo "${filename##*_}"    # txt
+echo "${filename%%_*}"    # 2025-05-12
+
+# 2. String substitution:
+# - Replace the first match:
+${var/pattern/replacement}  
+# - Replace all matches:
+${var//pattern/replacement}
+
+# Example:
+text="apples and apples"
+echo "${text/apples/oranges}"    # oranges and apples
+echo "${text//apples/oranges}"   # oranges and oranges
+
+# 3. Default and alternate values:
+# - Use 'default' if var is unset or null:
+${var:-default}   
+# - Set var to 'default' if unset or null:
+${var:=default}   
+# - Use 'alt' if var is set:
+${var:+alt}      
+# - Show an error message if var is unset or null:
+${var:?message}  
+
+# Example:
+echo "${name:-Guest}"   # If name is unset, prints "Guest"
+
+# 4. String length:
+# - Get length of the value:
+${#var}
+
+# Example:
+name="Kotryna"
+echo "${#name}"   # 7
+
+# 5. Substring extraction:
+# - From offset to end:
+${var:offset}   
+# - Substring of length starting at offset:
+${var:offset:length}
+
+# Example:
+str="Hello world"
+echo "${str:6}"      # world
+echo "${str:0:5}"    # Hello
+
+" Default Value
+" ---------------------------
+" ${variable:-default}   : If variable is unset or null, use default.
+" ${variable:=default}   : If variable is unset or null, assign default to it and use it.
+" ${variable:?error}     : If variable is unset or null, print error and exit.
+" ${variable:+value}     : If variable is set and non-null, substitute value.
+
+" Substring Extraction
+" ---------------------------
+" ${variable:start:length} : Extract substring starting from 'start' with length 'length'.
+
+" Length
+" ---------------------------
+" ${#variable}           : Returns length of the value of variable.
+
+" Case Modification
+" ---------------------------
+" ${variable^}           : Converts first character to uppercase.
+" ${variable^^}          : Converts all characters to uppercase.
+" ${variable,}           : Converts first character to lowercase.
+" ${variable,,}          : Converts all characters to lowercase.
+
+" Replace Substring
+" ---------------------------
+" ${variable/pattern/replacement} : Replace first occurrence of pattern with replacement.
+" ${variable//pattern/replacement} : Replace all occurrences of pattern with replacement.
+
+" Pattern Matching and Removal
+" ---------------------------
+" ${variable#pattern}    : Remove the shortest match of pattern from the start of variable.
+" ${variable##pattern}   : Remove the longest match of pattern from the start of variable.
+" ${variable%pattern}    : Remove the shortest match of pattern from the end of variable.
+" ${variable%%pattern}   : Remove the longest match of pattern from the end of variable.
+

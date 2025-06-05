@@ -1,0 +1,53 @@
+Warning: You are using macOS 12.
+We (and Apple) do not provide support for this old version.
+
+This is a Tier 3 configuration:
+  https://docs.brew.sh/Support-Tiers#tier-3
+Do not report any issues to Homebrew/* repositories!
+Read the above document instead before opening any issues or PRs.
+
+==> Fetching dependencies for node: llvm
+==> Fetching llvm
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/e89e7a626be34fb5769a31388f1850e122bdfd11/Formula/l/llvm.rb
+==> Downloading https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.3/llvm-project-20.1.3.src.tar.xz
+Already downloaded: /Users/rod/Library/Caches/Homebrew/downloads/c525a7617fb0117c3da433261df3200959040adaa70a74c640166b2a5dae64df--llvm-project-20.1.3.src.tar.xz
+==> Fetching node
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/e89e7a626be34fb5769a31388f1850e122bdfd11/Formula/n/node.rb
+==> Downloading https://registry.npmjs.org/npm/-/npm-10.9.2.tgz
+==> Downloading https://nodejs.org/dist/v23.11.0/node-v23.11.0.tar.xz
+Already downloaded: /Users/rod/Library/Caches/Homebrew/downloads/cc333477dcae2d2ff0d040f34d7fc3f1d212d380984989bc23acbb071fc6592c--node-v23.11.0.tar.xz
+==> Installing dependencies for node: llvm
+==> Installing node dependency: llvm
+[34m==>[0m [1mcmake -G Ninja .. -DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;mlir;polly;[0m
+[34m==>[0m [1mcmake --build .[0m
+Error: SIGTERM
+/usr/local/Homebrew/Library/Homebrew/utils/fork.rb:100:in `read'
+/usr/local/Homebrew/Library/Homebrew/utils/fork.rb:100:in `block (2 levels) in safe_fork'
+/usr/local/Homebrew/Library/Homebrew/utils/fork.rb:45:in `open'
+/usr/local/Homebrew/Library/Homebrew/utils/fork.rb:45:in `block in safe_fork'
+/usr/local/Homebrew/Library/Homebrew/utils/fork.rb:121:in `safe_fork'
+/usr/local/Homebrew/Library/Homebrew/sandbox.rb:180:in `block (3 levels) in run'
+/usr/local/Homebrew/Library/Homebrew/sandbox.rb:211:in `raw'
+/usr/local/Homebrew/Library/Homebrew/sandbox.rb:211:in `block (2 levels) in run'
+/usr/local/Homebrew/Library/Homebrew/sandbox.rb:148:in `open'
+/usr/local/Homebrew/Library/Homebrew/sandbox.rb:148:in `block in run'
+/usr/local/Homebrew/Library/Homebrew/vendor/portable-ruby/3.3.8/lib/ruby/3.3.0/tmpdir.rb:99:in `mktmpdir'
+/usr/local/Homebrew/Library/Homebrew/sandbox.rb:137:in `run'
+/usr/local/Homebrew/Library/Homebrew/formula_installer.rb:1069:in `build'
+/usr/local/Homebrew/Library/Homebrew/formula_installer.rb:556:in `install'
+/usr/local/Homebrew/Library/Homebrew/formula_installer.rb:868:in `install_dependency'
+/usr/local/Homebrew/Library/Homebrew/formula_installer.rb:782:in `block in install_dependencies'
+/usr/local/Homebrew/Library/Homebrew/formula_installer.rb:782:in `each'
+/usr/local/Homebrew/Library/Homebrew/formula_installer.rb:782:in `install_dependencies'
+/usr/local/Homebrew/Library/Homebrew/formula_installer.rb:508:in `install'
+/usr/local/Homebrew/Library/Homebrew/upgrade.rb:213:in `install_formula'
+/usr/local/Homebrew/Library/Homebrew/install.rb:383:in `install_formula'
+/usr/local/Homebrew/Library/Homebrew/install.rb:319:in `block in install_formulae'
+/usr/local/Homebrew/Library/Homebrew/install.rb:318:in `each'
+/usr/local/Homebrew/Library/Homebrew/install.rb:318:in `install_formulae'
+/usr/local/Homebrew/Library/Homebrew/cmd/install.rb:315:in `run'
+/usr/local/Homebrew/Library/Homebrew/brew.rb:95:in `<main>'
+This error was expected, as this is not a Tier 1 configuration:
+  https://docs.brew.sh/Support-Tiers
+Do not report any issues to Homebrew/* repositories!
+Read the above document instead before opening any issues or PRs.

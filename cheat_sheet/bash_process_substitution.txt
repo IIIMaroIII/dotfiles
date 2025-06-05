@@ -1,0 +1,78 @@
+
+"============================"
+"📥 READ INPUT FROM COMMAND"
+"============================"
+
+while read -r line; do
+  echo "$line"
+done < <(ls -l)      " Feed `ls -l` into the loop
+
+diff <(cat file1) <(cat file2)
+                      " Compare output of two commands
+
+grep "pattern" < <(curl -s https://example.com)
+                      " Grep HTTP response as a file
+
+"============================"
+"📤 WRITE OUTPUT TO COMMAND"
+"============================"
+
+ls | tee >(wc -l > count.txt)
+                      " Count output lines via tee + process substitution
+
+tar cf >(gzip > backup.tar.gz) folder/
+                      " Archive → gzip in a single stream
+
+command > >(logger)   " Send stdout to system logger
+
+"============================"
+"🧪 NESTING + MIXING INPUT/OUTPUT"
+"============================"
+
+diff <(sort file1) <(sort file2)
+                      " Compare sorted versions of files
+
+paste <(cut -f1 file) <(cut -f3 file)
+                      " Combine selected columns
+
+comm <(sort a.txt) <(sort b.txt)
+                      " Find common/unique lines
+
+"============================"
+"⚙️ ALTERNATIVES & VARIANTS"
+"============================"
+
+readarray lines < <(find . -type f)
+                      " Load all files into array
+
+IFS= read -r first_line < <(head -n 1 file)
+                      " Capture one line via process substitution
+
+"============================"
+"📂 ADVANCED: REDIRECT WITH FD"
+"============================"
+
+command 3< <(cat input.txt)
+                      " Assign process substitution to FD 3
+
+cat <&3               " Read from it using FD
+
+command 4> >(tee log.txt)
+                      " Pipe output to FD 4 and tee into file
+
+"============================"
+"🔁 xargs-style processing"
+"============================"
+
+xargs -0 < <(find . -print0)
+                      " Safer null-separated input
+
+🪄 TL;DR Quick Forms
+
+Syntax	Meaning
+< <(cmd)	Input to script/loop
+> >(cmd)	Output from script/command
+cmd1 < <(cmd2)	Feed output of cmd2 into cmd1
+cmd1 > >(cmd2)	Send output of cmd1 into cmd2
+cmd fdN< <(cmd2)	Bind file descriptor N to a process
+cmd fdN> >(cmd2)	Same, but for output

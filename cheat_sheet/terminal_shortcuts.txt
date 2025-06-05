@@ -1,0 +1,54 @@
+	=== General ===
+>>> ctrl-l - to clear the entire screen;
+
+	=== Line Jumping (Moving) ===
+>>> ctrl-a - to move the cursor to the beginning of the line;
+>>> ctrl-e - to move the cursor to the end of the line;
+>>> ctrl-f - to move the cursor forward one character at a time;
+>>> ctrl-b - to move the cursor backwards one character at a time;
+>>> option-f - to move the cursor forward one word;
+>>> option-b - to move the cursor backwards one word;
+
+	=== Swaping ===
+>>> ctrl-t - to swap the current character under the cursor with one preceding it.
+>>> alt-t - to swap the current word with preceding it.
+
+	=== Killing ===
+>>> ctrl-k - to kill the text from the current cursor location until the end of the line;
+>>> ctrl-u - to kill the text from the current cursor location to the beginning of the line;
+>>> alt-d - to kill the text from wherever the cursor currently is to the end of the word;
+>>> ctrl-w - to kill the text going to the left, going to the beginning of that word;
+
+	=== Yanking ===
+>>> ctrl-y - we can retrive the most recently killed text
+
+	=== Expansions, (Wildcards) ===
+
+>>> * - the asterisk character represents zero or more characters in a filname
+	-- ls *.html - will match any files that end with '.html', like 'index.html', 'navbar.html';
+	-- cat blue - will match any files that start with 'blue' like 'blue.html', 'bluesteel.js'; 
+>>> ? - the question mark (?) character represents any signle character
+	-- ls.app.?? - will match any files named 'app' that end with two character file extensions like 'app.js', 'app.py', but NOT 'app.css';
+	-- ls pic?.png - will match 'pic1.png', 'pic2.png', 'pic3.png' but also 'picA.png', 'picx.png'; 
+>>> [] - inside of square brackets ([]) we can specify a range of characters to match
+	-- ls pic[123].png - will only match 'pic1.png', 'pic2.png', and 'pic3.png';
+	-- ls file[0-9] will match 'file1', 'file2', 'file3', up to 'file9';
+	-- ls [A-F]* - will match any files begin with a capital 'A,B,C,D,E,F';
+>>> ^ - inside of square brackets ([]) we can specify a range of characters to not match, using a caret (^)
+	-- ls [^a]* - will match any files that do not start with 'a';
+	-- ls [^0-9]* - will match any files that do not start with a numeric digit '0-9';
+>>> {} - brace expansion is used to generate arbitrary strings. Basically, it will generate multiple strings for us based on a pattern. We provide a set of strings inside of curly braces ({}), as well as optional surrounding prefixes and suffixes. The specified strings are used to generate all possible combinations with the optinal prefixes and suffixes
+	-- touch page{1,2,3}.txt - will generate three new files 'page1.txt', 'page2.txt' and 'page3.txt';
+	-- touch page{1..10}.txt - will be expanded to 'page1', 'page2' up to 'page10'.txt;
+	-- touch page{1..20..2}.txt - we can provide the third value which defines the interval for the range. In this example 'touch page{1..20..2}.txt' will create out the 'page1', 'page3', 'page5' up to 'page20'.txt;
+	-- echo {x,y{1..5},z} - it will generate 'x,y1,y2,y3,y4,y5,z';
+	-- echo {Mon,Tue{1..10}{AM,PM},Wed} - we can put another curly braces inside another one;
+>>> $((expressions)) - the shell will perform arithmetic via expansion using the '$((expressions)) syntax'
+	-- + addition
+	-- - subtraction
+	-- * multiplication
+	-- / division
+	-- ** exponentiation
+	-- % modulo (remainder operator);
+	
+	

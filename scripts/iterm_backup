@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ -f  ~/Library/Preferences/com.googlecode.iterm2.plist  ]]; then
+	cp -R ~/Library/Preferences/com.googlecode.iterm2.plist ~/.dotfiles/.configs
+	echo "The settings backed up at $(date)" >> ~/.dotfiles/.scripts/.logs/iterm_backup.log 2>&1
+fi	
+

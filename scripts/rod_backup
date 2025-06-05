@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DATE=$(date +%Y-%m-%d)
+BACKUP_FOLDER="$HOME/.backups/mac_pro"
+
+tar -czf $BACKUP_FOLDER/backup-$DATE.tar.gz $HOME/Desktop

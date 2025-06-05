@@ -1,0 +1,45 @@
+#_____________________________________________________________________________________________________________________
+#Bash
+#_____________________________________________________________________________________________________________________
+alias srcbash="source ~/.dotfiles/.bashrc"
+alias gcc="gcc -fdiagnostics-color=always"
+alias ls='gls --color=always'
+alias grep='ggrep --color=always'
+alias less='less -R'
+alias ll="ls -alF"
+alias ..="cd ../"
+alias ...="cd ../../"
+alias l="ls -CF"
+alias get-chrome='curl -L -o ~/Downloads/googleChrome.dmg https://dl.google.com/chrome/mac/universal/stable/CHFA/googlechrome.dmg'
+alias du="du -h"
+alias c="clear"
+alias cl="c;l"
+alias cll="c;ll"
+alias ip="curl ipinfo.io/ip"
+alias mkdir="mkdir -p"
+alias sl="sudo shutdown -s now"
+alias shutdown="sudo shutdown -h now"
+alias find="gfind"
+alias b_iterm="$(which iterm_backup)"
+alias dot="cd ~/.dotfiles"
+alias gpu_log="log stream --predicate '(eventMessage CONTAINS[c] "GPU" OR eventMessage CONTAINS[c] "IOAccelerator" OR eventMessage CONTAINS[c] "thermal" OR eventMessage CONTAINS[c] "watchdog")' --info >> gpu_watch_2.log"
+
+#_____________________________________________________________________________________________________________________
+#GIT
+#_____________________________________________________________________________________________________________________
+alias gs="git status"
+alias gb="git branch"
+alias gaa="git add ."
+alias gp="git push"
+alias grv="git remote -v"
+
+gcm() {
+    git commit -am "$1"
+}
+gra() {
+    git remote add origin "$1"
+}
+
+gpsu() {
+    git push --set-upstream origin "$1"
+}

@@ -1,0 +1,61 @@
+
+"============================"
+"📁 STRING COMPARISONS"
+"============================"
+
+[[ "$a" == "$b" ]]        " True if strings are equal
+[[ "$a" != "$b" ]]        " True if strings are not equal
+[[ -z "$a" ]]             " True if string is empty (zero length)
+[[ -n "$a" ]]             " True if string is non-empty (non-zero length)
+
+[[ "$a" < "$b" ]]         " True if a is lexicographically less than b
+[[ "$a" > "$b" ]]         " True if a is lexicographically greater than b
+
+"=== Quotes are recommended to avoid word-splitting or globbing ===
+
+"============================"
+"🔢 INTEGER COMPARISONS"
+"============================"
+
+[[ $a -eq $b ]]           " Equal
+[[ $a -ne $b ]]           " Not equal
+[[ $a -lt $b ]]           " Less than
+[[ $a -le $b ]]           " Less than or equal
+[[ $a -gt $b ]]           " Greater than
+[[ $a -ge $b ]]           " Greater than or equal
+
+"=== These require numeric values only ===
+
+"============================"
+"📂 FILE TESTS"
+"============================"
+
+[[ -e file ]]             " File exists
+[[ -f file ]]             " Exists and is a regular file
+[[ -d dir  ]]             " Exists and is a directory
+[[ -L link ]]             " Exists and is a symbolic link
+[[ -r file ]]             " Readable
+[[ -w file ]]             " Writable
+[[ -x file ]]             " Executable
+[[ -s file ]]             " Size is greater than zero
+[[ file1 -nt file2 ]]     " file1 is newer than file2
+[[ file1 -ot file2 ]]     " file1 is older than file2
+
+"============================"
+"🔀 LOGICAL OPERATORS"
+"============================"
+
+[[ CONDITION1 && CONDITION2 ]]  " Logical AND
+[[ CONDITION1 || CONDITION2 ]]  " Logical OR
+[[ ! CONDITION ]]               " Logical NOT
+
+"=== You can group conditions with ( ) if needed ===
+[[ ( $a -gt 0 && $b -lt 5 ) || -z $c ]]
+
+"============================"
+"💥 COMBINED EXAMPLE"
+"============================"
+
+if [[ "$birth" != "-" && -n "$birth" ]]; then
+  echo "✅ Valid birth date: $birth"
+fi

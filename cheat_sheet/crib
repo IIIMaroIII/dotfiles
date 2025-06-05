@@ -1,0 +1,14 @@
+#============= CRONTAB  =============
+#a		b		c		d		e		command
+#minute		hour		day		month		day(of week)	
+#0-59		0-23		1-31		1-12		0-6		<command>
+#0		4		8-14		*		*		=> * - any value; 5,6 - list of values; 1-4 - range of values; */5 - step values;
+#30		*		*		*		*		<command> => run a job at minute 30, every hour (every time the clock shows x:30)
+#0		0		*		*		*		<command> => run a job every day at midnight (when hour is 0 and minute is 0)
+#30		6		*		*		*		<command> => run a job every day at 6:30AM (when hour is 6 and minute is 30)
+#30		6		*		*		1		<command> => run a job every monday at 6:30AM 
+#30		6		*		4		1		<command> => run a job every monday in April at 6:30AM 
+#0		0		1		*		*		<command> => run a job at midnight on the first of every month
+#www.crontab.guru
+#============= CRONTAB  =============
+

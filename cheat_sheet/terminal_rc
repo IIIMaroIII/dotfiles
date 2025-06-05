@@ -1,0 +1,108 @@
+================ GREP colors options ================
+
+# mt: Match text (main match)        -> Red        1;31
+# fn: File name                      -> Magenta    1;35
+# ln: Line number                    -> Blue       1;34
+# bn: Byte offset                    -> Green      1;32
+# se: Separator (e.g., : or -)       -> Cyan       1;36
+
+export GREP_COLORS='mt=1;31:fn=1;35:ln=1;34:bn=1;32:se=1;36'
+alias grep='ggrep --color=always'
+
+================ GREP colors options ================
+
+
+================ LS colors  ================
+# di: Directory                      -> Bold Blue       1;34
+# ln: Symbolic link                  -> Bold Cyan       1;36
+# ex: Executable                     -> Bold Green      1;32
+# *.txt                              -> White           1;37
+# *.js                               -> Yellow          1;33
+# *.css                              -> Magenta         1;35
+# *.sh                               -> Green           1;32
+
+export LS_COLORS='di=1;34:ln=1;36:ex=1;32:*.txt=1;37:*.js=1;33:*.css=1;35:*.sh=1;32'
+alias ls='gls --color=always'
+
+================ LS colors  ================
+
+================ Text Color Codes (Foreground Colors) ================
+
+Color	Code
+Black	30
+Red	31
+Green	32
+Yellow	33
+Blue	34
+Magenta	35
+Cyan	36
+White	37
+Reset	0
+
+================ Text Color Codes (Foreground Colors) ================
+
+================ Text Color Codes (Background Colors) ================
+
+Background Color Codes:
+Color	Code
+Black	40
+Red	41
+Green	42
+Yellow	43
+Blue	44
+Magenta	45
+Cyan	46
+White	47
+
+================ Text Color Codes (Background Colors) ================
+
+================ Text Color Codes (Formatting Styles) ================
+Formatting Styles:
+Style		Code
+Bold		1
+Underlined	4
+Reversed	7
+Hidden		8
+================ Text Color Codes (Formatting Styles) ================
+
+================ Prompt Escape Sequences  ================
+Code	Meaning				Example Output
+\u	Username			rod
+\h	Hostname (short)		Mac-Pro
+\H	Hostname (full)			Mac-Pro.local
+\w	Current working dir (full path)	/Users/rod
+\W	Current dir (basename only)	rod
+\t	Current time (HH:MM:SS)		14:32:18
+\T	Current time (12-hr format)	02:32:18
+\d	Date				Mon Apr 08
+\n	Newline	
+\!	Command history number		512
+\#	Command number (this session)	42
+\$	$ for normal user, # for root	$ or #
+\[	Start of non-printing characters (like color)	
+\]	End of non-printing characters	
+
+#export PS1="\[\e[1;32m\]\u@\h \[\e[1;34m\]\w\[\e[0m\] $ "
+================ Prompt Escape Sequences  ================
+
+================ CHMOD Octal reference  ================
+
+" Octal | Binary | File Mode
+" ------|--------|-----------
+"   0   |  000   |   ---
+"   1   |  001   |   --x
+"   2   |  010   |   -w-
+"   3   |  011   |   -wx
+"   4   |  100   |   r--
+"   5   |  101   |   r-x
+"   6   |  110   |   rw-
+"   7   |  111   |   rwx
+
+" Examples:
+" chmod 755 file.txt > rwxr-xr-x
+" chmod 777 file.txt → rwxrwxrwx
+" chmod 644 file.txt → rw-r--r--
+" chmod 600 secrets  → rw-------
+
+================ CHMOD Octal reference  ================
+

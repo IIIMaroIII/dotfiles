@@ -1,0 +1,19 @@
+#!/usr/local/bin/bash
+
+case $1 in
+-h | --help)
+	echo "==> Welcome to weather help"
+	echo "==> -3 for next 3 days of weather"
+	echo "==> -l <city> for the city"
+	;;
+	echo "You provided -3"
+	curl "wttr.in"
+	;;
+-l | --location)
+	curl "wttr.in/$2"
+	;;
+*)
+	echo "Any other value"
+	curl "wttr.in?m1"
+	;;
+esac
