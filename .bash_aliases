@@ -41,6 +41,6 @@ gra() {
     git remote add origin "$1"
 }
 
-gpsu() {
+gpo() {
     git push --set-upstream origin "$1"
 }
