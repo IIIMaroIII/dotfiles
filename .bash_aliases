@@ -35,7 +35,6 @@ alias gpu="git push"
 alias grv="git remote -v"
 alias gf="git fetch"
 ## Git branch
-alias gb="git branch"
 alias gbr="git branch -r"
 
 gbd() {
