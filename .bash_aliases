@@ -33,6 +33,22 @@ alias gpl="git pull"
 alias gaa="git add ."
 alias gpu="git push"
 alias grv="git remote -v"
+alias gf="git fetch"
+## Git branch
+alias gb="git branch"
+alias gbr="git branch -r"
+
+gbd() {
+    git branch -d "$1"
+}
+
+gbch() {
+    git checkout "$1"
+}
+
+gbc() {
+    git checkout -b "$1"
+}
 
 gcm() {
     git commit -am "$1"
