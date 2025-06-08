@@ -52,24 +52,5 @@ fi
 echo "🛠️  Restoring macOS Terminal profile..."
 [[ -e ~/.dotfiles/.terminal/com.apple.Terminal.plist ]] && cp ~/.dotfiles/.terminal/com.apple.Terminal.plist ~/Library/Preferences/com.apple.Terminal.plist
 
-echo "➡️ Restoring SSH keys..."
-
-if [[ -d ~/.dotfiles/.ssh ]]; then
-  mkdir -p ~/.ssh
-  rsync -a ~/.dotfiles/.ssh/ ~/.ssh/
-  
-  echo "🔐 Fixing SSH permissions..."
-  chmod 700 ~/.ssh
-  chmod 600 ~/.ssh/id_* 2>/dev/null || true
-  chmod 644 ~/.ssh/*.pub 2>/dev/null || true
-  
-  echo "🚀 Starting ssh-agent and adding key..."
-  eval "$(ssh-agent -s)"
-  ssh-add ~/.ssh/id_ed25519 2>/dev/null || echo "⚠️ SSH key not found or already added"
-
-  echo "✅ SSH keys restored."
-else
-  echo "⚠️ Backup SSH folder not found at ~/.dotfiles/.ssh"
-fi
 
 echo "✅ Restore complete! You may want to restart your terminal."
