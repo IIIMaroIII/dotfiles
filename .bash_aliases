@@ -60,3 +60,7 @@ gra() {
 gpo() {
     git push --set-upstream origin "$1"
 }
+
+grs() {
+    git remote set-url origin "$1"
+}
