@@ -53,6 +53,7 @@ gcm() {
     git commit -am "$1"
 }
 gra() {
+    #git@github.com:your-username/ehu.git
     git remote add origin "$1"
 }
 

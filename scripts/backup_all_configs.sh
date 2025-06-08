@@ -85,5 +85,14 @@ echo "➡️   Dumping Brewfile..."
 
 brew bundle dump --file=~/.dotfiles/Brewfile --force
 
+echo "➡️   Copying SSH keys..."
+
+if [[ -d ~/.ssh ]]; then
+    [[ -d ~/.dotfiles/.ssh ]] || mkdir -p ~/.dotfiles/.ssh
+    rsync -a ~/.ssh/ ~/.dotfiles/.ssh
+else
+    echo "⚠️  ~/.ssh doesnt exist"
+fi
+
 echo "✅  All configs and Brewfile backed up to ~/.dotfiles"
 
