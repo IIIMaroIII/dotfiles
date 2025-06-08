@@ -1,0 +1,10 @@
+[user]
+    name = rod
+    email = matveev.r.v@icloud.com
+[core]
+    editor = code
+    excludesfile = ~/.gitignore_global
+[credential]
+    helper = osxkeychain
+[init]
+	defaultBranch = main
