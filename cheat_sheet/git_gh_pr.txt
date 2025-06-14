@@ -1,0 +1,31 @@
+🚀 Шаг 1: Создание Pull Request из feature/task-1
+🟢 [feature/task-1]
+
+gh pr create --base main --head feature/task-1 --title "Добавил фичу task-1" --body "Описание фичи"
+📌 GitHub CLI предложит ввести заголовок и описание, либо сразу передаёшь как флаги.
+
+🔄 Шаг 2: Список всех PR (опционально)
+gh pr list
+
+✅ Шаг 3: Мержим PR (находясь где угодно)
+gh pr merge --merge
+💡 Можно добавить флаг --delete-branch, если хочешь сразу удалить ветку после мержа:
+gh pr merge --merge --delete-branch
+
+📥 Шаг 4: Обновляешь локальный main
+🟢 [main]
+git checkout main
+git pull origin main
+
+🔁 Резюме: полный процесс с gh
+# [feature/task-1]
+git push -u origin feature/task-1
+
+gh pr create --base main --head feature/task-1 --title "Task-1" --body "Описание"
+
+gh pr merge --merge --delete-branch
+
+# [main]
+git checkout main
+git pull origin main
+
