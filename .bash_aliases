@@ -33,12 +33,18 @@ alias gpl="git pull"
 alias gaa="git add ."
 alias gpu="git push"
 alias grv="git remote -v"
-alias gf="git fetch"
+alias gf="git fetch" # will fetch remote changes to local repo WITHOUT merging
 ## Git branch
-alias gbr="git branch -r"
+alias gbr="git branch -r" # list of remote branches
 
 gbd() {
+    # delete the local branch
     git branch -d "$1"
+}
+
+gbrd() {
+    # delete the remote branch
+    git push origin --delete "$1"
 }
 
 gbch() {
@@ -54,7 +60,15 @@ gcm() {
 }
 gra() {
     #git@github.com:your-username/ehu.git
-    git remote add origin "$1"
+
+    bsname="$(basename "$(pwd)")" 
+    gitBranchName="git@github.com:IIIMaroIII/$bsname.git"
+    git remote add origin "$gitBranchName"
+    echo "➡️  You have added $gitBranchName to the remote repository"
+}
+
+grr() {
+    git remote remove origin
 }
 
 gpo() {
