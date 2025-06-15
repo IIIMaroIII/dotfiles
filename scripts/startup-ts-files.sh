@@ -9,7 +9,7 @@ dotvscode=~/.dotfiles/.vscode
 
 if [[ -d ~/.dotfiles ]]; then
     echo "➡️   The folder where the function is calling from $(pwd)"
-    mv "$tsconfig" "$prettier" "$gitignore" "$dotvscode" "$(pwd)"
+    cp -R "$tsconfig" "$prettier" "$gitignore" "$dotvscode" "$(pwd)"
     echo "✅  The configs $tsconfig, $prettier, $gitignore $dotvscode have been successfully copied to the $(pwd) folder "  
 else
     echo "❌ ~/.dotfiles had not found! "

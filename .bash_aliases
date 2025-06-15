@@ -72,8 +72,15 @@ grr() {
 }
 
 gpo() {
-    git push --set-upstream origin "$1"
-}
+    local cur_branch
+    if cur_branch=$(git branch --show-current 2>/dev/null) && [[ -n "$cur_branch" ]]; then
+        echo "➡️  Push your current branch $cur_branch to the repo"
+        git push --set-upstream origin "$cur_branch"
+    else
+        echo "❌ We have some trouble to find the current branch"
+        return 1
+    fi
+} 
 
 grs() {
     git remote set-url origin "$1"
@@ -83,3 +90,5 @@ grs() {
 #_____________________________________________________________________________________________________________________
 alias docs="cd ~/Documents"
 alias prev="cd ~-"
+alias proj="cd ~/Documents/projects"
+alias goit="cd ~/Documents/projects/goit"
