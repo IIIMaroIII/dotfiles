@@ -20,6 +20,7 @@ fi
 #======= SOURCES  ========
 
 #======= EXPORT SECTION ========
+export HOMEBREW_NO_AUTO_UPDATE="1"
 export GREP_COLORS='mt=1;31:fn=1;35:ln=1;32'
 export LS_COLORS='di=1;36:ln=1;30;31:ex=0;30;42:*.txt=1;34:*.sh=1;32'
 export PROMPT_DIRTRIM=3 #shorten the prompt up to 3 folders
