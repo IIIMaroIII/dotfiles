@@ -19,10 +19,12 @@ while IFS= read -r file; do
 
     if [[ -n "$dir" ]]; then
         modifiedName="$newname.types.ts"
-        mkdir -p "$dir/src/types"
-        (( counter++ ))
-        touch "$dir/src/types/$modifiedName"
-        echo "➡️ ➡️ ➡️  File has been created: $dir/src/types/$modifiedName"
+        if [[ ! -e "$dir/src/types/$modifiedName" ]]; then
+            mkdir -p "$dir/src/types"
+            (( counter++ ))
+            touch "$dir/src/types/$modifiedName"
+            echo "➡️ ➡️ ➡️  File has been created: $dir/src/types/$modifiedName"
+        fi
 
         
     fi
