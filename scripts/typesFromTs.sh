@@ -28,6 +28,6 @@ while IFS= read -r file; do
 
         
     fi
-done< <(find "$curDir" -type f -iname "*.ts" ! -iname "*.d.ts" ! -iname "main.ts")
+done< <(find "$curDir" -type f -iname "*.ts" ! -iname "*.d.ts" ! -iname "main.ts" ! -iname "*.types.ts")
 
 echo "✅ Total files were converted from .ts to .types.ts: $counter"
