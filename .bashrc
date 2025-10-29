@@ -1,5 +1,8 @@
 shopt -s globstar nullglob
 clear 
+# shopt -
+shopt -s extglob
+#
 cmatrix
 #======= SOURCES  ========
 # source the .bash_aliases

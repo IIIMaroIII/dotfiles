@@ -37,6 +37,16 @@ alias gf="git fetch" # will fetch remote changes to local repo WITHOUT merging
 ## Git branch
 alias gbr="git branch -r" # list of remote branches
 
+#gitlab clone via SSH
+
+glc(){
+    if [ -z "$1" ]; then
+        echo "Usage: glc <repo-name>"
+        return 1
+    fi
+    glab repo clone "git@gitlab.com:IIIMaroIII/$1.git"
+}
+
 gbd() {
     # delete the local branch
     git branch -d "$1"
