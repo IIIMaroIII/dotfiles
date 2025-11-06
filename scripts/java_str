@@ -1,0 +1,11 @@
+#!/usr/local/bin/bash
+
+for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
+    folder=$(basename "$d")
+    target="$d/lt/esdc/$folder"
+        
+        if [[ -d "$target" ]]; then
+            #echo "$target"
+            echo "$target/${folder^}.java"
+        fi
+done    

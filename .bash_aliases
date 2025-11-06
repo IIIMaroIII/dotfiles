@@ -93,7 +93,7 @@ gpo() {
 } 
 
 grs() {
-    git remote set-url origin "$1"
+    git remote set-url origin "git@github.com:IIIMaroIII/$1.git"
 }
 #_____________________________________________________________________________________________________________________
 #Folders

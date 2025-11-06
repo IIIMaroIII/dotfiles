@@ -1,19 +1,3 @@
-shopt -s globstar nullglob
-clear 
-# shopt -
-shopt -s extglob
-#
-cmatrix
-#======= SOURCES  ========
-# source the .bash_aliases
-if [[ -f ~/.dotfiles/.bash_aliases ]]; then
-	source ~/.dotfiles/.bash_aliases
-fi
-# source the .bash_functions
-if [[ -f ~/.dotfiles/.bash_functions ]]; then
-	source ~/.dotfiles/.bash_functions
-	add_gnu_tools_to_path
-fi
 
 # source the .bash_vars
 if [[ -f ~/.dotfiles/.bash_vars ]]; then
@@ -43,7 +27,7 @@ export grey="$(tput setaf 8)"
 export reset="$(tput sgr0)"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
+export GEMINI_API_KEY="AIzaSyAgastZq5XsFkk9vzZBWJq_gLv7wPmSYcY"
 #======== EXPORT SECTION ========
 
 #============= PROMPT =============
