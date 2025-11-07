@@ -1,0 +1,17 @@
+#!/usr/local/bin/bash
+
+while IFS= read -r folder; do
+    if [[ -d "$folder/.git" ]]; then
+        echo "  🍀 Note: Processing folder..."
+        
+        (
+         cd "$folder" || exit
+         git diff --quiet && git diff --cached --quiet && {
+         echo " ✅ No changes to commit "
+         exit 0
+         }
+         git add . && git commit -m "quick_commit" && git push
+    )
+
+        fi 
+done < <(find . -mindepth 1 -maxdepth 1 -type d) 
