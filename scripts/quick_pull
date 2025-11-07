@@ -1,0 +1,11 @@
+#!/usr/local/bin/bash
+
+while IFS= read -r folder; do
+
+    [[ -d "$folder/.git" ]] && (
+        cd "$folder" || continue
+        echo "  ✅  Pulling out the changes..."
+        git pull
+    ) 
+ 
+done < <(find . -mindepth 1 -maxdepth 1 -type d)
