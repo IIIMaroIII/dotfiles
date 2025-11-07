@@ -2,7 +2,7 @@
 
 while IFS= read -r folder; do
     if [[ -d "$folder/.git" ]]; then
-        echo "  🍀 Note: Processing folder..."
+        echo "  🍀 Note: Processing folder $folder ..."
         
         (
          cd "$folder" || exit
