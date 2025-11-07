@@ -1,11 +1,64 @@
 #!/usr/local/bin/bash
 
-for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
-    folder=$(basename "$d")
-    target="$d/lt/esdc/$folder"
-        
-        if [[ -d "$target" ]]; then
-            #echo "$target"
-            echo "$target/${folder^}.java"
-        fi
-done    
+
+read -p "        ⚙️  Which folder/s do you wanna create in the current folder: " -a folders
+
+
+for f in "${folders[@]}"; do
+    [[ "$f" == ".git" ]] && continue
+    
+    fpath="src/main/lt/esdc/${f^}"
+
+    if [[ -d "$fpath" ]]; then
+        echo "  ⚠️  Skipped: Folder already exists → $fpath"
+        continue
+    fi
+
+    mkdir -p "$fpath"
+    echo "  🍀 Note: Created a folder $fpath "
+    
+done
+
+# Create a Main.java
+
+touch "src/main/lt/esdc/Main.java"
+
+read -p "        🛠 Do you wanna create '.java' file in the last folder/s?  [y/n]" confirm; 
+
+[[ $confirm != [Yy] ]] && {
+    echo "  ❌ Operation cancelled"
+    exit 1
+}
+
+read -p "        📁 Enter the root directory to start looping: [src or out, without '/' or '.']" root;
+
+[[ ! -d "$root" ]] && {
+    echo "  ❌ The $root folder does not exist"
+    exit 1
+}
+
+while IFS= read -r dir; do
+    # Skip .git directories
+    [[ "$dir" == *"/.git"* ]] && continue
+
+    # Skip non-leaf folders (folders that contain subfolders)
+    subdirs=$(find "$dir" -mindepth 1 -maxdepth 1 -type d)
+    [[ -n "$subdirs" ]] && continue
+
+    folder_name=$(basename "$dir")
+    java_file="$dir/${folder_name^}.java"
+
+    # 🚨 Exit if any .java file already exists
+    if [[ -f "$java_file" ]]; then
+        echo "  ❌ ERROR: Java file already exists → $java_file"
+        echo "  🔒 Skipping this file."
+        continue
+    fi
+
+    echo "  🍀 Preparing to create: $java_file"
+    touch "$java_file"
+    echo "  ✅ Created Java file → $java_file"
+
+done < <(find "$root" -type d)
+
+echo "  🎉 All Java files created successfully!"
