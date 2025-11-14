@@ -23,7 +23,17 @@ alias find="gfind"
 alias b_iterm="$(which iterm_backup)"
 alias dot="cd ~/.dotfiles"
 alias gpu_log="log stream --predicate '(eventMessage CONTAINS[c] "GPU" OR eventMessage CONTAINS[c] "IOAccelerator" OR eventMessage CONTAINS[c] "thermal" OR eventMessage CONTAINS[c] "watchdog")' --info >> gpu_watch_2.log"
+alias ehu="cd ~/Documents/ehu"
+alias bb="pdf_open /Users/rod/Documents/ehu/S1_ov2/book_business_learn.pdf
+ "
 
+#_____________________________________________________________________________________________________________________
+#_____________________________________________________________________________________________________________________
+# Applications
+
+pdf_open() {
+    open -a "Preview" "$1"
+}
 #_____________________________________________________________________________________________________________________
 #GIT
 #_____________________________________________________________________________________________________________________
