@@ -1,7 +1,7 @@
 
-# source the .bash_vars
-if [[ -f ~/.dotfiles/.bash_vars ]]; then
-	source ~/.dotfiles/.bash_vars
+# source the .bash.vars
+if [[ -f ~/.dotfiles/.bash.vars ]]; then
+	source ~/.dotfiles/.bash.vars
 fi
 
 #======= SOURCES  ========
