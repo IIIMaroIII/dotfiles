@@ -118,4 +118,29 @@ function parse_git_dirty {
 	fi
 }
 
+short_pwd() {
+    local full_path="$PWD"
+    local max_len=20  # max length before shortening
+    local home_prefix="$HOME"
+    
+    # Replace $HOME with ~
+    full_path="${full_path/#$home_prefix/~}"
+
+    if [ ${#full_path} -gt $max_len ]; then
+        # Keep only last two directories with ... prefix
+        IFS='/' read -ra parts <<< "$full_path"
+        local last="${parts[-1]}"
+        local second_last="${parts[-2]}"
+        echo ".../$second_last/$last"
+    else
+        echo "$full_path"
+    fi
+}
+
+# Function to get git branch (fast)
+git_branch() {
+    git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+
+
 #============== get current status of git repo ==============
