@@ -61,6 +61,16 @@ else {
 
         echo "🔈 Renaming '$foundpath' -> '$newpath'"
         mv "$foundpath" "$newpath"
-    done < <(find "$root" -type f -iname "*[$symbols]*")
+    done < <(find "$root" -type f -iname "*[$symbols]*" \
+            ! -path "./.git/*" \
+            ! -path "*/.git/*" \
+            ! -path "./.vim/*" \
+            ! -path "*/.vim/*" \
+            ! -path "./.idea/*" \
+            ! -path "*/.idea/*" \
+            ! -path "./.DS_Store/*" \
+            ! -path "*/.DS_Store/*"
+        
+)
 }
 fi
