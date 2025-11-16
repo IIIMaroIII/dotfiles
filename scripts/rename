@@ -1,0 +1,66 @@
+#!/usr/local/bin/bash
+
+
+read -r -p "   🔗 Enter the entry point we'll search in: " root;
+read -r -p "   🔧 Enter a symbol/s which you wanna find in directories (simply type chars without any spaces or new line characters): " symbols
+read -r -p "   💡 Enter the character you want to replace: " replace_to
+read -r -p "   📂 Is that directory or a 📝 file? (enter d/f): " typeof
+
+[[ ! -e "$root" ]] && {
+    echo "  ❌ The $root doesn't exist"
+    exit 1
+}
+
+[[ "$typeof" != "d" && "$typeof" != "f" ]] && {
+    echo "  👉 Use a character <d> for <directories>, and <f> for <file/s>. "
+    echo "  ♿️ Exiting..."
+    exit 1
+}
+
+
+if [[ "$typeof" == "d" ]]; then { while IFS= read -r foundpath; do
+     echo "     ⚠️ Found $foundpath:" # W: paths is referenced but not assigned (did you mean 'pat…
+
+         parentdir=$(dirname "$foundpath")
+        dirname_only=$(basename "$foundpath")
+        newname="${dirname_only//$symbols/$replace_to}"
+        newpath="$parentdir/$newname"
+
+        [[ "$foundpath" == "$newpath" ]] && continue  # nothing to do
+        [[ -e "$newpath" ]] && {
+            echo "  ❌ $newpath already exists, skipping"
+            continue
+        }
+
+        echo "  🔈 Renaming $foundpath -> $newpath"
+        mv "$foundpath" "$newpath"
+
+
+done < <(find "$root" -depth -type d\
+     -iname "*[$symbols]*" \
+            ! -path "./.git/*" \
+            ! -path "*/.git/*" \
+            ! -path "./.vim/*" \
+            ! -path "*/.vim/*" \
+            ! -path "./.idea/*" \
+            ! -path "*/.idea/*" \
+            ! -path "./.DS_Store/*" \
+            ! -path "*/.DS_Store/*"
+    )
+}
+else {
+     # Files
+    while IFS= read -r foundpath; do
+        parentdir=$(dirname "$foundpath")
+        filename=$(basename "$foundpath")
+        newname="${filename//$symbols/$replace_to}"
+        newpath="$parentdir/$newname"
+
+        [[ "$foundpath" == "$newpath" ]] && continue
+        [[ -e "$newpath" ]] && { echo "❌ '$newpath' already exists, skipping"; continue; }
+
+        echo "🔈 Renaming '$foundpath' -> '$newpath'"
+        mv "$foundpath" "$newpath"
+    done < <(find "$root" -type f -iname "*[$symbols]*")
+}
+fi
