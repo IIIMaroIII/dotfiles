@@ -14,4 +14,4 @@ while IFS= read -r folder; do
     )
 
         fi 
-done < <(find . -mindepth 1 -maxdepth 1 -type d) 
+done < <(find . -type d ! -path "*/Library/*") 
