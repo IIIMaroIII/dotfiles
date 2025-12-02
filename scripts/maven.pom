@@ -29,6 +29,10 @@ cat <<EFO > "$TARGET_DIR/pom.xml"
     <groupId>lt.esdc</groupId>
     <artifactId>$bsname</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+    
+    </dependencies>
 </project>
 EFO
 
