@@ -1,0 +1,57 @@
+" ===============================
+" Vim Regex Cheatsheet
+" ===============================
+
+" -------------------------------
+" 1. Basic Characters
+" -------------------------------
+.        " Matches any character except newline
+\d       " Matches any digit [0-9]
+\D       " Matches any non-digit
+\w       " Matches any word character [a-zA-Z0-9_]
+\W       " Matches any non-word character
+\s       " Matches any whitespace character [ \t\n\r\f]
+\S       " Matches any non-whitespace character
+
+" -------------------------------
+" 2. Anchors
+" -------------------------------
+^        " Start of a line
+$        " End of a line
+\<       " Start of a word
+\>       " End of a word
+
+" -------------------------------
+" 3. Quantifiers
+" -------------------------------
+*        " 0 or more of the previous element
+\+       " 1 or more of the previous element
+\=       " 0 or 1 of the previous element
+\{n}     " Exactly n occurrences
+\{n,m}   " Between n and m occurrences
+
+" -------------------------------
+" 4. Groups and Alternation
+" -------------------------------
+\( ... \)    " Grouping
+\|           " Alternation (OR)
+\1, \2 ...   " Backreference to matched group
+
+" -------------------------------
+" 5. Character Classes
+" -------------------------------
+[abc]       " Matches a, b, or c
+[^abc]      " Matches any character except a, b, or c
+[a-z]       " Matches any lowercase letter
+[A-Z]       " Matches any uppercase letter
+[0-9]       " Matches any digit
+
+" -------------------------------
+" 6. Special Sequences
+" -------------------------------
+\n       " Newline
+\t       " Tab
+\r       " Carriage return
+\f       " Form feed
+\v       " Very magic mode (reduces backslashes needed)
+
