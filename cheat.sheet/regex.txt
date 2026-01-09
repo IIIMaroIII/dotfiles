@@ -1,57 +1,166 @@
-" ===============================
-" Vim Regex Cheatsheet
-" ===============================
+JAVA REGEX CHEATSHEET (java.util.regex)
 
-" -------------------------------
-" 1. Basic Characters
-" -------------------------------
-.        " Matches any character except newline
-\d       " Matches any digit [0-9]
-\D       " Matches any non-digit
-\w       " Matches any word character [a-zA-Z0-9_]
-\W       " Matches any non-word character
-\s       " Matches any whitespace character [ \t\n\r\f]
-\S       " Matches any non-whitespace character
+----------------------------------------------------------------------------------------------------
+Metacharacters to search for a match of the strings or text boundaries
+----------------------------------------------------------------------------------------------------
+^ — string beginning.
+$ — string end.
+\b — word boundary.
+\B — not a word boundary.
+\A — input start.
+\G — end of the previous match.
+\Z — input end, except for the end terminator, if applicable.
+\z — input end.
+(?m) - enable MULTILINE:
+       ^ and $ match start/end of each line (not just whole input);
+       \A and \z are unaffected.
 
-" -------------------------------
-" 2. Anchors
-" -------------------------------
-^        " Start of a line
-$        " End of a line
-\<       " Start of a word
-\>       " End of a word
+----------------------------------------------------------------------------------------------------
+Metacharacters to search for character classes
+----------------------------------------------------------------------------------------------------
+\d — numeric character.
+\D — non-numeric character.
+\s — whitespace character.
+\S — non-whitespace character.
+\w — alphanumeric character or an underscore.
+\W — any character, except for an alphabetic, numeric character or the underscore character.
+. — (full stop) any character, except for the new string character.
 
-" -------------------------------
-" 3. Quantifiers
-" -------------------------------
-*        " 0 or more of the previous element
-\+       " 1 or more of the previous element
-\=       " 0 or 1 of the previous element
-\{n}     " Exactly n occurrences
-\{n,m}   " Between n and m occurrences
+----------------------------------------------------------------------------------------------------
+Metacharacters to search for text delimiter characters
+----------------------------------------------------------------------------------------------------
 
-" -------------------------------
-" 4. Groups and Alternation
-" -------------------------------
-\( ... \)    " Grouping
-\|           " Alternation (OR)
-\1, \2 ...   " Backreference to matched group
+\t — tabulation character.
+\n — new line character.
+\r — carriage return character.
+\f — switching to a new page.
+\u0085 — next line unicode character.
+\u2028 — line separator unicode character.
+\u2029 — paragraph separator unicode character.
 
-" -------------------------------
-" 5. Character Classes
-" -------------------------------
-[abc]       " Matches a, b, or c
-[^abc]      " Matches any character except a, b, or c
-[a-z]       " Matches any lowercase letter
-[A-Z]       " Matches any uppercase letter
-[0-9]       " Matches any digit
+----------------------------------------------------------------------------------------------------
+Metacharacters to group characters
+----------------------------------------------------------------------------------------------------
 
-" -------------------------------
-" 6. Special Sequences
-" -------------------------------
-\n       " Newline
-\t       " Tab
-\r       " Carriage return
-\f       " Form feed
-\v       " Very magic mode (reduces backslashes needed)
+[abc] — any of the listed (a,b, or c).
+[^abc] — any, except for the listed (neither a, nor b, nor c).
+[a-zA-Z] — merging ranges (Roman characters from a to z without considering case).
+[a-d[m-p]] — combining characters (from a to d and from m to p).
+[a-z&&[def]] — overlapping characters (characters d,e,f).
+[a-z&&[^bc]] — subtracting characters (characters a, d-z).
 
+----------------------------------------------------------------------------------------------------
+Quantifiers
+----------------------------------------------------------------------------------------------------
+
+These are metacharacters that are used to indicate the number of characters. They always come after a character or a group of characters.
+? — one or absent.
+* — zero or more times.
++ — one or more times.
+{n} — n times.
+{n,} — n times and more.
+{n,m} — at least n times but no more than m times.
+
+----------------------------------------------------------------------------------------------------
+Escaping
+----------------------------------------------------------------------------------------------------
+If you need to use the designation of a metacharacter or quantifier as a regular character, then escaping is applied:
+\<metacharacter> (example: \*, \+, \., \?)
+[<metacharacter>] (example: [+], [?], [*], if then follows a quantifier)
+
+----------------------------------------------------------------------------------------------------
+Metacharacter \b
+----------------------------------------------------------------------------------------------------
+The metacharacter \b is interpreted differently depending on the context where it is used:
+If it is specified in a class of characters, then it denotes the "backspace" character ( [\b] ).
+If it is specified outside a class of characters,
+it means the word boundary (meaning that it limits words consisting of characters [a-zA-Z0-9_]).
+
+----------------------------------------------------------------------------------------------------
+Metacharacter \?
+----------------------------------------------------------------------------------------------------
+
+The metacharacter ? is also interpreted differently depending on where it is used:
+? shows that the preceding characters (ranges of values) is a not a mandatory part of the expression.
++? shows the minimum number of characters (ranges of values)
+that may occur once or several times.
+*? shows the minimum number of characters (ranges of values)
+that may occur several times. This is the so called "lazy" quantifier.
+
+----------------------------------------------------------------------------------------------------
+EXAMPLE WITH GROUPS (very simple)
+----------------------------------------------------------------------------------------------------
+
+Pattern: "(\\w+)-(\\d+)"
+Text:    "item-42"
+
+group(0) = "item-42"
+group(1) = "item"   because:
+  ( \\w+ )
+  - (...) is a capturing group
+  - \\w means [A-Za-z0-9_]
+  - + means “one or more”
+group(2) = "42"     because:
+  ( \\d+ )
+  - \\d means digit
+  - + means “one or more”
+
+----------------------------------------------------------------------------------------------------
+COMPREHENSIVE EXAMPLE (OR | + groups + anchors + optional)
+----------------------------------------------------------------------------------------------------
+
+Pattern: "^(~/|/|\\./|\\.\\./)([\\w.-]+)(?:/([\\w.-]+))*(/)?$"
+Text:    "../tmp/file.txt/"
+
+group-by-group explanation (what’s INSIDE each group)
+
+^
+- start of input
+
+(~/|/|\\./|\\.\\./)
+- Group 1 = prefix, MUST be one of these (this is the OR part):
+  ~/   OR   /   OR   ./   OR   ../
+- In the text "../tmp/file.txt/" it matches "../"
+- Important:
+  \\./   means literal "./" (dot is escaped)
+  \\.\\./ means literal "../" (both dots are escaped) = \\.{2}/
+
+
+([\\w.-]+)
+- Group 2 = first segment right after the prefix
+- [\\w.-] is a character class:
+  \\w  OR  .  OR  -
+- + means at least 1 char from that set
+- In the text it matches "tmp"
+
+(?:/([\\w.-]+))*
+- This whole part repeats 0 or more times (*)
+- It matches additional segments like "/file.txt", "/bin", "/a", ...
+- There are TWO groups here:
+
+  (?: ... )   non-capturing group (just to apply *)
+  /([\\w.-]+) inside it captures only the segment name without '/'
+
+- Group 3 = ([\\w.-]+) inside the repeated part
+- In the text, the repeated segments are:
+  "/file.txt"
+- So group 3 = "file.txt"
+- Note: because the capturing group is inside a repetition (*), group(3) stores ONLY the LAST captured value.
+  Example: "../a/b/c" -> group(3) would end up as "c"
+
+(/)?
+- Group 4 = optional trailing slash
+- / is a literal slash
+- ? means “present once or absent”
+- In the text it matches "/" (so group 4 = "/")
+- If the text was "../tmp/file.txt" then group 4 would be null
+
+$
+- end of input
+
+Final groups for "../tmp/file.txt/":
+  group(0) = "../tmp/file.txt/"
+  group(1) = "../"
+  group(2) = "tmp"
+  group(3) = "file.txt"
+  group(4) = "/"
