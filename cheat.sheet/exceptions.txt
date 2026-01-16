@@ -1,0 +1,63 @@
+" =========================================================
+" JAVA EXCEPTION HIERARCHY — CHEAT SHEET (TREE VIEW)
+" =========================================================
+"
+" Object
+"  └── Throwable
+"       ├── Error                         " serious JVM problems (DO NOT catch)
+"       │    ├── VirtualMachineError
+"       │    │    ├── OutOfMemoryError
+"       │    │    └── StackOverflowError
+"       │    ├── LinkageError
+"       │    │    ├── NoClassDefFoundError
+"       │    │    └── ClassFormatError
+"       │    └── AssertionError
+"       │
+"       └── Exception                     " recoverable conditions
+"            ├── RuntimeException         " unchecked exceptions
+"            │    ├── NullPointerException
+"            │    ├── IndexOutOfBoundsException
+"            │    │    ├── ArrayIndexOutOfBoundsException
+"            │    │    └── StringIndexOutOfBoundsException
+"            │    ├── IllegalArgumentException
+"            │    │    ├── NumberFormatException
+"            │    │    └── IllegalStateException
+"            │    ├── ClassCastException
+"            │    ├── ArithmeticException
+"            │    ├── ConcurrentModificationException
+"            │    └── UnsupportedOperationException
+"            │
+"            └── Checked Exceptions       " must be handled or declared
+"                 ├── IOException
+"                 │    ├── FileNotFoundException
+"                 │    ├── EOFException
+"                 │    └── SocketException
+"                 │
+"                 ├── SQLException
+"                 ├── ClassNotFoundException
+"                 ├── InterruptedException
+"                 ├── ReflectiveOperationException
+"                 │    ├── NoSuchMethodException
+"                 │    ├── IllegalAccessException
+"                 │    └── InvocationTargetException
+"                 └── TimeoutException
+"
+" =========================================================
+" LEGEND
+" =========================================================
+" Error              -> JVM-level, do not handle
+" RuntimeException   -> unchecked (no throws required)
+" Checked Exception  -> must be caught or declared
+"
+" =========================================================
+" CORE RULES (EXAM & REAL LIFE)
+" =========================================================
+" 1. Catch from MOST SPECIFIC to MOST GENERAL
+" 2. Do not catch Error
+" 3. Prefer IllegalArgumentException for bad arguments
+" 4. JVM throws NullPointerException — you usually don't
+" 5. Checked exceptions = part of API contract
+"
+" =========================================================
+" END OF CHEAT SHEET
+" =========================================================
