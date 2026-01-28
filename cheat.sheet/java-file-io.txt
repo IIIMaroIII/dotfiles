@@ -1,0 +1,101 @@
+" ==================================================
+" JAVA FILE I/O — CHEAT SHEET (NIO.2, BEST PRACTICE)
+" ==================================================
+
+" ----------------------------------
+" CORE IDEA (REMEMBER THIS)
+" ----------------------------------
+" Path    -> WHERE the file is
+" Files   -> WHAT to do with the file
+" Buffers -> HOW to read/write the file
+
+
+" ----------------------------------
+" USE THESE (MODERN, RECOMMENDED)
+" ----------------------------------
+
+" Path — file location (immutable)
+Path path = Path.of("data.txt")
+
+" Files — all file system operations (static)
+Files.exists(path)            " file exists?
+Files.isReadable(path)        " can read?
+Files.isWritable(path)        " can write?
+Files.createFile(path)        " create file
+Files.delete(path)            " delete file
+
+" Reading text files (streaming, safe)
+BufferedReader reader =
+    Files.newBufferedReader(path)
+
+" Writing text files
+BufferedWriter writer =
+    Files.newBufferedWriter(path)
+
+" Quick write / append
+Files.writeString(
+    path,
+    "text",
+    CREATE,
+    APPEND
+)
+
+
+" ----------------------------------
+" DO NOT USE (LEGACY / BAD PRACTICE)
+" ----------------------------------
+
+File file = new File("data.txt")     " ❌ legacy
+Paths.get("data.txt")                " ❌ replaced by Path.of
+Scanner scanner = new Scanner(file)  " ❌ slow / buggy for files
+
+
+" ----------------------------------
+" WHEN TO USE WHAT
+" ----------------------------------
+
+" Just need a path?
+-> Path
+
+" Need to check, create, delete?
+-> Files
+
+" Read large text file line by line?
+-> BufferedReader
+
+" Write / append text?
+-> BufferedWriter
+
+" Console input?
+-> Scanner(System.in)
+
+
+" ----------------------------------
+" GOLDEN RULES
+" ----------------------------------
+
+" 1. NEVER mix File with Path
+" 2. NEVER use Scanner for files
+" 3. ALWAYS use try-with-resources
+" 4. ALWAYS validate with Files
+" 5. Prefer streaming over readAll
+
+
+" ----------------------------------
+" IDEAL FLOW
+" ----------------------------------
+
+" user input -> Path -> validate (Files)
+"            -> BufferedReader (read)
+"            -> BufferedWriter (write)
+
+
+" ----------------------------------
+" ONE-LINE SUMMARY
+" ----------------------------------
+" Path = address
+" Files = actions
+" Buffered* = performance
+" File/Paths = forget
+" ==================================================
+

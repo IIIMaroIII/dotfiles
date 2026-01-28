@@ -1,0 +1,100 @@
+" ===============================
+" JAVA: static / final / access
+" КРАТКИЙ СПРАВОЧНИК
+" ===============================
+
+" --------------------------------
+" ГЛАВНОЕ ПРАВИЛО
+" --------------------------------
+" По умолчанию:
+" private + final + НЕ static
+"
+" static — только если объект
+" ДОЛЖЕН быть ОДИН на всю программу
+
+
+" --------------------------------
+" STATIC
+" --------------------------------
+" static = принадлежит КЛАССУ
+" не static = принадлежит ОБЪЕКТУ
+
+" КОГДА static НУЖЕН:
+public static void main(String[] args)        " точка входа
+public static final int MAX_SIZE = 100         " константы
+Math.max(a, b)                                 " утилиты
+Files.exists(path)                             " stateless helpers
+
+" КОГДА static НЕЛЬЗЯ:
+private static Reader reader                  " ❌ зависимость
+private static Scanner scanner                " ❌ состояние
+private static Path path                      " ❌ изменяемые данные
+
+
+" --------------------------------
+" FINAL
+" --------------------------------
+" final = ссылку нельзя переназначить
+
+" КОГДА final НУЖЕН:
+private final Reader reader = new Reader()    " зависимость
+private static final String MSG = "Hello"     " константа
+public void process(final Path path)           " защита параметра
+
+" КОГДА final НЕЛЬЗЯ:
+private final Path path                       " ❌ если задаётся позже
+private final int counter                     " ❌ если меняется
+
+
+" --------------------------------
+" МОДИФИКАТОРЫ ДОСТУПА
+" --------------------------------
+" private — по умолчанию
+" public  — только API
+" protected — редко (наследование)
+
+private Path path                             " ✔ состояние
+private final Validator validator             " ✔ зависимость
+public Path getPath()                         " ✔ безопасный доступ
+public FileProcessor askFile()                " ✔ fluent API
+
+public Path path                              " ❌ нет инкапсуляции
+
+
+" --------------------------------
+" ПРАВИЛЬНЫЕ КОМБИНАЦИИ
+" --------------------------------
+private final Reader reader                   " ✔ зависимость
+private Path path                             " ✔ изменяемое состояние
+public static final int TIMEOUT = 1000         " ✔ константа
+
+" НЕПРАВИЛЬНЫЕ КОМБИНАЦИИ
+private static Reader reader                  " ❌ глобальное состояние
+public Path path                              " ❌ нарушение ООП
+private final Path path                       " ❌ если меняется
+
+
+" --------------------------------
+" БЫСТРАЯ ПРОВЕРКА
+" --------------------------------
+" 1. Должно быть ОДНО на всю программу?
+"    Да  -> static
+"    Нет -> не static
+"
+" 2. Ссылка должна меняться?
+"    Нет -> final
+"    Да  -> не final
+"
+" 3. Можно ли трогать извне?
+"    Нет -> private
+"    Да  -> public (осторожно)
+
+
+" --------------------------------
+" ЭТАЛОН ДЛЯ FileProcessor
+" --------------------------------
+class FileProcessor {
+    private final Reader reader = new Reader()
+    private final Validator validator = new Validator()
+    private Path path
+}

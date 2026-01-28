@@ -144,3 +144,12 @@ git_branch() {
 
 
 #============== get current status of git repo ==============
+
+
+#============== Custom Functions==============
+
+crosses() {
+    clear
+    java -cp out/production/games lt.esdc.naughtsAndCrosses."$1"
+    clear
+}

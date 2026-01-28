@@ -1,0 +1,78 @@
+========================================
+ CLASS vs METHOD DECISION CHECKLIST
+========================================
+
+DEFAULT RULE:
+→ DO NOT create a new class.
+→ Start with a METHOD.
+→ Create a CLASS only if forced.
+
+----------------------------------------
+ STEP-BY-STEP DECISION
+----------------------------------------
+
+1. Used ONLY in Main?
+   YES → METHOD in Main
+   NO  → go next
+
+2. Infrastructure / configuration?
+   (Path, args, env, setup, glue code)
+   YES → METHOD in Main
+   NO  → go next
+
+3. Has CLEAR responsibility?
+   (verb + noun, one purpose)
+   YES → go next
+   NO  → METHOD
+
+4. Will be reused or expanded?
+   YES → CLASS
+   NO  → METHOD
+
+5. Contains real logic?
+   (if / loops / decisions)
+   YES → CLASS
+   NO  → METHOD
+
+6. Needs separate testing?
+   YES → CLASS
+   NO  → METHOD
+
+----------------------------------------
+ QUICK RULES
+----------------------------------------
+
+METHOD:
+- used once
+- 2–5 lines
+- config / setup
+- no state
+- no business meaning
+
+CLASS:
+- reused
+- domain logic
+- has state or rules
+- grows over time
+- meaningful name
+
+----------------------------------------
+ FINAL CHECK
+----------------------------------------
+
+If unsure → METHOD
+If duplicated → CLASS
+If domain logic → CLASS
+If glue code → METHOD
+
+----------------------------------------
+ GOLDEN RULE
+----------------------------------------
+
+"Create the SMALLEST thing that makes sense.
+ Add complexity ONLY when forced."
+
+========================================
+ END
+========================================
+

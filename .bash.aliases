@@ -29,7 +29,6 @@ alias gpu_log="log stream --predicate '(eventMessage CONTAINS[c] "GPU" OR eventM
 
 alias ehu="cd ~/Documents/ehu"
 alias bb="pdf_open /Users/rod/Documents/ehu/S1_ov2/book.business.learn.pdf"
-alias java="cd /Users/rod/Documents/ehu/java_pr"
 
 #_____________________________________________________________________________________________________________________
 #_____________________________________________________________________________________________________________________
