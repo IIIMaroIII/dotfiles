@@ -1,0 +1,451 @@
+" ════════════════════════════════════════════════════════════════════════════════
+" JAVA EXCEPTION HANDLING — BEST PRACTICES CHEAT SHEET
+" ════════════════════════════════════════════════════════════════════════════════
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 1. ТРИ СТРАТЕГИИ РАБОТЫ С ИСКЛЮЧЕНИЯМИ                                      │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+" ┌─ throw new Exception ───────────────────────────────────────────────────────┐
+" │ Когда использовать: Метод ОБНАРУЖИЛ проблему, но НЕ ЗНАЕТ как решить       │
+" │ Пример: Валидация данных, парсинг, проверка бизнес-правил                   │
+" └─────────────────────────────────────────────────────────────────────────────┘
+static int parseInt(String str) throws MyException {
+    if (str == null) {
+        throw new MyException("String is null");  " ✅ Генерируем
+    }
+    return Integer.parseInt(str);
+}
+
+" ┌─ throws Exception (в сигнатуре) ────────────────────────────────────────────┐
+" │ Когда использовать: Метод НЕ ХОЧЕТ обрабатывать — делегирует вызывающему   │
+" │ Пример: Низкоуровневые утилиты, методы инициализации                        │
+" └─────────────────────────────────────────────────────────────────────────────┘
+void validateInput(String input) throws MyException {
+    " Делегируем обработку вызывающему коду
+    Validator.checkPattern(input, pattern);
+}
+
+" ┌─ try/catch ─────────────────────────────────────────────────────────────────┐
+" │ Когда использовать: Метод ЗНАЕТ как решить проблему                         │
+" │ Пример: Циклы ввода (повтор), main (завершение программы)                   │
+" └─────────────────────────────────────────────────────────────────────────────┘
+void getUserInput() {
+    try {
+        String input = scanner.nextLine();
+        Validator.checkPattern(input, pattern);
+    } catch (MyException e) {
+        System.err.println("Error: " + e.getMessage());
+        " Повторяем попытку или другое действие
+    }
+}
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 2. ЗОЛОТОЕ ПРАВИЛО — ГДЕ ЧТО ИСПОЛЬЗОВАТЬ                                   │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+" ┌──────────────────┬───────────────┬─────────────────────────────────────────┐
+" │ Уровень          │ Стратегия     │ Почему                                  │
+" ├──────────────────┼───────────────┼─────────────────────────────────────────┤
+" │ LOW (Validator)  │ throw/throws  │ Не знает контекста, просто проверяет    │
+" │ MEDIUM (GameFlow)│ try/catch     │ Знает игровую логику, обрабатывает ввод │
+" │                  │ + throws      │ Критические ошибки → делегирует в main  │
+" │ HIGH (main)      │ try/catch     │ Последняя линия обороны                 │
+" └──────────────────┴───────────────┴─────────────────────────────────────────┘
+
+" ПРИНЦИП:
+" LOW-LEVEL (утилиты) → throw / throws
+" HIGH-LEVEL (бизнес-логика, UI) → try/catch
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 3. АРХИТЕКТУРА ПРИЛОЖЕНИЯ                                                   │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+"     Main.java (HIGH)
+"     ├─ try/catch → последняя защита
+"     └─ обрабатывает критические ошибки
+"            ↓
+"     GameFlow.java (MEDIUM)
+"     ├─ try/catch → циклы ввода (повтор)
+"     └─ throws → критические ошибки → main
+"            ↓
+"     Validator.java (LOW)
+"     └─ throw/throws → только валидация
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 4. УРОВЕНЬ 1: VALIDATOR (LOW-LEVEL) — throw/throws                          │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+public class Validator {
+    " Запрещаем создание объектов
+    private Validator() {
+        throw new AssertionError("Utility class");
+    }
+
+    " ═══ ВАЛИДАЦИЯ СТРОК ═══
+
+    " ✅ Бросает исключение — не знает, что делать дальше
+    static void validateString(String str) throws MyException {
+        if (str == null) {
+            throw new MyException("String is null");
+        }
+        if (str.isBlank()) {
+            throw new MyException("String is empty");
+        }
+    }
+
+    " ✅ Бросает исключение — пусть вызывающий код решает
+    static boolean isStringFollowsPattern(String input, String regex)
+            throws MyException {
+        validateString(input);
+
+        if (!input.matches(regex)) {
+            throw new MyException(
+                "Input doesn't match pattern. Expected: '0-0', '1-2'"
+            );
+        }
+        return true;
+    }
+
+    " ═══ ПАРСИНГ ═══
+
+    " ✅ Конвертирует NumberFormatException в кастомное исключение
+    static int parseInt(String str) throws MyException {
+        validateString(str);
+
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException ex) {
+            throw new MyException("'" + str + "' is not a valid number");
+        }
+    }
+
+    " ═══ ПРОСТЫЕ ПРОВЕРКИ ═══
+
+    " ✅ НЕ бросает исключение — просто возвращает boolean
+    static boolean isCellEmpty(String[][] matrix, int[] indices, String empty) {
+        int row = indices[0];
+        int col = indices[1];
+        return matrix[row][col].equals(empty);
+    }
+}
+
+" ПРИНЦИП VALIDATOR:
+" • Проверяет данные
+" • Бросает исключения при ошибках
+" • НЕ обрабатывает — делегирует вызывающему коду
+" • НЕ знает контекста (игра, ввод, повтор)
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 5. УРОВЕНЬ 2: GAMEFLOW (MEDIUM-LEVEL) — try/catch + throws                 │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+public class GameFlow {
+    public static final String X = "🔲";
+    public static final String O = "⚪";
+    public static final String EMPTY = "⬜";
+    public static final String INPUT_PATTERN = "^[0-2]-[0-2]$";
+
+    private String[][] matrix;
+    private String winner = "";
+    private Scanner scanner;
+
+    public GameFlow() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    " ═══ МЕТОДЫ С throws — ДЕЛЕГИРОВАНИЕ ═══
+
+    " ✅ Критическая ошибка инициализации → делегирует в main
+    public void init() throws MyException {
+        this.matrix = initializeEmptyMatrix(3, 3);
+        System.out.println("Game initialized!");
+    }
+
+    " ✅ Делегирует валидацию → пусть вызывающий обработает
+    public static String[][] initializeEmptyMatrix(int rows, int cols)
+            throws MyException {
+        if (rows <= 0 || cols <= 0) {
+            throw new MyException("Matrix size must be positive");
+        }
+
+        String[][] matrix = new String[rows][cols];
+        for (String[] row : matrix) {
+            Arrays.fill(row, EMPTY);
+        }
+        return matrix;
+    }
+
+    " ═══ МЕТОДЫ С try/catch — ОБРАБОТКА ═══
+
+    " ✅ Обрабатывает ошибки ВНУТРИ — знает, что нужно повторить ввод
+    public int[] getUserMove(String playerMark) {
+        while (true) {  " Цикл повтора
+            try {
+                Printer.printFillCell(playerMark);
+                String input = scanner.nextLine();
+
+                " Валидация — может бросить исключение
+                Validator.isStringFollowsPattern(input, INPUT_PATTERN);
+
+                " Парсинг — может бросить исключение
+                String[] parts = input.split("-");
+                int row = Validator.parseInt(parts[0]);
+                int col = Validator.parseInt(parts[1]);
+                int[] indices = {row, col};
+
+                " Проверка занятости клетки
+                if (!Validator.isCellEmpty(matrix, indices, EMPTY)) {
+                    System.err.println("❌ Cell taken! Try again.");
+                    continue;  " Повторяем цикл
+                }
+
+                return indices;  " ✅ Успех — выходим из цикла
+
+            } catch (MyException e) {
+                " ✅ ОБРАБАТЫВАЕМ ЗДЕСЬ — знаем, что нужно повторить
+                System.err.println("❌ Error: " + e.getMessage());
+                System.out.println("Please try again.\n");
+                " Цикл продолжается → новая попытка ввода
+            }
+        }
+    }
+
+    " ═══ ПРОСТЫЕ МЕТОДЫ — БЕЗ ИСКЛЮЧЕНИЙ ═══
+
+    " ✅ Не бросает исключений — просто изменяет состояние
+    public void makeMove(int[] indices, String mark) {
+        matrix[indices[0]][indices[1]] = mark;
+    }
+
+    " ✅ Использует Consumer — не бросает исключений
+    public void checkWinner(String mark) {
+        Validator.determineWinnerByMark(matrix, mark, this::setWinner);
+    }
+
+    public void setWinner(String mark) {
+        this.winner = mark;
+    }
+
+    public boolean hasWinner() {
+        return !winner.isEmpty();
+    }
+}
+
+" ПРИНЦИП GAMEFLOW:
+" • Знает игровую логику
+" • try/catch для циклов ввода (повтор попыток)
+" • throws для критических ошибок (делегирует в main)
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 6. УРОВЕНЬ 3: MAIN (HIGH-LEVEL) — try/catch                                │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+public class NoughtsAndCrosses {
+
+    public static void main(String[] args) {
+        try {
+            " Инициализация — может бросить исключение
+            GameFlow game = new GameFlow();
+            game.init();
+
+            " Запуск игры
+            playGame(game);
+
+        } catch (MyException e) {
+            " ✅ Ловим кастомные критические ошибки
+            System.err.println("💥 Critical error: " + e.getMessage());
+            System.err.println("Game cannot continue. Exiting...");
+            System.exit(1);
+
+        } catch (Exception e) {
+            " ✅ Ловим ЛЮБЫЕ неожиданные ошибки
+            System.err.println("💥 Unexpected error: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private static void playGame(GameFlow game) {
+        Printer.clearTerminal();
+        String currentPlayer = GameFlow.X;
+
+        while (!game.hasWinner()) {
+            Printer.printMatrixWithNumbers(game.getMatrix());
+
+            " ✅ getUserMove УЖЕ обрабатывает ошибки внутри
+            int[] move = game.getUserMove(currentPlayer);
+            game.makeMove(move, currentPlayer);
+
+            game.checkWinner(currentPlayer);
+
+            if (game.hasWinner()) {
+                Printer.clearTerminal();
+                Printer.printMatrixWithNumbers(game.getMatrix());
+                Printer.printWinner(game.getWinner());
+                break;
+            }
+
+            " Смена игрока
+            currentPlayer = currentPlayer.equals(GameFlow.X)
+                ? GameFlow.O : GameFlow.X;
+
+            Printer.clearTerminal();
+        }
+    }
+}
+
+" ПРИНЦИП MAIN:
+" • Последняя линия обороны
+" • Ловит ВСЁ, что не обработано ниже
+" • Завершает программу при критических ошибках
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 7. ПАТТЕРН: ЦИКЛ С ПОВТОРНЫМ ВВОДОМ                                         │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+" ✅ ПРАВИЛЬНО — обработка внутри цикла
+public String getValidInput() {
+    while (true) {
+        try {
+            String input = scanner.nextLine();
+            Validator.validate(input);
+            return input;  " Успех → выход из цикла
+        } catch (MyException e) {
+            System.err.println("Error: " + e.getMessage());
+            " Цикл продолжается → повтор ввода
+        }
+    }
+}
+
+" ❌ НЕПРАВИЛЬНО — исключение прервёт цикл
+public String getValidInput() throws MyException {
+    while (true) {
+        String input = scanner.nextLine();
+        Validator.validate(input);  " ← Прервёт цикл при ошибке!
+        return input;
+    }
+}
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 8. ТАБЛИЦА РЕШЕНИЙ — ЧТО ГДЕ ИСПОЛЬЗОВАТЬ                                   │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+" ┌────────────────────────────┬─────────┬──────────────────────────────────┐
+" │ Метод                      │ Класс   │ Стратегия                        │
+" ├────────────────────────────┼─────────┼──────────────────────────────────┤
+" │ parseInt()                 │Validator│ throws — не знает контекста      │
+" │ isStringFollowsPattern()   │Validator│ throws — не знает, нужен ли повтор│
+" │ validateString()           │Validator│ throws — делегирует проверку     │
+" │ isCellEmpty()              │Validator│ boolean — простая проверка       │
+" ├────────────────────────────┼─────────┼──────────────────────────────────┤
+" │ init()                     │GameFlow │ throws — критическая ошибка→main │
+" │ initializeEmptyMatrix()    │GameFlow │ throws — делегирует валидацию    │
+" │ getUserMove()              │GameFlow │ try/catch — повтор ввода         │
+" │ makeMove()                 │GameFlow │ void — не бросает исключений     │
+" ├────────────────────────────┼─────────┼──────────────────────────────────┤
+" │ main()                     │Main     │ try/catch — последняя защита     │
+" │ playGame()                 │Main     │ void — делегирует в main         │
+" └────────────────────────────┴─────────┴──────────────────────────────────┘
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 9. БЫСТРЫЕ ОТВЕТЫ НА ЧАСТЫЕ ВОПРОСЫ                                         │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+" Q: Где использовать try/catch?
+" A: Там, где ЗНАЕТЕ, как обработать ошибку:
+"    • В циклах ввода (повтор попытки)
+"    • В main (завершение программы)
+
+" Q: Где использовать throws?
+" A: В LOW-LEVEL методах (утилиты), которые НЕ ЗНАЮТ контекста:
+"    • Validator.parseInt() — не знает, что делать с ошибкой
+"    • GameFlow.init() — критическая ошибка, main решает
+
+" Q: Где делать throw new Exception?
+" A: Когда метод ОБНАРУЖИЛ проблему:
+"    • Невалидные данные
+"    • Нарушение бизнес-правил
+
+" Q: Как использовать в while цикле?
+" A: Обрабатывайте исключение ВНУТРИ цикла:
+
+while (true) {
+    try {
+        " код, который может бросить исключение
+        return result;  " Успех → выход
+    } catch (MyException e) {
+        System.err.println(e.getMessage());
+        " Цикл продолжается → повтор
+    }
+}
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 10. ANTI-PATTERNS — ЧЕГО НЕ ДЕЛАТЬ                                          │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+" ❌ Пустой catch блок
+try {
+    riskyMethod();
+} catch (Exception e) {
+    " Ничего — ПЛОХО! Ошибка проглатывается
+}
+
+" ✅ Правильно
+try {
+    riskyMethod();
+} catch (Exception e) {
+    System.err.println("Error: " + e.getMessage());
+    " или логирование, или re-throw
+}
+
+" ❌ Catch Exception везде
+try {
+    something();
+} catch (Exception e) {  " Слишком широко!
+}
+
+" ✅ Правильно — ловите конкретные исключения
+try {
+    something();
+} catch (MyException e) {  " Конкретное исключение
+    " обработка
+} catch (IOException e) {
+    " другая обработка
+}
+
+" ❌ throws в методах с циклами ввода
+public String getUserInput() throws MyException {
+    while (true) {
+        validate(input);  " Прервёт цикл!
+    }
+}
+
+" ✅ Правильно — обработка внутри
+public String getUserInput() {
+    while (true) {
+        try {
+            validate(input);
+            return input;
+        } catch (MyException e) {
+            " Повтор
+        }
+    }
+}
+
+
+" ┌─────────────────────────────────────────────────────────────────────────────┐
+" │ 11. СОЗДАНИЕ КАСТОМНОГО ИСКЛЮЧЕНИЯ                                          │
+" └─────────────────────────────────────────────────────────────────────────────┘
+
+public class MyException extends Exception {
+    " Конструктор с сообщением
