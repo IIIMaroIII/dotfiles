@@ -150,6 +150,6 @@ git_branch() {
 
 crosses() {
     clear
-    java -cp out/production/games lt.esdc.naughtsAndCrosses."$1"
+    java -cp out/production/games lt.esdc.noughtsAndCrosses."$1"
     clear
 }
