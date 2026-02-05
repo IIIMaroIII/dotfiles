@@ -150,6 +150,8 @@ git_branch() {
 
 crosses() {
     clear
-    java -cp out/production/games lt.esdc.noughtsAndCrosses."$1"
+    cd ~/Documents/ehu/java/games || {echo "Can't find given directory; return 1"}
+    javac -d out/production/games src/main/java/lt/esdc/noughtsAndCrosses/*.java
+    java -cp out/production/games/ lt.esdc.noughtsAndCrosses.NoughtsAndCrosses
     clear
 }

@@ -46,3 +46,4 @@ function parse_git_branch() {
 export PS1="\[\e[1;30;42m\] \u@\h: \[\e[0m\] 📁 \[\e[1;32m\]\$(short_pwd)\[\e[m\] 📁 \[\e[1;33m\]\$(git_branch)\n\[\e[1;32m\]〉\[\e[0;37m\] "
 #============= PROMPT =============
 #
+export HOMEBREW_NO_INSTALL_CLEANUP=1
