@@ -1,0 +1,270 @@
+================================================================================
+                    BASH SPECIAL VARIABLES CHEAT SHEET
+================================================================================
+
+POSITIONAL PARAMETERS
+--------------------------------------------------------------------------------
+$0              Script name or shell name
+                Example: ./script.sh → $0 = "./script.sh"
+
+$1, $2, $3...   Positional arguments (parameters passed to script)
+                Example: ./script.sh foo bar → $1="foo", $2="bar"
+
+$@              All arguments as separate quoted strings
+                Expands to: "$1" "$2" "$3" ...
+                Example: for arg in "$@"; do echo "$arg"; done
+
+$*              All arguments as single string
+                Expands to: "$1 $2 $3 ..."
+                Example: echo "$*" → prints all args in one line
+
+$#              Number of positional parameters
+                Example: ./script.sh a b c → $# = 3
+
+
+EXIT STATUS & PROCESS IDs
+--------------------------------------------------------------------------------
+$?              Exit status of last executed command
+                0 = success, non-zero = error
+                Example:
+                  ls /tmp
+                  echo $?  # prints 0 (success)
+                  ls /nonexistent
+                  echo $?  # prints 2 (error)
+
+$$              Process ID (PID) of current shell
+                Useful for creating unique temp files
+                Example: 
+                  temp_file="/tmp/myapp.$$"
+                  echo $temp_file  # /tmp/myapp.12345
+
+$!              PID of last background job
+                Example:
+                  sleep 100 &
+                  echo $!  # prints PID of sleep process
+                  kill $!  # kills the background job
+
+
+SHELL OPTIONS & MISC
+--------------------------------------------------------------------------------
+$-              Current shell option flags
+                Shows active shell options (e.g., himBHs)
+                h = hashall, i = interactive, m = monitor, etc.
+                Example: echo $-  # prints current flags
+
+$_              Last argument of previous command
+                Example:
+                  mkdir /tmp/test
+                  cd $_  # cd to /tmp/test
+
+PPID            Parent process ID (not $PPID, just PPID)
+                PID of the process that started this shell
+                Example: echo $PPID
+
+
+PRACTICAL EXAMPLES
+================================================================================
+
+Example 1: Simple Script with Arguments
+--------------------------------------------------------------------------------
+#!/bin/bash
+# save as: greet.sh
+
+echo "Script name: $0"
+echo "Hello, $1!"
+echo "You passed $# arguments"
+echo "All arguments: $@"
+
+# Run: ./greet.sh Alice Bob Charlie
+# Output:
+#   Script name: ./greet.sh
+#   Hello, Alice!
+#   You passed 3 arguments
+#   All arguments: Alice Bob Charlie
+
+
+Example 2: Error Checking with $?
+--------------------------------------------------------------------------------
+#!/bin/bash
+
+cp file.txt /backup/
+if [ $? -eq 0 ]; then
+    echo "Backup successful"
+else
+    echo "Backup failed with exit code: $?"
+    exit 1
+fi
+
+
+Example 3: Background Jobs with $! and $$
+--------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "My PID is $$"
+
+# Start background job
+sleep 30 &
+BG_PID=$!
+echo "Started background job with PID: $BG_PID"
+
+# Do other work
+echo "Doing other work..."
+sleep 5
+
+# Check if background job is still running
+if kill -0 $BG_PID 2>/dev/null; then
+    echo "Background job still running"
+    kill $BG_PID
+fi
+
+
+Example 4: Difference between $@ and $*
+--------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Using \$@:"
+for arg in "$@"; do
+    echo "  [$arg]"
+done
+
+echo "Using \$*:"
+for arg in "$*"; do
+    echo "  [$arg]"
+done
+
+# Run: ./script.sh "arg 1" "arg 2" "arg 3"
+# Output with "$@":
+#   [arg 1]
+#   [arg 2]
+#   [arg 3]
+# Output with "$*":
+#   [arg 1 arg 2 arg 3]
+
+
+Example 5: Creating Unique Files with $$
+--------------------------------------------------------------------------------
+#!/bin/bash
+
+TEMP_FILE="/tmp/process_$$.tmp"
+echo "Using temp file: $TEMP_FILE"
+echo "some data" > "$TEMP_FILE"
+
+# Cleanup on exit
+trap "rm -f $TEMP_FILE" EXIT
+
+
+Example 6: Loop Through Arguments
+--------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Processing $# files..."
+for file in "$@"; do
+    if [ -f "$file" ]; then
+        echo "Processing: $file"
+        wc -l "$file"
+    else
+        echo "File not found: $file" >&2
+    fi
+done
+
+# Run: ./script.sh file1.txt file2.txt file3.txt
+
+
+COMMON PATTERNS
+================================================================================
+
+Check if script was called with arguments:
+    if [ $# -eq 0 ]; then
+        echo "Usage: $0 <arg1> <arg2>"
+        exit 1
+    fi
+
+Safe argument iteration:
+    for arg in "$@"; do
+        process "$arg"
+    done
+
+Error handling:
+    command || { echo "Command failed with exit code $?"; exit 1; }
+
+Create unique temp file:
+    TEMP="/tmp/${0##*/}.$$"
+
+Get last argument:
+    echo "${!#}"
+    # or
+    echo "$_"  # (after running a command)
+
+
+QUICK REFERENCE TABLE
+================================================================================
+Variable    Description                          Example Value
+--------    -----------                          -------------
+$0          Script name                          ./myscript.sh
+$1-$9       First 9 arguments                    arg1, arg2, ...
+$@          All arguments (separate)             "a" "b" "c"
+$*          All arguments (single string)        "a b c"
+$#          Argument count                       3
+$?          Last exit status                     0 (success)
+$$          Current shell PID                    12345
+$!          Last background PID                  12346
+$-          Shell options                        himBHs
+$_          Last argument of prev command        /tmp/file
+$PPID       Parent process ID                    12344
+
+
+TIPS & TRICKS
+================================================================================
+
+1. Always quote "$@" to preserve arguments with spaces
+   Good: for arg in "$@"
+   Bad:  for arg in $@
+
+2. Check exit status immediately after command
+   command
+   if [ $? -ne 0 ]; then
+       # handle error
+   fi
+
+3. Use $$ for unique identifiers
+   lockfile="/var/lock/myapp.$$"
+
+4. Save $? if you need to use it multiple times
+   result=$?
+   if [ $result -ne 0 ]; then
+       echo "Failed with code: $result"
+   fi
+
+5. Use $! to manage background jobs
+   long_task &
+   pid=$!
+   wait $pid  # wait for completion
+
+6. Access all arguments after the first with ${@:2}
+   first=$1
+   rest="${@:2}"
+
+
+DEBUGGING
+================================================================================
+
+Print all variables at script start:
+    echo "Script: $0"
+    echo "Args: $@"
+    echo "Count: $#"
+    echo "PID: $$"
+
+Enable debug mode:
+    set -x  # Print each command before executing
+    set +x  # Disable debug mode
+
+Check if running as background job:
+    if [[ $- == *i* ]]; then
+        echo "Interactive shell"
+    else
+        echo "Non-interactive"
+    fi
+
+
+================================================================================
+vim: set ft=text tw=80 ts=4 sw=4 et:
