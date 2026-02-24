@@ -1,0 +1,468 @@
+================================================================================
+  BAZIS SCRIPT - MODEL & OBJECTS CHEAT SHEET
+  Based on BAZISScript User Guide (2021)
+================================================================================
+
+--------------------------------------------------------------------------------
+  GLOBAL ACCESS POINTS
+--------------------------------------------------------------------------------
+
+  Model               Global 3D model object. Entry point for all objects.
+  ActiveMaterial      Currently active/selected material in the DB.
+  Action              Current interactive action object.
+  system              System utilities (file I/O, logging, exec).
+
+--------------------------------------------------------------------------------
+  MODEL (Model3D)
+--------------------------------------------------------------------------------
+
+
+  PROPERTIES
+    .Count            Total number of objects in the model.
+    .Objects[i]       Access object by index (0-based).
+    .Selected         First selected object.
+    .SelectionCount   Number of currently selected objects.
+    .Selections[i]    Access selected object by index.
+
+  METHODS
+    .SaveModel(path)              Save model to file.
+    .LoadModel(path)              Load model from file.
+    .NewModel()                   Create new empty model.
+    .NewFurniture()               Create new furniture item.
+    .NewFragment()                Create new fragment.
+    .ReplaceFurniture(old, new)   Replace one furniture with another.
+    .ChooseMaterial()             Open material picker dialog.
+    .ArrangePositions()           Auto-arrange furniture positions.
+    .Revert()                     Revert model to last saved state.
+
+  EXAMPLES
+    // Save current model to a specific path
+    Model.SaveModel("C:\\Projects\\kitchen.b3d");
+
+    // Load a model and access its first object
+    Model.LoadModel("C:\\Projects\\cabinet.b3d");
+    var first = Model.Objects[0];
+    system.log(first.Name);
+
+    // Let user pick a material and log its name
+    Model.ChooseMaterial();
+    system.log(ActiveMaterial.Name);
+
+--------------------------------------------------------------------------------
+  OBJECT3 (Base for all 3D objects)
+--------------------------------------------------------------------------------
+
+  PROPERTIES
+    .Name             Object name string.
+    .Owner            Parent object (container).
+    .Visible          Boolean visibility flag.
+    .Selected         Boolean selection state.
+    .Position         3D position vector.
+    .PositionX/Y/Z    Individual axis position values.
+    .GSize            Geometric size vector.
+    .GMin / .GMax     Bounding box min/max points.
+    .ArtPos           Article/position number.
+    .AsPanel          Cast object to Panel type (null if not a panel).
+    .AsList           Cast to List3D type.
+    .List             Child objects list.
+    .UserPropCount    Count of custom user properties.
+    .UserProperty[i]  Access user property by index.
+    .UserPropertyName[i] Name of user property by index.
+
+  METHODS - TRANSFORM
+    .Translate(v)        Move object by vector.
+    .TranslateGCS(v)     Move in global coordinate system.
+    .Rotate(axis, angle) Rotate around axis by angle (radians).
+    .RotateGCS(...)      Rotate in global coordinate system.
+    .RotateX/Y/Z(a)      Rotate around specific axis.
+    .Orient(...)         Orient object by vectors.
+    .Reflect(axis)       Mirror object across axis.
+
+  EXAMPLES - TRANSFORM
+    // Move object 100mm along X axis
+    var obj = Model.Objects[0];
+    obj.Translate(NewVector(100, 0, 0));
+
+    // Rotate selected object 90 degrees around Z
+    var obj = Model.Selected;
+    obj.RotateZ(Math.PI / 2);
+
+    // Mirror object across X axis
+    obj.Reflect(AxisX);
+
+  METHODS - COORDINATE CONVERSION
+    .ToObject(p)      Convert global point to object local coords.
+    .ToGlobal(p)      Convert local point to global coords.
+    .NToObject(v)     Convert global normal to object local.
+    .NToGlobal(v)     Convert local normal to global.
+
+  EXAMPLES - COORDINATE CONVERSION
+    // Convert a global point to object-local coordinates
+    var localPt = obj.ToObject(NewPoint(500, 0, 700));
+    system.log(localPt.x + " " + localPt.y);
+
+    // Convert local origin to global space
+    var globalPt = obj.ToGlobal(NewPoint(0, 0, 0));
+
+  METHODS - UTILITY
+    .Build()          Rebuild/recalculate object geometry.
+    .IsOwner(obj)     Check if this object owns another → bool.
+
+  EXAMPLES - UTILITY
+    // Rebuild after changing properties
+    obj.Thickness = 18;
+    obj.Build();
+
+    // Check ownership
+    if (parent.IsOwner(child)) {
+        system.log("child belongs to parent");
+    }
+
+--------------------------------------------------------------------------------
+  PANEL (extends Object3)
+--------------------------------------------------------------------------------
+
+  PROPERTIES
+    .MaterialName     Name of the panel material (e.g. "LMDP 18mm").
+    .MaterialWidth    Width of the material sheet.
+    .Thickness        Panel thickness in mm.
+    .ContourHeight    Panel height from contour.
+    .ContourWidth     Panel width from contour.
+    .Contour          2D contour shape of the panel.
+    .Butts            Collection of edge bandings (PanelButts).
+    .Cuts             Collection of cuts (PanelCuts).
+    .Plastics         Collection of surface plastics (PanelPlastics).
+
+  METHODS
+    .AddButt(side, mat, thick, width)  Add edge banding to a side.
+    .AddCut(...)                       Add a cut to the panel.
+    .AddPlastic(...)                   Add surface plastic/overlay.
+    .IsButtVisible(i)                  Check if butt on side i is visible.
+
+  EXAMPLES
+    // Read panel material and dimensions
+    var panel = Model.Objects[0].AsPanel;
+    if (panel) {
+        system.log(panel.MaterialName + " " +
+                   panel.ContourWidth + "x" + panel.ContourHeight +
+                   "x" + panel.Thickness);
+    }
+
+    // Add edge banding to bottom side (0) with 0.4mm PVC
+    panel.AddButt(0, "PVC 0.4mm", 0.4, 22);
+
+    // Check if top side (2) has visible banding
+    if (panel.IsButtVisible(2)) {
+        system.log("top edge is banded");
+    }
+
+--------------------------------------------------------------------------------
+  FURNMATERIAL (Material object)
+--------------------------------------------------------------------------------
+
+  PROPERTIES
+    .Name             Full material name string.
+    .Thickness        Material thickness in mm.
+    .Width            Material sheet width in mm.
+
+  METHODS
+    .Make()           Apply/create this material in the DB.
+
+  EXAMPLES
+    // Create a new material entry in the DB
+    var mat = ActiveMaterial;
+    mat.Name      = "LMDP 112 PE 18mm";
+    mat.Thickness = 18;
+    mat.Width     = 2800;
+    mat.Make();
+
+    // Log current active material info
+    system.log(ActiveMaterial.Name + " t=" + ActiveMaterial.Thickness);
+
+--------------------------------------------------------------------------------
+  PANELBUTT (Single edge banding)
+--------------------------------------------------------------------------------
+
+  PROPERTIES
+    .Material         Edging material name.
+    .Thickness        Edging thickness in mm.
+    .Width            Edging width in mm.
+    .ElemIndex        Panel side (0=bottom, 1=right, 2=top, 3=left).
+    .Sign             Direction sign.
+    .ClipPanel        Whether panel clips this butt.
+    .Overhung         Overhang value in mm.
+    .Allowance        Allowance value in mm.
+    .CutIndex         Associated cut index.
+    .Profile          Profile shape reference.
+
+  EXAMPLES
+    // Read all edge bandings on a panel
+    for (var i = 0; i < panel.Butts.Count; i++) {
+        var b = panel.Butts.Butts[i];
+        system.log("side:" + b.ElemIndex + " mat:" + b.Material +
+                   " t:" + b.Thickness + " w:" + b.Width);
+    }
+
+    // Check overhang on first butt
+    var b = panel.Butts.Butts[0];
+    if (b.Overhung > 0) {
+        system.log("has overhang: " + b.Overhung);
+    }
+
+--------------------------------------------------------------------------------
+  PANELBUTTS (Collection of edge bandings)
+--------------------------------------------------------------------------------
+
+  PROPERTIES
+    .Count            Number of edge bandings on panel.
+
+  METHODS
+    .Butts[i]         Access butt by index.
+    .Add(...)         Add new edge banding to collection.
+
+  EXAMPLES
+    // Count total edge bandings
+    system.log("edges: " + panel.Butts.Count);
+
+    // Add new butt via collection
+    panel.Butts.Add(1, "ABS 1mm", 1, 22);
+
+--------------------------------------------------------------------------------
+  LIST3D (Furniture group / collection of objects)
+--------------------------------------------------------------------------------
+
+  PROPERTIES
+    .Count            Number of child objects.
+    .Objects[i]       Access child by index.
+    .IsElastic        Whether list uses elastic resize.
+    .FurnType         Furniture type enum value.
+    .SalonType        Salon/room type enum value.
+
+  METHODS
+    .ElasticResize(w, h, d)  Resize group with elastic behavior.
+    .Load(path)              Load list from file.
+
+  EXAMPLES
+    // Access furniture as list and iterate children
+    var list = Model.Objects[0].AsList;
+    if (list) {
+        for (var i = 0; i < list.Count; i++) {
+            system.log(list.Objects[i].Name);
+        }
+    }
+
+    // Elastically resize a furniture group
+    list.ElasticResize(800, 2100, 600);
+
+--------------------------------------------------------------------------------
+  SYSTEM OBJECT
+--------------------------------------------------------------------------------
+
+  METHODS - LOGGING
+    .log(msg)         Write message to debug log.
+
+  EXAMPLES - LOGGING
+    system.log("panel count: " + Model.Count);
+    system.log("material: " + ActiveMaterial.Name);
+
+  METHODS - FILE I/O
+    .fileExists(path)           Check if file exists → bool.
+    .readTextFile(path)         Read entire text file → string.
+    .writeTextFile(path, txt)   Write string to text file.
+    .askReadTextFile(filter)    Open file picker dialog → path string.
+    .askFileNameSave(filter)    Save file picker dialog → path string.
+    .askFolder()                Folder picker dialog → path string.
+
+  EXAMPLES - FILE I/O
+    // Read a CSV material list from file
+    var path = "C:\\Projects\\materials.csv";
+    if (system.fileExists(path)) {
+        var csv = system.readTextFile(path);
+        system.log(csv);
+    }
+
+    // Write a report to file
+    var report = "Panel count: " + Model.Count;
+    system.writeTextFile("C:\\Projects\\report.txt", report);
+
+    // Let user pick a file then read it
+    var chosen = system.askReadTextFile("*.csv");
+    var data   = system.readTextFile(chosen);
+
+  METHODS - EXECUTION
+    .exec(cmd)          Execute external command silently.
+    .secureExec(cmd)    Execute with user confirmation dialog.
+    .include(path)      Include/import another script file.
+
+  EXAMPLES - EXECUTION
+    // Run an external tool
+    system.exec("C:\\Tools\\converter.exe input.csv");
+
+    // Include a shared helper script
+    system.include("C:\\Scripts\\helpers.js");
+
+  METHODS - PATH HELPERS
+    .getFileName(path)                  Extract filename from full path.
+    .getFileNameWithoutExtension(path)  Filename without extension.
+
+  EXAMPLES - PATH HELPERS
+    var full = "C:\\Projects\\kitchen.b3d";
+    system.log(system.getFileName(full));                  // kitchen.b3d
+    system.log(system.getFileNameWithoutExtension(full));  // kitchen
+
+  PROPERTIES
+    .apiVersion           Current API version number.
+    .developerApiVersion  Developer API version.
+
+  EXAMPLES - PROPERTIES
+    if (system.apiVersion < 5) {
+        alert("Update Bazis to use this script");
+    }
+
+--------------------------------------------------------------------------------
+  GLOBAL METHODS - USER INTERACTION
+--------------------------------------------------------------------------------
+
+  alert(msg)          Show message dialog to user.
+  confirm(msg)        Show yes/no dialog → bool.
+  prompt(msg, def)    Show input dialog → string.
+
+  EXAMPLES
+    // Simple message
+    alert("Export complete!");
+
+    // Ask user yes/no before destructive action
+    if (confirm("Delete all panels?")) {
+        DeleteNewObjects();
+    }
+
+    // Ask user for input with default value
+    var name = prompt("Enter material name:", "LMDP 18mm");
+    system.log("entered: " + name);
+
+--------------------------------------------------------------------------------
+  GLOBAL METHODS - SELECTION & VIEW
+--------------------------------------------------------------------------------
+
+  SelectAll()         Select all objects in model.
+  UnSelectAll()       Deselect all objects.
+  ViewAll()           Fit all objects in view.
+  GetPanel()          Prompt user to pick a panel → Panel.
+  GetObject()         Prompt user to pick any object → Object3.
+  GetEdge()           Prompt user to pick an edge → Edge3.
+  GetPoint()          Prompt user to pick a point → Point.
+
+  EXAMPLES
+    // Select all then iterate selections
+    SelectAll();
+    for (var i = 0; i < Model.SelectionCount; i++) {
+        system.log(Model.Selections[i].Name + " X:" +
+                   Model.Selections[i].PositionX);
+    }
+    UnSelectAll();
+
+    // Let user click a panel to inspect it
+    var panel = GetPanel();
+    if (panel) {
+        alert("Picked: " + panel.MaterialName + "\n" +
+              panel.ContourWidth + "x" + panel.ContourHeight);
+    }
+
+--------------------------------------------------------------------------------
+  GLOBAL METHODS - OBJECT CREATION
+--------------------------------------------------------------------------------
+
+  AddPanel(...)       Add new panel to model.
+  AddFrontPanel(...)  Add front/facade panel.
+  AddHorizPanel(...)  Add horizontal panel.
+  AddVertPanel(...)   Add vertical panel.
+  AddBlock(...)       Add block object.
+  AddAssembly(...)    Add assembly object.
+  AddCopy(obj)        Add a copy of an existing object.
+  DeleteObject(obj)   Delete specific object from model.
+  DeleteNewObjects()  Delete all objects created in this script run.
+
+  EXAMPLES
+    // Add a horizontal panel and assign material
+    var p = AddHorizPanel();
+    p.MaterialName = "LMDP 18mm";
+    p.Build();
+
+    // Copy object and offset it
+    var copy = AddCopy(Model.Objects[0]);
+    copy.Translate(NewVector(600, 0, 0));
+
+    // Clean up all objects created by this run
+    DeleteNewObjects();
+
+--------------------------------------------------------------------------------
+  GLOBAL METHODS - UNDO GROUPING
+--------------------------------------------------------------------------------
+
+  BeginBlock()        Start undo block (groups into single undo step).
+  EndBlock()          End undo block.
+  StartEditing()      Begin edit mode on selected object.
+
+  EXAMPLES
+    // Wrap multiple changes in one undo step
+    BeginBlock();
+    var p1 = AddHorizPanel();
+    var p2 = AddVertPanel();
+    p1.MaterialName = "LMDP 18mm";
+    p2.MaterialName = "LMDP 18mm";
+    EndBlock();
+
+--------------------------------------------------------------------------------
+  COMMON PATTERNS
+--------------------------------------------------------------------------------
+
+  // 1. Loop all objects, find panels, log material info
+  for (var i = 0; i < Model.Count; i++) {
+      var panel = Model.Objects[i].AsPanel;
+      if (panel) {
+          system.log(panel.MaterialName + " " +
+                     panel.ContourWidth + "x" +
+                     panel.ContourHeight + "x" +
+                     panel.Thickness);
+      }
+  }
+
+  // 2. Loop selected objects only
+  for (var i = 0; i < Model.SelectionCount; i++) {
+      var obj = Model.Selections[i];
+      system.log(obj.Name + " at X:" + obj.PositionX);
+  }
+
+  // 3. Loop edge bandings on a panel
+  for (var i = 0; i < panel.Butts.Count; i++) {
+      var b = panel.Butts.Butts[i];
+      system.log("side:" + b.ElemIndex +
+                 " mat:" + b.Material +
+                 " t:"   + b.Thickness);
+  }
+
+  // 4. Read CSV file, create materials from each row
+  var csv  = system.readTextFile("C:\\mats.csv");
+  var rows = csv.split("\n");
+  for (var i = 0; i < rows.length; i++) {
+      var cols = rows[i].split(",");
+      ActiveMaterial.Name      = cols[0];
+      ActiveMaterial.Thickness = parseFloat(cols[1]);
+      ActiveMaterial.Width     = parseFloat(cols[2]);
+      ActiveMaterial.Make();
+  }
+
+  // 5. User-driven panel inspection
+  UnSelectAll();
+  var panel = GetPanel();
+  if (panel) {
+      var msg = panel.MaterialName + "\n" +
+                panel.ContourWidth + " x " + panel.ContourHeight + "\n" +
+                "Thickness: " + panel.Thickness + "mm\n" +
+                "Edges: "     + panel.Butts.Count;
+      alert(msg);
+  }
+
+================================================================================
+  END OF CHEAT SHEET
+================================================================================
