@@ -55,7 +55,7 @@ source-files(){
 	while IFS= read -r file; do
 		ln -sf "$HOME/$ROOT/bash/.bashrc" "$path/$file"
 	done <<<"${dot_os_files[$1]}"
-}
+	}
 
 get-files macos linux wsl
 
