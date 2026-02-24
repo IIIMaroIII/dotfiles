@@ -1,85 +1,12 @@
 # =============== Custom set up ===============
-
-### Check if the dotfiles exist || git clone it
-
-FOLDER=
-ROOT=dotfiles
-ARGS=()
-LOG_FILE="$HOME/$ROOT/bash/.bashrc-log"
-
-[[ ! -d "$HOME/dotfiles" ]] && {
-	echo -e "	Installing git ..."
-	git clone https://github.com/IIIMaroIII/dotfiles "$HOME/dotfiles"
-	echo -e "	Git is installed succesfully..."
+[[ ! -e ~/dotfiles/bash/lib/bash-sync ]] && {
+	echo -e "	Can't source 'bash-sync at $0'. Skipping"
+	return
 }
 
-declare -A dot_os_files;
-
-find-files(){
-	echo "	Starting finding files at $1"
-	while IFS= read -r path;do
-		basename "$path"	
-	done < <(find "$HOME/$ROOT"/"$1" -type f -iname ".bash*" || {
-		echo "	Can't find any files in $1. Skipping..."
-		return
-	})
-}
-
-get-files(){
-if (( $# != 0 )); then
-	ARGS+=("$@")
-		echo -e "	Executing time at $(uname -a) on $(date '+%Y-%m-%d %H:%M:%S')" >> $LOG_FILE 
-
-	for os in "$@"; do
-
-		echo -e "	Here's files for: $HOME/$ROOT/$os" >> $LOG_FILE 
-		dot_os_files[$os]=$(find-files "$os")
-		echo -e "	Files in associative array for $os key: " >> $LOG_FILE
-		echo -e "${dot_os_files[$os]}" >> $LOG_FILE 
-
-	done
-fi
-
-}
-
-source-files(){
-	path="$HOME/$ROOT/$1"
-	[[ ! -e "$path" ]] && {
-		echo -e "	Folder $1 doesn't exist at $HOME/$ROOT. Skipping ..."
-		return
-	}
-	[[ ! -f "$HOME/$ROOT/bash/.bashrc" ]] && {
-		echo -e "	$HOME/$ROOT/bash/.bashrc file doesn't exist. Skipping..."
-		return
-		}
-	while IFS= read -r file; do
-		ln -sf "$HOME/$ROOT/bash/.bashrc" "$path/$file"
-	done <<<"${dot_os_files[$1]}"
-	}
-
-get-files macos linux wsl
-
-### Define the OS_TYPE and symlink appropriate files
-case $(uname -a) in 
-	*wsl*) 
-		echo "	You're running on Windows with WSL with $(uname -a)"
-		source-files wsl;;
-		
-	*D[d]arwin* ) 
-		echo "	You're running on macOS with $(uname -a)"
-		source-files macos;;
-	*) 
-		echo "	You're running on Linux with $(uname -a)"
-		source-files linux;;
-esac
-
-### Source ~/dotfiles/bash/.bashr
-
-ln -sf "$HOME/$ROOT/bash/.bashrc" "$HOME/.bashrc"
+~/dotfiles/bash/lib/bash-sync
 
 # =============== Custom set up ===============
-
-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -89,6 +16,7 @@ case $- in
     *i*) ;;
       *) return;;
 esac
+
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
