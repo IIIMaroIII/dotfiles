@@ -1,169 +1,260 @@
-	>>>Cursor movement
-h - move cursor left
-j - move cursor down
-k - move cursor up
-l - move cursor right
-gj - move cursor down (multi-line text)
-gk - move cursor up (multi-line text)
-H - move to top of screen
-M - move to middle of screen
-L - move to bottom of screen
-w - jump forwards to the start of a word
-W - jump forwards to the start of a word (words can contain punctuation)
-e - jump forwards to the end of a word
-E - jump forwards to the end of a word (words can contain punctuation)
-b - jump backwards to the start of a word
-B - jump backwards to the start of a word (words can contain punctuation)
-ge - jump backwards to the end of a word
-gE - jump backwards to the end of a word (words can contain punctuation)
-% - move cursor to matching character (default supported pairs: '()', '{}', '[]' - use :h matchpairs in vim for more info)
-0 - jump to the start of the line
-^ - jump to the first non-blank character of the line
-$ - jump to the end of the line
-g_ - jump to the last non-blank character of the line
-gg - go to the first line of the document
-G - go to the last line of the document
-5gg or 5G - go to line 5
-gd - move to local declaration
-gD - move to global declaration
-fx - jump to next occurrence of character x
-tx - jump to before next occurrence of character x
-Fx - jump to the previous occurrence of character x
-Tx - jump to after previous occurrence of character x
-; - repeat previous f, t, F or T movement
-, - repeat previous f, t, F or T movement, backwards
-} - jump to next paragraph (or function/block, when editing code)
-{ - jump to previous paragraph (or function/block, when editing code)
-zz - center cursor on screen
-zt - position cursor on top of the screen
-zb - position cursor on bottom of the screen
-Ctrl + e - move screen down one line (without moving cursor)
-Ctrl + y - move screen up one line (without moving cursor)
-Ctrl + b - move screen up one page (cursor to last line)
-Ctrl + f - move screen down one page (cursor to first line)
-Ctrl + d - move cursor and screen down 1/2 page
-Ctrl + u - move cursor and screen up 1/2 page
+══════════════════════════════════════════════════════════════════════
+                            VIM MASTER CHEAT SHEET
+══════════════════════════════════════════════════════════════════════
 
-	>>>Insert mode - inserting/appending text
 
-i - insert before the cursor
-I - insert at the beginning of the line
-a - insert (append) after the cursor
-A - insert (append) at the end of the line
-o - append (open) a new line below the current line
-O - append (open) a new line above the current line
-ea - insert (append) at the end of the word
-Ctrl + h - delete the character before the cursor during insert mode
-Ctrl + w - delete word before the cursor during insert mode
-Ctrl + j - add a line break at the cursor position during insert mode
-Ctrl + t - indent (move right) line one shiftwidth during insert mode
-Ctrl + d - de-indent (move left) line one shiftwidth during insert mode
-Ctrl + n - insert (auto-complete) next match before the cursor during insert mode
-Ctrl + p - insert (auto-complete) previous match before the cursor during insert mode
-Ctrl + rx - insert the contents of register x
-Ctrl + ox - Temporarily enter normal mode to issue one normal-mode command x.
-Esc or Ctrl + c - exit insert mode
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. NORMAL MODE (Default Mode)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-	>>> Marking text (visual mode)
-v - start visual mode, mark lines, then do a command (like y-yank)
-V - start linewise visual mode
-o - move to other end of marked area
-Ctrl + v - start visual block mode
-O - move to other corner of block
-aw - mark a word
-ab - a block with ()
-aB - a block with {}
-at - a block with <> tags
-ib - inner block with ()
-iB - inner block with {}
-it - inner block with <> tags
-Esc or Ctrl + c - exit visual mode
+BASIC MOVEMENT
+  h j k l              ← ↓ ↑ →
+  w / W                next word / WORD
+  b / B                previous word / WORD
+  e / E                end of word / WORD
+  0                    start of line
+  ^                    first non-blank
+  $                    end of line
+  gg                   top of file
+  G                    bottom of file
+  {number}G            go to line
+  %                    matching bracket
 
-	>>> Visual commands
-> - shift text right
-< - shift text left
-y - yank (copy) marked text
-d - delete marked text
-~ - switch case
-u - change marked text to lowercase
-U - change marked text to uppercase
+SCROLLING
+  Ctrl-d               half page down
+  Ctrl-u               half page up
+  Ctrl-f               full page down
+  Ctrl-b               full page up
+  Ctrl-e               scroll down 1 line
+  Ctrl-y               scroll up 1 line
+  zz                   center cursor
+  zt / zb              top / bottom
 
-	>>> Cut and paste
+SEARCH
+  /pattern             search forward
+  ?pattern             search backward
+  n / N                next / previous result
+  *                    search word under cursor
+  #                    search backward word
 
-# In vim we ussualy use registers
-=> "+y ==> its gonna yanking to the system clipboard (register +). It will work either in the different Vim session or Shell session as well;
-=> "+p ==> it is pasting from the system clipboard (register +). It will work either in the different Vim session or Shell session as well;
-# we can specify any registers that we want from 'a-z';
-=> "add ==> will delete the current line and store it in the register 'a';
-=> "ap ==> will paste from the register 'a' but within the same Vim session. It wont work in the different Vim sassion or tab; 
-	✅ To yank line 9:
-	=> :9y
-	✅ To paste it after line 25:
-	=> :25put
-	💡 Final combo:
-	=> :9y | 25put
-		✅ Yank line 9 into register a:
-		=> :9y a
-		✅ Paste it after line 25 from register a:
-		:25put a
-		🧪 Full Example (yank line 9 to a, paste after 25):
-		=> :9y a | 25put a
-	✅ Yank a range of lines (e.g., lines 10 to 15) into register a:
-	=> :10,15y a
-	✅ Paste from register a after line 25:
-	=> :25put a
-	🔁 Full flow:
-	=> :10,15y a | 25put a
+EDITING
+  x                    delete char
+  dd                   delete line
+  D                    delete to end of line
+  yy                   yank line
+  p / P                paste after / before
+  r{char}              replace single char
+  u                    undo
+  Ctrl-r               redo
+  .                    repeat last command
 
-	✅ To yank a line 9 to a system clipboard:
-	=> :9y +;
-d$ - delete from cursor to end of line
-	✅To paste from the system clipboard:
-	=> :
-d0 - delete from cursor to start of line
-yy - yank (copy) a line
-2yy - yank (copy) 2 lines
-yw - yank (copy) the characters of the word from the cursor position to the start of the next word
-yiw - yank (copy) word under the cursor
-yaw - yank (copy) word under the cursor and the space after or before it
-y$ or Y - yank (copy) to end of line
-p - put (paste) the clipboard after cursor
-P - put (paste) before cursor
-gp - put (paste) the clipboard after cursor and leave cursor after the new text
-gP - put (paste) before cursor and leave cursor after the new text
-dd - delete (cut) a line
-2dd - delete (cut) 2 lines
-dw - delete (cut) the characters of the word from the cursor position to the start of the next word
-diw - delete (cut) word under the cursor
-daw - delete (cut) word under the cursor and the space after or before it
-:3,5d - delete lines starting from 3 to 5
-Tip You can also use the following characters to specify the range:
-e.g.
-:.,$d - From the current line to the end of the file
-:.,1d - From the current line to the beginning of the file
-:10,1d - From the 10th line to the beginning of the file
+CHANGE (delete + insert)
+  cw                   change word
+  c$                   change to end of line
+  cc                   change whole line
 
-:g/{pattern}/d - delete all lines containing pattern
-:g!/{pattern}/d - delete all lines not containing pattern
-d$ or D - delete (cut) to the end of the line
-x - delete (cut) character
+INDENT
+  >>                   indent line
+  <<                   unindent line
+  =ap                  auto-format paragraph
 
-	>>> Search and replace
 
-/pattern - search for pattern
-?pattern - search backward for pattern
-\vpattern - 'very magic' pattern: non-alphanumeric characters are interpreted as special regex symbols (no escaping needed)
-n - repeat search in same direction
-N - repeat search in opposite direction
-	=> :%s/old/new/g - replace all old with new throughout file
-:%s/old/new/gc - replace all old with new throughout file with confirmations
-	✅ To replace a specific word or pattern in a single line:
-	=> :s/old/new/
-	✅ To replace all occurrences of a pattern in the current line:
-	=> :s/old/new/g
-	✅ To replace in a specific line range:
-	=> :2,5s/old/new/g
-	✅ Replace a word, ignoring case:
-	=> :%s/foo/bar/gi
-:noh[lsearch] - remove highlighting of search matches
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. INSERT MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+ENTER INSERT
+  i                    insert before cursor
+  I                    insert at start of line
+  a                    insert after cursor
+  A                    insert at end of line
+  o                    new line below
+  O                    new line above
+
+EXIT INSERT
+  Esc                  return to Normal
+  Ctrl-[               alternative Esc
+
+INSERT SHORTCUTS
+  Ctrl-w               delete previous word
+  Ctrl-u               delete to start of line
+  Ctrl-h               delete char
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. VISUAL MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ENTER VISUAL
+  v                    character mode
+  V                    line mode
+  Ctrl-v               block mode
+
+COMMON ACTIONS
+  y                    yank selection
+  d                    delete selection
+  c                    change selection
+  > / <                indent / unindent
+  =                    auto-indent
+
+BLOCK MODE
+  Ctrl-v + j + I       insert at start of multiple lines
+  Ctrl-v + j + A       append at end of multiple lines
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. COMMAND MODE (Ex Mode)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILES
+  :w                   save
+  :q                   quit
+  :wq                  save and quit
+  :q!                  quit without saving
+  :e filename          open file
+  :saveas filename     save as
+
+SEARCH & REPLACE
+  :s/old/new/          replace in line
+  :s/old/new/g         replace all in line
+  :%s/old/new/g        replace entire file
+  :%s/old/new/gc       confirm each replace
+
+SETTINGS
+  :set number
+  :set relativenumber
+  :set ignorecase
+  :set smartcase
+  :set hlsearch
+  :set nohlsearch
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. WINDOWS & TABS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SPLITS
+  :split
+  :vsplit
+  Ctrl-w h/j/k/l       move between splits
+  Ctrl-w =             equalize
+  Ctrl-w q             close split
+
+TABS
+  :tabnew
+  gt                   next tab
+  gT                   previous tab
+  :tabclose
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. TEXT OBJECTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  diw                  delete inner word
+  daw                  delete around word
+  ci"                  change inside quotes
+  di(                  delete inside ()
+  da{                  delete around {}
+  vip                  select inner paragraph
+  vap                  select around paragraph
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. MACROS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  qa                   record macro into register a
+  q                    stop recording
+  @a                   run macro
+  @@                   repeat last macro
+  10@a                 run 10 times
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. REGISTERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "ay                  yank into register a
+  "ap                  paste from register a
+  :registers           view registers
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. MARKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ma                   set mark a
+  'a                   jump to mark line
+  `a                   jump to exact position
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. MODIFIER KEYS (Terminal Vim Behavior)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CTRL COMBINATIONS (Normal Mode)
+
+NAVIGATION
+  Ctrl-f               page down
+  Ctrl-b               page up
+  Ctrl-d               half page down
+  Ctrl-u               half page up
+  Ctrl-e               scroll down
+  Ctrl-y               scroll up
+  Ctrl-o               jump back
+  Ctrl-i               jump forward (same as Tab)
+
+WINDOWS
+  Ctrl-w + h/j/k/l     move between splits
+  Ctrl-w + s           split horizontal
+  Ctrl-w + v           split vertical
+  Ctrl-w + q           close split
+
+EDIT
+  Ctrl-r               redo
+  Ctrl-a               increment number
+  Ctrl-x               decrement number
+
+INSERT MODE CTRL
+  Ctrl-w               delete previous word
+  Ctrl-u               delete to start
+  Ctrl-h               backspace
+  Ctrl-n               next completion
+  Ctrl-p               previous completion
+
+
+ALT (Meta Key)
+
+In terminal:
+  Alt-x                sends Esc + x
+
+Example:
+  Alt-w                behaves like pressing:
+                       Esc then w
+
+So Alt does NOT create new commands —
+it prefixes Esc.
+
+
+SUPER (Windows Key / Command Key)
+
+In terminal Vim:
+  Super key is handled by OS.
+  Vim does NOT receive it.
+
+Unless using GUI Vim (gVim) or custom mappings.
+
+
+CTRL + C
+
+Normal Mode:
+  Ctrl-c               same as Esc (cancel)
+
+Insert Mode:
+  Ctrl-c               exit insert (no autocommands)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESC ALWAYS RETURNS TO NORMAL MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
