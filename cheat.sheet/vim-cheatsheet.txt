@@ -1,0 +1,271 @@
+" ==================================================
+"  VIM 10-FINGER ERGONOMIC GUIDE
+" ==================================================
+
+
+" ------------------------
+" BASIC PHILOSOPHY
+" ------------------------
+Vim is modal.
+Stay in Normal mode as much as possible.
+Use motions + operators instead of manual edits.
+Use repetition (.) and macros instead of retyping.
+
+
+" ------------------------
+" MODES
+" ------------------------
+Normal Mode   → navigation & commands
+Insert Mode   → typing text
+Visual Mode   → selecting text
+Command Mode  → :commands
+
+
+" ==================================================
+" NORMAL MODE – MOVEMENT
+" ==================================================
+
+h j k l        ← ↓ ↑ →
+w / W          next word / WORD
+b / B          previous word / WORD
+e / E          end of word / WORD
+0              beginning of line
+^              first non-blank character
+$              end of line
+gg             top of file
+G              bottom of file
+%              matching bracket
+
+f{char}        jump forward to char
+F{char}        jump backward to char
+t{char}        jump before char
+T{char}        jump before char (backward)
+;              repeat last f/t motion
+,              repeat in opposite direction
+
+5j             move 5 lines down
+3k             move 3 lines up
+
+
+" ==================================================
+" NORMAL MODE – EDITING
+" ==================================================
+
+x              delete character
+dd             delete line
+D              delete to end of line
+yy             yank (copy) line
+p / P          paste after / before
+r{char}        replace single character
+u              undo
+Ctrl-r         redo
+.              repeat last change
+
+
+" ==================================================
+" OPERATORS + MOTIONS (CORE POWER)
+" ==================================================
+
+d + motion     delete
+c + motion     change
+y + motion     yank
+
+Examples:
+dw             delete word
+cw             change word
+d$             delete to end of line
+c0             change to beginning of line
+df,            delete until comma
+ct)            change until )
+
+
+" ==================================================
+" TEXT OBJECTS (HIGH EFFICIENCY)
+" ==================================================
+
+Word:
+ciw            change inner word
+diw            delete inner word
+daw            delete around word
+
+Quotes:
+ci"            change inside double quotes
+di"            delete inside double quotes
+ci'            change inside single quotes
+di'            delete inside single quotes
+
+Parentheses / Brackets:
+ci(            change inside ()
+di(            delete inside ()
+ci{            change inside {}
+di{            delete inside {}
+ci[            change inside []
+di[            delete inside []
+
+Paragraph:
+vip            select inner paragraph
+vap            select around paragraph
+
+
+" ==================================================
+" INSERT MODE
+" ==================================================
+
+i              insert before cursor
+I              insert at line start
+a              append after cursor
+A              append at line end
+o              new line below
+O              new line above
+
+Esc            leave insert mode
+jk / jj / kj   fast escape (mapped)
+Ctrl-[         alternative escape
+
+Insert shortcuts:
+Ctrl-w         delete previous word
+Ctrl-u         delete to start of line
+Ctrl-h         delete character
+Ctrl-n / Ctrl-p completion
+
+
+" ==================================================
+" VISUAL MODE
+" ==================================================
+
+v              character-wise
+V              line-wise
+Ctrl-v         block mode
+
+y              yank selection
+d              delete selection
+c              change selection
+> / <          indent / unindent
+=              auto-indent
+o              switch selection edge
+
+
+Block Editing:
+Ctrl-v + j
+I              insert at start of block
+A              append at end of block
+
+
+" ==================================================
+" SEARCHING
+" ==================================================
+
+/pattern       search forward
+?pattern       search backward
+n              next match
+N              previous match
+:nohlsearch    clear highlights
+
+ignorecase + smartcase:
+lowercase search → case-insensitive
+uppercase in search → case-sensitive
+
+
+" ==================================================
+" SCROLLING
+" ==================================================
+
+Ctrl-d         half page down
+Ctrl-u         half page up
+Ctrl-f         full page down
+Ctrl-b         full page up
+zz             center cursor
+zt             cursor to top
+zb             cursor to bottom
+
+
+" ==================================================
+" WINDOWS & TABS
+" ==================================================
+
+:split         horizontal split
+:vsplit        vertical split
+
+Ctrl-w h/j/k/l move between splits
+Ctrl-w =       equalize splits
+Ctrl-w q       close split
+
+:tabnew        new tab
+gt             next tab
+gT             previous tab
+:tabclose      close tab
+
+
+" ==================================================
+" LEADER KEY (Space)
+" ==================================================
+
+Leader = Space
+
+Space w        save
+Space q        quit
+Space x        save & quit
+Space t        new tab
+Space h        clear search highlight
+
+Window navigation:
+Space h/j/k/l
+
+
+" ==================================================
+" MACROS (AUTOMATION POWER)
+" ==================================================
+
+qa             start recording macro in register a
+q              stop recording
+@a             run macro
+@@             repeat last macro
+10@a           run macro 10 times
+
+Workflow:
+1. qa
+2. perform edits
+3. q
+4. @a or 10@a
+
+Tips:
+- Stay in Normal mode
+- Combine with text objects
+- Use . to repeat inside macro
+- Macros are ideal for repetitive refactoring
+
+
+" ==================================================
+" ERGONOMIC RULES (10-FINGER FLOW)
+" ==================================================
+
+• Remap CapsLock → Esc (OS level)
+• Use jk/jj for escape
+• Avoid arrow keys
+• Use f/t/; , instead of small cursor moves
+• Use text objects instead of multiple motions
+• Use . instead of repeating commands manually
+• Use macros instead of repetitive edits
+• Stay in Normal mode whenever possible
+
+
+" ==================================================
+" ADVANCED HABITS
+" ==================================================
+
+Use:
+.              repeat last change
+*              search word under cursor
+#              search backward word under cursor
+:%s/old/new/g  replace in file
+:g/pattern/d   delete matching lines
+
+Think in:
+operator + motion
+operator + text-object
+repeat + macro
+
+
+" ==================================================
+" END OF GUIDE
+" ==================================================

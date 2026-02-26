@@ -1,12 +1,19 @@
-# =============== Custom set up ===============
-[[ ! -e ~/dotfiles/bash/lib/bash-sync ]] && {
-	echo -e "	Can't source 'bash-sync at $0'. Skipping"
-	return
-}
+	### SOURCE PERSONAL DOTFILES
+set -x
+	# source ~/dotfiles/bash/.bash-{aliases,vars}
+echo -e "Hello in the current $(uname -a)"
+[[ -e "$DOT"bash/.bash-vars ]] && . "$DOT"bash/.bash-vars
+[[ -e "$DOT"bash/.bash-aliases ]] && . "$DOT"bash/.bash-aliases
+	
+	# source ~/dotfiles/bash/lib*
+if [[ -d "$LIB" ]]; then
+	for f in "$LIB"*; do
+		[[ -r "$f" ]] && . "$f"
+	done
+fi
+set +x
+	### SOURCE PERSONAL DOTFILES
 
-~/dotfiles/bash/lib/bash-sync
-
-# =============== Custom set up ===============
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples

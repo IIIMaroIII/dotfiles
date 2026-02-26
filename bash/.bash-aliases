@@ -1,0 +1,11 @@
+### general
+alias ..='cd ..'
+alias ::='. ~/.bashrc' 
+
+### GIT
+alias gaa='git add .'
+alias gpu='git push'
+
+### dotfiles
+alias lib="cd $LIB"
+alias dot="cd $DOT"

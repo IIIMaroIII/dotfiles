@@ -1,0 +1,5 @@
+# git commit
+gcm(){
+	git commit -m "$1"
+}
+
