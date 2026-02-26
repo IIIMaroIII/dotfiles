@@ -2,7 +2,7 @@
 set -x
 	# source ~/dotfiles/bash/.bash-{aliases,vars}
 echo -e "Hello in the current $(uname -a)"
-[[ -e "$DOT"bash/.bash-vars ]] && . "$DOT"bash/.bash-vars
+[[ -e ~/dotfiles/bash/.bash-vars ]] && .  ~/dotfiles/bash/.bash-vars
 [[ -e "$DOT"bash/.bash-aliases ]] && . "$DOT"bash/.bash-aliases
 	
 	# source ~/dotfiles/bash/lib*

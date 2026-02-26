@@ -14,3 +14,6 @@ alias dot="cd $DOT"
 ### files and dest
 alias dl="cd $HOME/Downloads"
 alias doc="cd $HOME/Documents"
+
+### WSL (delete later)
+alias pr="cd $HOME/projects"
