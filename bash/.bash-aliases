@@ -5,7 +5,12 @@ alias ::='. ~/.bashrc'
 ### GIT
 alias gaa='git add .'
 alias gpu='git push'
+alias gpl='git pull'
 
 ### dotfiles
 alias lib="cd $LIB"
 alias dot="cd $DOT"
+
+### files and dest
+alias dl="cd $HOME/Downloads"
+alias doc="cd $HOME/Documents"

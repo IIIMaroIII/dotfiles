@@ -1,3 +1,5 @@
 ### general
 export DOT="$HOME/dotfiles/"
 export LIB="$HOME/dotfiles/bash/lib/"
+export DL="$HOME/Downloads"
+export DC="$HOME/Documents"
