@@ -1,0 +1,11 @@
+#!/bin/bash
+
+while IFS= read -r f; do
+	[[ ! -e "$f" ]] && {
+	echo -e "❌ Haven't found any directories for your request\n 🟠 $1"
+	read -p "🟢 Enter the request one again: " input
+	
+	
+}
+	echo -e "✔  Here is your folder $1"
+done
