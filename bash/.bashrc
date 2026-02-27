@@ -1,3 +1,8 @@
+	### Set up defaults
+export VISUAL=nvim
+export EDITOR=nvim
+
+
 	### PATH
 export PATH="$HOME/.scripts:$PATH"
 

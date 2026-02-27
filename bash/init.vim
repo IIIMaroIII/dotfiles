@@ -3,10 +3,20 @@ set relativenumber
 let mapleader=" "
 set timeoutlen=250
 
+" inoremap
+inoremap <C-h> <Home>
+inoremap <C-l> <End>
+
+" vnoremap
+vnoremap H ^
+vnoremap L $
+
 nnoremap <Up>    <Nop>
 nnoremap <Down>  <Nop>
 nnoremap <Left>  <Nop>
 nnoremap <Right> <Nop>
+nnoremap H ^
+nnoremap L $
 
 nnoremap <leader>h <C-w>h
 nnoremap <leader>j <C-w>j
