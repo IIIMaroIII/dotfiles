@@ -1,3 +1,7 @@
+	### PATH
+export PATH="$HOME/.scripts:$PATH"
+
+
 	### SOURCE PERSONAL DOTFILES
 set -x
 	# source ~/dotfiles/bash/.bash-{aliases,vars}

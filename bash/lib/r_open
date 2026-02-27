@@ -1,0 +1,10 @@
+#!/bin/bash
+
+r_open(){
+	if command -v cmd.exe &>/dev/null; then 
+		cmd.exe /c start "$(wslpath -w "$1")"
+	else
+
+		xdg-open "$1"
+	fi
+}

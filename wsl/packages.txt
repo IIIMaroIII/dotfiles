@@ -1,0 +1,3 @@
+sudo apt install neovim nodejs npm -y
+sudo apt install neovim nodejs npm -y
+sudo apt install default-jdk -y
