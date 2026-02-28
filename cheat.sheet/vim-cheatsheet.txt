@@ -1,271 +1,336 @@
-
-"  VIM 10-FINGER ERGONOMIC GUIDE
-" ==================================================
-
-
-" ------------------------
-" BASIC PHILOSOPHY
-" ------------------------
-Vim is modal.
-Stay in Normal mode as much as possible.
-Use motions + operators instead of manual edits.
-Use repetition (.) and macros instead of retyping.
-
-
-" ------------------------
-" MODES
-" ------------------------
-Normal Mode   → navigation & commands
-Insert Mode   → typing text
-Visual Mode   → selecting text
-Command Mode  → :commands
-
-
-" ==================================================
-" NORMAL MODE – MOVEMENT
-" ==================================================
-
-h j k l        ← ↓ ↑ →
-w / W          next word / WORD
-b / B          previous word / WORD
-e / E          end of word / WORD
-0              beginning of line
-^              first non-blank character
-$              end of line
-gg             top of file
-G              bottom of file
-%              matching bracket
-
-f{char}        jump forward to char
-F{char}        jump backward to char
-t{char}        jump before char
-T{char}        jump before char (backward)
-;              repeat last f/t motion
-,              repeat in opposite direction
-
-5j             move 5 lines down
-3k             move 3 lines up
-
-
-" ==================================================
-" NORMAL MODE – EDITING
-" ==================================================
-
-x              delete character
-dd             delete line
-D              delete to end of line
-yy             yank (copy) line
-p / P          paste after / before
-r{char}        replace single character
-u              undo
-Ctrl-r         redo
-.              repeat last change
-
-
-" ==================================================
-" OPERATORS + MOTIONS (CORE POWER)
-" ==================================================
-
-d + motion     delete
-c + motion     change
-y + motion     yank
-
-Examples:
-dw             delete word
-cw             change word
-d$             delete to end of line
-c0             change to beginning of line
-df,            delete until comma
-ct)            change until )
-
-
-" ==================================================
-" TEXT OBJECTS (HIGH EFFICIENCY)
-" ==================================================
-
-Word:
-ciw            change inner word
-diw            delete inner word
-daw            delete around word
-
-Quotes:
-ci"            change inside double quotes
-di"            delete inside double quotes
-ci'            change inside single quotes
-di'            delete inside single quotes
-
-Parentheses / Brackets:
-ci(            change inside ()
-di(            delete inside ()
-ci{            change inside {}
-di{            delete inside {}
-ci[            change inside []
-di[            delete inside []
-
-Paragraph:
-vip            select inner paragraph
-vap            select around paragraph
-
-
-" ==================================================
-" INSERT MODE
-" ==================================================
-
-i              insert before cursor
-I              insert at line start
-a              append after cursor
-A              append at line end
-o              new line below
-O              new line above
-
-Esc            leave insert mode
-jk / jj / kj   fast escape (mapped)
-Ctrl-[         alternative escape
-
-Insert shortcuts:
-Ctrl-w         delete previous word
-Ctrl-u         delete to start of line
-Ctrl-h         delete character
-Ctrl-n / Ctrl-p completion
-
-
-" ==================================================
-" VISUAL MODE
-" ==================================================
-
-v              character-wise
-V              line-wise
-Ctrl-v         block mode
-
-y              yank selection
-d              delete selection
-c              change selection
-> / <          indent / unindent
-=              auto-indent
-o              switch selection edge
-
-
-Block Editing:
-Ctrl-v + j
-I              insert at start of block
-A              append at end of block
-
-
-" ==================================================
-" SEARCHING
-" ==================================================
-
-/pattern       search forward
-?pattern       search backward
-n              next match
-N              previous match
-:nohlsearch    clear highlights
-
-ignorecase + smartcase:
-lowercase search → case-insensitive
-uppercase in search → case-sensitive
-
-
-" ==================================================
-" SCROLLING
-" ==================================================
-
-Ctrl-d         half page down
-Ctrl-u         half page up
-Ctrl-f         full page down
-Ctrl-b         full page up
-zz             center cursor
-zt             cursor to top
-zb             cursor to bottom
-
-
-" ==================================================
-" WINDOWS & TABS
-" ==================================================
-
-:split         horizontal split
-:vsplit        vertical split
-
-Ctrl-w h/j/k/l move between splits
-Ctrl-w =       equalize splits
-Ctrl-w q       close split
-
-:tabnew        new tab
-gt             next tab
-gT             previous tab
-:tabclose      close tab
-
-
-" ==================================================
-" LEADER KEY (Space)
-" ==================================================
-
-Leader = Space
-
-Space w        save
-Space q        quit
-Space x        save & quit
-Space t        new tab
-Space h        clear search highlight
-
-Window navigation:
-Space h/j/k/l
-
-
-" ==================================================
-" MACROS (AUTOMATION POWER)
-" ==================================================
-
-qa             start recording macro in register a
-q              stop recording
-@a             run macro
-@@             repeat last macro
-10@a           run macro 10 times
-
-Workflow:
-1. qa
-2. perform edits
-3. q
-4. @a or 10@a
-
-Tips:
-- Stay in Normal mode
-- Combine with text objects
-- Use . to repeat inside macro
-- Macros are ideal for repetitive refactoring
-
-
-" ==================================================
-" ERGONOMIC RULES (10-FINGER FLOW)
-" ==================================================
-
-• Remap CapsLock → Esc (OS level)
-• Use jk/jj for escape
-• Avoid arrow keys
-• Use f/t/; , instead of small cursor moves
-• Use text objects instead of multiple motions
-• Use . instead of repeating commands manually
-• Use macros instead of repetitive edits
-• Stay in Normal mode whenever possible
-
-
-" ==================================================
-" ADVANCED HABITS
-" ==================================================
-
-Use:
-.              repeat last change
-*              search word under cursor
-#              search backward word under cursor
-:%s/old/new/g  replace in file
-:g/pattern/d   delete matching lines
-
-Think in:
-operator + motion
-operator + text-object
-repeat + macro
-
-
-" ==================================================
-" END OF GUIDE
-" ==================================================
+══════════════════════════════════════════════════════════════════════
+                         NEOVIM MASTER CHEAT SHEET
+                      (ergonomic · 10-finger · pro setup)
+══════════════════════════════════════════════════════════════════════
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHILOSOPHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Stay in Normal mode as much as possible
+  Use motions + operators instead of manual edits
+  Use text objects instead of multiple motions
+  Use . to repeat instead of retyping
+  Use macros instead of repetitive edits
+  Avoid arrow keys — use h/j/k/l and motions
+  Think in: operator + motion, operator + text-object
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MODES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Normal       navigation & commands (default, stay here)
+  Insert       typing text
+  Visual       selecting text
+  Command      :commands
+  ESC / jk     always returns to Normal mode
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. NORMAL MODE — MOVEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BASIC
+  h j k l          ← ↓ ↑ →
+  w / W            next word / WORD
+  b / B            previous word / WORD
+  e / E            end of word / WORD
+  gg               top of file
+  G                bottom of file
+  {number}G        go to line number
+  %                jump to matching bracket
+
+LINE NAVIGATION  (remapped for ergonomics)
+  H                first non-blank character  (remapped from ^)
+  L                end of line                (remapped from $)
+  0                absolute start of line
+
+CHARACTER JUMPS
+  f{char}          jump forward to char (inclusive)
+  F{char}          jump backward to char
+  t{char}          jump before char (exclusive)
+  T{char}          jump before char (backward)
+  ;                repeat last f/t motion
+  ,                repeat in opposite direction
+
+COUNTS
+  5j               move 5 lines down
+  3w               jump 3 words forward
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. NORMAL MODE — SCROLLING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Ctrl-d           half page down (cursor stays centered)
+  Ctrl-u           half page up   (cursor stays centered)
+  Ctrl-f           full page down
+  Ctrl-b           full page up
+  Ctrl-e           scroll down 1 line
+  Ctrl-y           scroll up 1 line
+  zz               center cursor on screen
+  zt               cursor to top
+  zb               cursor to bottom
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. NORMAL MODE — EDITING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  x                delete character under cursor
+  dd               delete line
+  D                delete to end of line
+  yy               yank (copy) line
+  p / P            paste after / before cursor
+  r{char}          replace single character
+  u                undo
+  Ctrl-r           redo
+  .                repeat last change   ← use this constantly
+  *                search word under cursor (forward)
+  #                search word under cursor (backward)
+  Ctrl-a           increment number under cursor
+  Ctrl-x           decrement number under cursor
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. OPERATORS + MOTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  d + motion       delete
+  c + motion       change (delete + enter insert)
+  y + motion       yank
+
+  dw               delete word
+  cw               change word
+  dL               delete to end of line    (remapped L = $)
+  cH               change to first non-blank (remapped H = ^)
+  df,              delete until comma (inclusive)
+  ct)              change until )
+  cc               change whole line
+  >>               indent line
+  <<               unindent line
+  =ap              auto-format paragraph
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. TEXT OBJECTS  (operator + i/a + object)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i = inner (excludes surrounding)
+  a = around (includes surrounding)
+
+  ciw / diw / yiw      change / delete / yank inner word
+  caw / daw            change / delete around word (includes space)
+
+  ci" / di"            inside double quotes
+  ci' / di'            inside single quotes
+  ci` / di`            inside backticks
+
+  ci( / di(            inside ()
+  ci{ / di{            inside {}
+  ci[ / di[            inside []
+  da{ / da(            delete including the brackets
+
+  vip                  select inner paragraph
+  vap                  select around paragraph
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. INSERT MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ENTER INSERT
+  i                insert before cursor
+  I                insert at start of line
+  a                append after cursor
+  A                append at end of line
+  o                new line below and enter insert
+  O                new line above and enter insert
+
+EXIT INSERT
+  jk               fast escape (remapped)
+  Esc / Ctrl-[     return to Normal
+
+SHORTCUTS IN INSERT
+  Ctrl-w           delete previous word
+  Ctrl-u           delete to start of line
+  Ctrl-h           delete character (backspace)
+  Ctrl-n / Ctrl-p  next / previous completion
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. VISUAL MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ENTER VISUAL
+  v                character-wise
+  V                line-wise
+  Ctrl-v           block mode
+  o                switch active selection edge
+
+ACTIONS
+  y                yank selection
+  d                delete selection
+  c                change selection
+  > / <            indent / unindent (stays in visual)
+  =                auto-indent
+  p                paste (won't overwrite register — remapped)
+
+MOVE LINES (remapped)
+  J                move selection down
+  K                move selection up
+
+BLOCK EDITING
+  Ctrl-v + j + I   insert at start of multiple lines
+  Ctrl-v + j + A   append at end of multiple lines
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. SEARCHING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  /pattern         search forward
+  ?pattern         search backward
+  n                next match       (centers screen — remapped)
+  N                previous match   (centers screen — remapped)
+  *                search word under cursor
+  #                search backward word under cursor
+  <leader>nh       clear search highlight
+
+  ignorecase + smartcase:
+    lowercase  →  case-insensitive
+    uppercase  →  case-sensitive
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. COMMAND MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILES
+  :w               save
+  :q               quit
+  :wq / :x         save and quit
+  :q!              quit without saving
+  :e filename      open file
+  :saveas fname    save as
+
+SEARCH & REPLACE
+  :s/old/new/      replace first on line
+  :s/old/new/g     replace all on line
+  :%s/old/new/g    replace entire file
+  :%s/old/new/gc   confirm each replace
+  :g/pattern/d     delete all matching lines
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. WINDOWS & TABS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SPLITS
+  :split           horizontal split
+  :vsplit          vertical split
+  Ctrl-w + s       split horizontal
+  Ctrl-w + v       split vertical
+  Ctrl-w h/j/k/l   move between splits   (also <leader>h/j/k/l)
+  Ctrl-w =         equalize splits
+  Ctrl-w q         close split
+
+TABS
+  <leader>t        new tab
+  Tab              next tab      (remapped)
+  Shift-Tab        previous tab  (remapped)
+  gt / gT          next / previous tab
+  :tabclose        close tab
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. LEADER KEY MAPPINGS  (Leader = Space)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  <leader>w        save file
+  <leader>q        quit
+  <leader>x        save and quit
+  <leader>t        new tab
+  <leader>nh       clear search highlight
+  <leader>o        blank line below (stay in Normal)
+  <leader>O        blank line above (stay in Normal)
+  <leader>d        delete to black hole register (won't overwrite yank)
+
+  Window navigation:
+  <leader>h/j/k/l  move between splits
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. MACROS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  qa               start recording macro into register a
+  q                stop recording
+  @a               run macro a
+  @@               repeat last macro
+  10@a             run macro 10 times
+
+  Tips:
+  - Plan the full action before recording
+  - End macro on a position ready for the next repeat
+  - Combine with text objects for reliable edits
+  - Use . inside macros to repeat sub-actions
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. REGISTERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "ay              yank into register a
+  "ap              paste from register a
+  "_d              delete to black hole (nothing saved)
+  :registers       view all registers
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. MARKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ma               set mark a
+  'a               jump to line of mark a
+  `a               jump to exact position of mark a
+  Ctrl-o           jump back (previous position)
+  Ctrl-i           jump forward
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+15. ERGONOMIC REMAPS SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  jk               Esc (insert mode)
+  H                ^ first non-blank  (normal, visual, operator)
+  L                $ end of line      (normal, visual, operator)
+  n / N            next/prev match + center screen
+  Ctrl-d / Ctrl-u  half page + center screen
+  J / K            move selection up/down (visual only)
+  > / <            indent and stay in visual
+  p                paste without losing register (visual)
+  <leader>d        delete to black hole register
+  Tab / S-Tab      next / previous tab
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+16. PRO HABITS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  • Remap CapsLock → Esc at OS level
+  • Use f/t/;/, for horizontal movement instead of holding l
+  • Use text objects (ciw, ci") instead of multiple motions
+  • Use . constantly — it's your most powerful key
+  • Use * to search word under cursor instantly
+  • Use Ctrl-o / Ctrl-i to jump between edit positions
+  • Use marks (ma / 'a) for long-distance jumps in a file
+  • Delete with "_d when you don't want to overwrite your yank
+  • Paste in visual with p — it won't clobber your clipboard
+
+
+══════════════════════════════════════════════════════════════════════
+                              END OF GUIDE
+══════════════════════════════════════════════════════════════════════
