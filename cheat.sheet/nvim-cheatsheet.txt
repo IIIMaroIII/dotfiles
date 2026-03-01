@@ -1,0 +1,272 @@
+══════════════════════════════════════════════════════════════════════
+                         NEOVIM MASTER CHEAT SHEET
+                      (ergonomic · 10-finger · pro setup)
+══════════════════════════════════════════════════════════════════════
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHILOSOPHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Stay in Normal mode as much as possible
+  Insert mode = only for typing NEW text, nothing else
+  Use motions + operators instead of manual edits
+  Use text objects instead of multiple motions
+  Use . to repeat instead of retyping
+  Use macros for repetitive multi-step edits
+  Avoid arrow keys — use h/j/k/l and motions
+  Think in: operator + motion, operator + text-object
+  Think in: verb + noun  (d=delete, w=word → dw)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MODES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Normal       navigation & commands (default — live here)
+  Insert       typing new text only
+  Visual       selecting text
+  Command      :commands
+  jk           → Normal mode from Insert  [REMAPPED]
+  Esc          → Normal mode from any mode
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. NORMAL MODE — MOVEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BASIC
+  h j k l          ← ↓ ↑ →
+  w / W            next word / WORD (WORD ignores punctuation)
+  b / B            previous word / WORD
+  e / E            end of word / WORD
+  gg               top of file
+  G                bottom of file
+  {number}G        go to line number  (e.g. 42G)
+  %                jump to matching bracket/paren/brace
+
+LINE NAVIGATION
+  Ctrl-a           first non-blank character  [REMAPPED from ^]
+  Ctrl-e           end of line                [REMAPPED from $]
+  0                absolute start of line (including whitespace)
+  ^                native: first non-blank character
+  $                native: end of line
+
+CHARACTER JUMPS  (extremely powerful, learn these)
+  f{char}          jump forward to char on line (cursor lands on char)
+  F{char}          jump backward to char on line
+  t{char}          jump forward, stop before char
+  T{char}          jump backward, stop before char
+  ;                repeat last f/F/t/T forward
+  ,                repeat last f/F/t/T backward
+
+COUNTS (combine with any motion)
+  5j               move 5 lines down
+  3w               jump 3 words forward
+  2b               jump 2 words backward
+
+FILE NAVIGATION
+  Ctrl-d           half page down (most used — learns your rhythm)
+  Ctrl-u           half page up
+  Ctrl-f           full page down
+  Ctrl-b           full page up
+  zz               center cursor on screen
+  zt               cursor to top of screen
+  zb               cursor to bottom of screen
+
+SEARCH NAVIGATION
+  /pattern         search forward
+  ?pattern         search backward
+  n                next match
+  N                previous match
+  *                search word under cursor (forward)
+  #                search word under cursor (backward)
+  leader+nh        clear search highlights  [REMAPPED]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. OPERATORS (verbs) — combine with motions or text objects
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  d                delete (cut)
+  c                change (delete + enter insert mode)
+  y                yank (copy)
+  >                indent right
+  <                indent left
+  =                auto-indent
+  g~               toggle case
+  gu               lowercase
+  gU               uppercase
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. TEXT OBJECTS (nouns) — the most powerful vim concept
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  i = inner (excludes surrounding chars)
+  a = around/a (includes surrounding chars)
+
+  iw / aw          inner word / a word (with space)
+  is / as          inner sentence / a sentence
+  ip / ap          inner paragraph / a paragraph
+  i" / a"          inside/around double quotes
+  i' / a'          inside/around single quotes
+  i` / a`          inside/around backticks
+  i( / a(          inside/around parentheses
+  i[ / a[          inside/around brackets
+  i{ / a{          inside/around curly braces
+  i< / a<          inside/around angle brackets
+  it / at          inside/around HTML/XML tag
+
+EXAMPLES (operator + text object)
+  ciw              change inner word (most used)
+  daw              delete a word including trailing space
+  ci"              change text inside quotes
+  ca(              change everything including the parentheses
+  yi{              yank everything inside curly braces
+  =ip              auto-indent inner paragraph
+  >i{              indent inside curly braces
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. COMMON SHORTCUTS (doubled operator = acts on whole line)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  dd               delete whole line
+  cc               change whole line
+  yy               yank whole line
+  D                delete from cursor to end of line
+  C                change from cursor to end of line
+  d^               delete to start of line (native)
+  d Ctrl-a         delete to start of line  [REMAPPED]
+  Y                yank whole line (same as yy)
+  x                delete character under cursor
+  X                delete character before cursor
+  r{char}          replace single character under cursor (no insert mode!)
+  s                delete char and enter insert mode
+  S                delete line and enter insert mode
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. ENTERING INSERT MODE (choose the right one)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  i                insert before cursor
+  a                insert after cursor
+  I                insert at start of line
+  A                insert at end of line
+  o                open new line below and insert
+  O                open new line above and insert
+  gi               re-enter insert at last insert position
+
+  PRO TIP: prefer A, I, o, O over navigating then pressing i
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. UNDO / REDO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  u                undo
+  Ctrl-r           redo
+  U                undo all changes on current line
+  .                repeat last change (extremely powerful)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. COPY / PASTE (registers)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  yy / Y           yank line
+  yw               yank word
+  yiw              yank inner word
+  p                paste after cursor
+  P                paste before cursor
+  "{reg}y          yank into named register (e.g. "ay)
+  "{reg}p          paste from named register (e.g. "ap)
+  "+y              yank to system clipboard
+  "+p              paste from system clipboard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. VISUAL MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  v                character-wise visual
+  V                line-wise visual
+  Ctrl-v           block visual (column editing)
+  jk               exit visual mode  [REMAPPED]
+  Ctrl-a           select to start of line  [REMAPPED]
+  Ctrl-e           select to end of line  [REMAPPED]
+  o                move to other end of selection
+  gv               reselect last visual selection
+
+  THEN apply any operator: d, c, y, >, <, =, g~
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. WINDOW / TAB / BUFFER MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WINDOWS (splits)
+  :sp              horizontal split
+  :vsp             vertical split
+  leader+h/j/k/l   navigate between splits  [REMAPPED]
+  Ctrl-w =         equalize split sizes
+  Ctrl-w +/-       resize split height
+  Ctrl-w >/<       resize split width
+
+TABS
+  leader+t         new tab  [REMAPPED]
+  gt               next tab
+  gT               previous tab
+  {n}gt            go to tab n
+
+BUFFERS
+  :bn              next buffer
+  :bp              previous buffer
+  :bd              delete (close) buffer
+  :ls              list all buffers
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. FILE OPERATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  leader+w         save  [REMAPPED]
+  leader+q         quit  [REMAPPED]
+  leader+x         save and quit  [REMAPPED]
+  :e {file}        open file
+  :w {file}        save as
+  :r {file}        read file into current buffer
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. MACROS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  q{reg}           start recording macro into register (e.g. qa)
+  q                stop recording
+  @{reg}           play macro (e.g. @a)
+  @@               repeat last macro
+  5@a              run macro 5 times
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. MARKS & JUMPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  m{a-z}           set local mark (e.g. ma)
+  '{mark}          jump to mark line (e.g. 'a)
+  `{mark}          jump to exact mark position
+  ''               jump back to last jump position
+  Ctrl-o           jump to previous location in jumplist
+  Ctrl-i           jump to next location in jumplist
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. COMMAND MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  :s/old/new/      replace first match on line
+  :s/old/new/g     replace all on line
+  :%s/old/new/g    replace all in file
+  :%s/old/new/gc   replace all with confirmation
+  :g/pattern/d     delete all lines matching pattern
+  :sort            sort lines
+  Ctrl-r Ctrl-w    paste word under cursor into command line
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. INSERT MODE (minimal — get in, type, get out)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  jk               exit to Normal mode  [REMAPPED]
+  Ctrl-a           move to start of line  [REMAPPED]
+  Ctrl-e           move to end of line  [REMAPPED]
+  Ctrl-o           execute one Normal command then return to Insert
+  Ctrl-w           delete word before cursor
+  Ctrl-u           delete to start of line
+  Ctrl-r {reg}     paste from register without leaving insert mode
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRO PATTERNS (daily muscle memory goals)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ciw              change a word anywhere (no need to go to start)
+  ct{char}         change up to a character on the line
+  df{char}         delete including a character on the line
+  yiw → p          copy word, move, paste
+  gg=G             auto-indent entire file
+  :%s/\s\+$//      remove trailing whitespace
+  vi{ then =       select block and auto-indent
+  . after any op   repeat the last change at new cursor position
+  *Ncgn            search word, change match, then . to repeat on next
+
+══════════════════════════════════════════════════════════════════════

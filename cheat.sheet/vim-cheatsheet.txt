@@ -74,6 +74,82 @@ COUNTS
   zt               cursor to top
   zb               cursor to bottom
 
+══════════════════════════════════════════════════════════════════════
+                         NEOVIM MASTER CHEAT SHEET
+                      (ergonomic · 10-finger · pro setup)
+══════════════════════════════════════════════════════════════════════
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHILOSOPHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Stay in Normal mode as much as possible
+  Use motions + operators instead of manual edits
+  Use text objects instead of multiple motions
+  Use . to repeat instead of retyping
+  Use macros instead of repetitive edits
+  Avoid arrow keys — use h/j/k/l and motions
+  Think in: operator + motion, operator + text-object
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MODES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Normal       navigation & commands (default, stay here)
+  Insert       typing text
+  Visual       selecting text
+  Command      :commands
+  ESC / jk     always returns to Normal mode
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. NORMAL MODE — MOVEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BASIC
+  h j k l          ← ↓ ↑ →
+  w / W            next word / WORD
+  b / B            previous word / WORD
+  e / E            end of word / WORD
+  gg               top of file
+  G                bottom of file
+  {number}G        go to line number
+  %                jump to matching bracket
+
+LINE NAVIGATION  (remapped for ergonomics)
+  H                first non-blank character  (remapped from ^)
+  L                end of line                (remapped from $)
+  0                absolute start of line
+
+CHARACTER JUMPS
+  f{char}          jump forward to char (inclusive)
+  F{char}          jump backward to char
+  t{char}          jump before char (exclusive)
+  T{char}          jump before char (backward)
+  ;                repeat last f/t motion
+  ,                repeat in opposite direction
+
+COUNTS
+  5j               move 5 lines down
+  3w               jump 3 words forward
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. NORMAL MODE — SCROLLING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Ctrl-d           half page down (cursor stays centered)
+  Ctrl-u           half page up   (cursor stays centered)
+  Ctrl-f           full page down
+  Ctrl-b           full page up
+  Ctrl-e           scroll down 1 line
+  Ctrl-y           scroll up 1 line
+  zz               center cursor on screen
+  zt               cursor to top
+  zb               cursor to bottom
+
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 3. NORMAL MODE — EDITING

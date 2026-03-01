@@ -1,0 +1,14 @@
+vim.opt.laststatus = 2          -- always show status bar at bottom
+vim.opt.number = true           -- show absolute line numbers
+vim.opt.relativenumber = true   -- show relative line numbers (great for jumps like 5j)
+vim.opt.ruler = true            -- show cursor position in status bar
+vim.opt.showcmd = true          -- show partial commands as you type (e.g. "2d")
+vim.opt.showmode = true         -- show current mode (INSERT, VISUAL, etc.)
+vim.opt.hlsearch = true         -- highlight all search matches
+vim.opt.ignorecase = true       -- case-insensitive search by default
+vim.opt.smartcase = true        -- override ignorecase if search contains uppercase
+vim.opt.incsearch = true        -- jump to matches as you type the search
+vim.opt.scrolloff = 3           -- always keep 3 lines visible above/below cursor
+vim.opt.sidescrolloff = 5       -- always keep 5 columns visible left/right of cursor
+vim.opt.timeoutlen = 250        -- ms to wait for mapped sequence (e.g. jk escape)
+vim.opt.statusline = "%F"       -- show full file path in status bar

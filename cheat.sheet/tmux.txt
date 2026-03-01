@@ -1,0 +1,80 @@
+══════════════════════════════════════════════════════════════════════
+                         TMUX CHEAT SHEET
+                    (prefix: Ctrl-s · 10-finger)
+══════════════════════════════════════════════════════════════════════
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHILOSOPHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Prefix (Ctrl-s) + key = tmux command
+  No prefix needed    = pane navigation (Ctrl-h/j/k/l)
+  Sessions > Windows > Panes  (think of it as workspaces > tabs > splits)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. PANES (splits)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ctrl-s + |       split vertically (left/right)
+  Ctrl-s + -       split horizontally (top/bottom)
+  Ctrl-h/j/k/l     navigate panes (no prefix needed)  [vim-tmux-navigator]
+  Ctrl-s + x       kill current pane
+  Ctrl-s + z       zoom/unzoom pane (fullscreen toggle)
+  Ctrl-s + {       swap pane left
+  Ctrl-s + }       swap pane right
+  Ctrl-s + space   cycle through pane layouts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. WINDOWS (tabs)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ctrl-s + c       create new window
+  Ctrl-s + ,       rename current window
+  Ctrl-s + n       next window
+  Ctrl-s + p       previous window
+  Ctrl-s + {1-9}   jump to window by number
+  Ctrl-s + w       visual window picker
+  Ctrl-s + &       kill current window
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. SESSIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  tmux                      new unnamed session
+  tmux new -s {name}        new named session
+  tmux ls                   list sessions
+  tmux attach -t {name}     attach to session
+  tmux kill-session -t {name}  kill session
+  Ctrl-s + d               detach from session (keeps it running)
+  Ctrl-s + s               visual session switcher
+  Ctrl-s + $               rename current session
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. COPY MODE  (vi keys enabled)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ctrl-s + [       enter copy mode (scroll, search history)
+  q                exit copy mode
+  h/j/k/l          navigate in copy mode
+  /                search forward
+  ?                search backward
+  n / N            next/previous match
+  Space            start selection
+  Enter            copy selection
+  Ctrl-s + ]       paste
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. MISC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ctrl-s + r       reload config (your remap)
+  Ctrl-s + ?       list all keybindings
+  Ctrl-s + t       show clock
+  Ctrl-s + i       show plugin info (TPM)
+  Ctrl-s + I       install plugins (TPM)
+  Ctrl-s + U       update plugins (TPM)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRO WORKFLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1 session per project     tmux new -s myproject
+  1 window per context      e.g. editor / logs / git
+  panes for related splits  nvim left · terminal right
+  detach freely             Ctrl-s + d  →  everything keeps running
+  reattach anytime          tmux attach -t myproject
+
+══════════════════════════════════════════════════════════════════════
