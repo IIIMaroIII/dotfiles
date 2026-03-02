@@ -15,6 +15,7 @@ PHILOSOPHY
   Avoid arrow keys — use h/j/k/l and motions
   Think in: operator + motion, operator + text-object
   Think in: verb + noun  (d=delete, w=word → dw)
+  Stop thinking "how do I move there" → think "what do I do to what object"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 MODES
@@ -54,6 +55,11 @@ CHARACTER JUMPS  (extremely powerful, learn these)
   ;                repeat last f/F/t/T forward
   ,                repeat last f/F/t/T backward
 
+  EXAMPLE: f( → ; → ; → lands on each ( across the line
+  COMBINE:  df(   delete from cursor up to and including (
+            dt(   delete up to but not including (
+            cf"   change from cursor to next "
+
 COUNTS (combine with any motion)
   5j               move 5 lines down
   3w               jump 3 words forward
@@ -68,6 +74,12 @@ FILE NAVIGATION
   zt               cursor to top of screen
   zb               cursor to bottom of screen
 
+BLOCK / PARAGRAPH JUMPS
+  }                jump to next empty line (next paragraph/block)
+  {                jump to previous empty line
+  ]]               next function or block
+  [[               previous function or block
+
 SEARCH NAVIGATION
   /pattern         search forward
   ?pattern         search backward
@@ -78,7 +90,23 @@ SEARCH NAVIGATION
   leader+nh        clear search highlights  [REMAPPED]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-2. OPERATORS (verbs) — combine with motions or text objects
+2. JUMP LIST — navigate your history  (extremely underrated)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ctrl-o           jump back in history  (works across files!)
+  Ctrl-i           jump forward in history
+  '.               jump to last edit position
+  gd               go to definition of word under cursor
+  :jumps           view full jump list
+
+  HOW IT WORKS: every big jump (/, gg, G, %, gd, file switch) is recorded
+  Ctrl-o/i walks through that list — file + exact line/column remembered
+  You can edit anywhere in the history — list keeps growing
+
+  PRO WORKFLOW: jump to check something → edit if needed → Ctrl-o back
+  No need to remember line numbers or use marks for quick lookups
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. OPERATORS (verbs) — combine with motions or text objects
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   d                delete (cut)
   c                change (delete + enter insert mode)
@@ -91,7 +119,7 @@ SEARCH NAVIGATION
   gU               uppercase
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-3. TEXT OBJECTS (nouns) — the most powerful vim concept
+4. TEXT OBJECTS (nouns) — the most powerful vim concept
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   i = inner (excludes surrounding chars)
   a = around/a (includes surrounding chars)
@@ -108,17 +136,21 @@ SEARCH NAVIGATION
   i< / a<          inside/around angle brackets
   it / at          inside/around HTML/XML tag
 
+  KEY INSIGHT: cursor can be ANYWHERE on the line — vim finds the pair automatically
+
 EXAMPLES (operator + text object)
-  ciw              change inner word (most used)
+  ciw              change inner word (most used — cursor anywhere on word)
   daw              delete a word including trailing space
   ci"              change text inside quotes
   ca(              change everything including the parentheses
   yi{              yank everything inside curly braces
   =ip              auto-indent inner paragraph
   >i{              indent inside curly braces
+  vi"              visually select inside quotes
+  di'              delete inside single quotes
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-4. COMMON SHORTCUTS (doubled operator = acts on whole line)
+5. COMMON SHORTCUTS (doubled operator = acts on whole line)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   dd               delete whole line
   cc               change whole line
@@ -127,6 +159,7 @@ EXAMPLES (operator + text object)
   C                change from cursor to end of line
   d^               delete to start of line (native)
   d Ctrl-a         delete to start of line  [REMAPPED]
+  d Ctrl-e         delete to end of line    [REMAPPED]
   Y                yank whole line (same as yy)
   x                delete character under cursor
   X                delete character before cursor
@@ -135,7 +168,7 @@ EXAMPLES (operator + text object)
   S                delete line and enter insert mode
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-5. ENTERING INSERT MODE (choose the right one)
+6. ENTERING INSERT MODE (choose the right one)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   i                insert before cursor
   a                insert after cursor
@@ -148,7 +181,7 @@ EXAMPLES (operator + text object)
   PRO TIP: prefer A, I, o, O over navigating then pressing i
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-6. UNDO / REDO
+7. UNDO / REDO
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   u                undo
   Ctrl-r           redo
@@ -156,7 +189,7 @@ EXAMPLES (operator + text object)
   .                repeat last change (extremely powerful)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-7. COPY / PASTE (registers)
+8. COPY / PASTE (registers)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   yy / Y           yank line
   yw               yank word
@@ -167,9 +200,11 @@ EXAMPLES (operator + text object)
   "{reg}p          paste from named register (e.g. "ap)
   "+y              yank to system clipboard
   "+p              paste from system clipboard
+  Ctrl-r "         paste in insert mode from default register
+  Ctrl-r +         paste from system clipboard in insert mode
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-8. VISUAL MODE
+9. VISUAL MODE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   v                character-wise visual
   V                line-wise visual
@@ -183,7 +218,18 @@ EXAMPLES (operator + text object)
   THEN apply any operator: d, c, y, >, <, =, g~
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-9. WINDOW / TAB / BUFFER MANAGEMENT
+10. COMPLETION (built-in, no plugins)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ctrl-n           next completion suggestion
+  Ctrl-p           previous completion suggestion
+  Ctrl-f           trigger file path completion  [REMAPPED]
+  Ctrl-y           accept/confirm selected completion
+  Ctrl-e           dismiss completion menu
+  Tab              next suggestion (when menu open)
+  Shift-Tab        previous suggestion (when menu open)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. WINDOW / TAB / BUFFER MANAGEMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 WINDOWS (splits)
   :sp              horizontal split
@@ -206,7 +252,7 @@ BUFFERS
   :ls              list all buffers
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-10. FILE OPERATIONS
+12. FILE OPERATIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   leader+w         save  [REMAPPED]
   leader+q         quit  [REMAPPED]
@@ -216,7 +262,7 @@ BUFFERS
   :r {file}        read file into current buffer
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-11. MACROS
+13. MACROS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   q{reg}           start recording macro into register (e.g. qa)
   q                stop recording
@@ -225,17 +271,15 @@ BUFFERS
   5@a              run macro 5 times
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-12. MARKS & JUMPS
+14. MARKS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   m{a-z}           set local mark (e.g. ma)
   '{mark}          jump to mark line (e.g. 'a)
   `{mark}          jump to exact mark position
   ''               jump back to last jump position
-  Ctrl-o           jump to previous location in jumplist
-  Ctrl-i           jump to next location in jumplist
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-13. COMMAND MODE
+15. COMMAND MODE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   :s/old/new/      replace first match on line
   :s/old/new/g     replace all on line
@@ -246,7 +290,7 @@ BUFFERS
   Ctrl-r Ctrl-w    paste word under cursor into command line
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-14. INSERT MODE (minimal — get in, type, get out)
+16. INSERT MODE (minimal — get in, type, get out)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   jk               exit to Normal mode  [REMAPPED]
   Ctrl-a           move to start of line  [REMAPPED]
@@ -254,7 +298,8 @@ BUFFERS
   Ctrl-o           execute one Normal command then return to Insert
   Ctrl-w           delete word before cursor
   Ctrl-u           delete to start of line
-  Ctrl-r {reg}     paste from register without leaving insert mode
+  Ctrl-r "         paste from default register
+  Ctrl-r +         paste from system clipboard
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 PRO PATTERNS (daily muscle memory goals)
@@ -262,11 +307,14 @@ PRO PATTERNS (daily muscle memory goals)
   ciw              change a word anywhere (no need to go to start)
   ct{char}         change up to a character on the line
   df{char}         delete including a character on the line
+  dt{char}         delete up to but not including a character
   yiw → p          copy word, move, paste
   gg=G             auto-indent entire file
   :%s/\s\+$//      remove trailing whitespace
   vi{ then =       select block and auto-indent
   . after any op   repeat the last change at new cursor position
   *Ncgn            search word, change match, then . to repeat on next
+  Ctrl-o           jump back after any navigation — use constantly
+  f{char} + ;      fly along a line hitting each occurrence
 
 ══════════════════════════════════════════════════════════════════════

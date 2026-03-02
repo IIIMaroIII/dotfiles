@@ -35,3 +35,7 @@ map("v", "<C-a>", "^")			 -- additional for ^
 map("v", "<C-e>", "$") 			 -- additional for $
 map("v", "jk", "<Esc>" ) 		 -- jk to 'Esc' 
 
+-- pending mode 
+map("o", "<C-a>", "^")			 -- apply motions likewise d ctrl a 
+map("o", "<C-e>", "$")			 -- same as previous but to start of a line 
+
