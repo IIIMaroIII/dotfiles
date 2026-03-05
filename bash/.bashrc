@@ -2,6 +2,10 @@
 export VISUAL=nvim
 export EDITOR=nvim
 
+	### Github vars
+github_contents="https://api.github.com/repos/IIIMaroIII/dotfiles/contents"
+github_fetch_raw_files="https://raw.githubusercontent.com/IIIMaroIII/dotfiles/refs/heads/main/bash/install.sh"
+
 
 	### PATH
 export PATH="$HOME/.scripts:$PATH"
