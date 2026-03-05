@@ -22,9 +22,7 @@ map("n", "<leader><leader>", ":", opts)
 -- --------------------------------------------------
 -- LEADER: TABS
 -- --------------------------------------------------
-map("n", "<leader>t", ":tabnew<CR>", opts)             -- new tab
-map("n", "<leader>|", ":vsplit ", opts)
-map("n", "<leadear>e", ":e ", opts)
+-- map("n", "<leader>t", ":tabnew<CR>", opts)             -- new tab
 map("n", "<leader><leader>", ":", opts)
 
 -- --------------------------------------------------
