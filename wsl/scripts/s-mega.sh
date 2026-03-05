@@ -23,3 +23,5 @@ echo 	" Starting new sync"
 
 	mega-cmd.mega-sync "/mnt/d/projects/" "/lavada/"
 fi
+
+echo "Synced at: $(date +%Y-%m-%d:%H-%M)" >> /mnt/d/projects/logs/log.md
