@@ -2,7 +2,7 @@
 
 ropen(){
 	if command -v cmd.exe &>/dev/null; then 
-		cmd.exe /c start "$(wslpath -w "$1")"
+		explorer.exe "$(wslpath -w "$1")"
 	else
 
 		xdg-open "$1"
