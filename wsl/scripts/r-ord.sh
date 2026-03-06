@@ -1,30 +1,17 @@
 # Desc: Looking for an order, if that exists then open stuff
 
-if [[ -z "${PR// }" ]]; then
-	echo -n "	Couldn't resolve a var '$PR'"
-	exit 1
 
+dir="$PR/$1"
+EXCLUDE_FOLDERS="(bzs|log[s])"
+
+find_order=$(find "$PR" -type d -iname "$1" -regextype egrep ! -regex ".*/$EXCLUDE_FOLDERS/.*")
+
+if [[ -z "$find_order" ]]; then 
+	echo "	Order $1 isn't found creating the structure..."
+	mkdir -p "$dir"/{src/{skp,xlsx},assets/{docs,pics,appl},send,pdfs}
+	tree -a "$dir"
+else
+	printf '%s\n' "Order $1 exists."
+	rm -irv "$dir"
+	printf '%s\n' "Exiting..."
 fi
-
-printf '%s\n' "Changing a directory to $PR..."
-cd "$PR"
-
-
-
-r-ord(){
-ORDER="$1"
-
-#looking for a folder
-
-while IFS= read -r l; do
-	if [[ -e "$l" ]]; then
-		echo -n "	Here you are a folder: $l"
-	else
-		echo -n "	Cant find a folder in: $l"
-	fi
-		
-
-done< <(find . -type d -iname "$1")
-}
-
-r-ord "$@"

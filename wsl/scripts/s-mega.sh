@@ -14,6 +14,7 @@ if [[ ! $(mega-cmd.mega-sync | grep "/mnt/d/projects") ]]; then
 	echo "	Starting sync..."
 	mega-cmd.mega-sync "/mnt/d/projects/" "/lavada/"
 else
+	 
 echo " Trying to get id of current sync"
 id=$(mega-cmd.mega-sync |grep "/mnt/d/projects" | awk '{print $1}')
 	echo "	id: $id"
