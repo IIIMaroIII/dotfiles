@@ -9,9 +9,8 @@ OS_TYPE=$(uname -a)
 
 [[ ! -d "$HOME/dotfiles" ]] && {
 	echo -e "	"
-
-		echo -e "	Something went wrong, dotfiles repo hasn't been downloaded. Check 'git --version'. Exiting ..."
-		exit 1
+	echo -e "	Something went wrong, dotfiles repo hasn't been downloaded. Check 'git --version'. Exiting ..."
+	exit 1
 	}
 	echo -e "	Repo successfully downloaded..."
 }
@@ -20,14 +19,14 @@ declare -A dot_os_files;
 
 find-files(){
 	echo "	Starting finding files at $1"
-		h"	
+
 	done < <(find "$HOME/$ROOT"/"$1" -type f -iname ".bash*" || {
 		echo "	Can't find any files in $1. Skipping..."
 		return
 	})
 }
 
-get-files(){
+get-iles(){
 if (( $# != 0 )); then
 		echo -e "	Executing time at $(uname -a) on $(date '+%Y-%m-%d %H:%M:%S')" >> $LOG_FILE 
 
