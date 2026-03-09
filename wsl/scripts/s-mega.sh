@@ -1,5 +1,12 @@
 #!/bin/bash
+LA_TEMPL="/mnt/c/Users/INTEL I9/AppData/Roaming/SketchUp/SketchUp 2019/LayOut/"
+SK_TEMPL="/mnt/c/Users/INTEL I9/AppData/Roaming/SketchUp/SketchUp 2019/SketchUp/"
 
+[[ $(uname -a | grep -i wsl) ]] && {
+	echo "Running on WSL in Windows"
+	cp -ru "$SK_TEMPL" "/mnt/d/projects/templates/sk_templ/"
+	cp -ru "$LA_TEMPL" "/mnt/d/projects/templates/la_templ/"
+}
 echo "	Entering the mega.nz"
 
 echo "	Login into the mega.nz"
@@ -25,4 +32,3 @@ else
 
 	echo "Synced at: $(date +%Y-%m-%d:%H-%M)" >> /mnt/d/projects/logs/log.md
 fi
-
