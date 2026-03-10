@@ -1,0 +1,114 @@
+================================================================================
+  xargs — build and execute commands from standard input
+================================================================================
+
+SYNOPSIS
+  command | xargs [flags] command
+  xargs [flags] command < file
+
+--------------------------------------------------------------------------------
+  FLAGS
+--------------------------------------------------------------------------------
+
+  -I {}       Placeholder substitution. Controls where the arg is inserted.
+              Implies -n 1 (one arg per invocation). {} is convention only —
+              any string works (e.g. -I FILE).
+
+              ls *.bak | xargs -I{} mv {} {}.restored
+
+  -n N        Max N arguments per command invocation.
+
+              echo "a b c d" | xargs -n 2 echo
+              # → echo a b
+              # → echo c d
+
+  -P N        Run N processes in parallel.
+
+              cat urls.txt | xargs -P 4 -I{} curl -s {}
+
+  -d DELIM    Use DELIM as delimiter instead of whitespace/newline.
+
+              echo "one,two,three" | xargs -d, echo
+              # → one two three
+
+  -0          Use null byte (\0) as delimiter. Pairs with find -print0.
+              Safe for filenames containing spaces or special chars.
+
+              find . -name "*.tmp" -print0 | xargs -0 rm -f
+
+  -t          Print each command to stderr before running (trace/debug).
+
+              echo "foo" | xargs -t echo
+              # stderr: echo foo
+              # stdout: foo
+
+  -r          Skip execution if stdin is empty. (GNU xargs only)
+
+              cat maybe_empty.txt | xargs -r rm
+
+  -L N        Max N lines per invocation (vs -n which counts words).
+
+              printf "a b\nc d\n" | xargs -L 1 echo
+              # → echo a b
+              # → echo c d
+
+  -a FILE     Read input from FILE instead of stdin.
+
+              xargs -a filelist.txt -I{} cp {} /backup/
+
+  -p          Prompt y/n before each execution (interactive).
+
+              echo "important_file" | xargs -p rm
+
+  -s N        Limit command line to N bytes (useful for huge input lists).
+
+              cat biglist.txt | xargs -s 4096 rm
+
+--------------------------------------------------------------------------------
+  POWER COMBOS
+--------------------------------------------------------------------------------
+
+  Parallel + placeholder — download 4 files at once:
+    cat urls.txt | xargs -P 4 -I{} wget -q {}
+
+  Null-safe + parallel — delete files with spaces in names, fast:
+    find . -name "*.cache" -print0 | xargs -0 -P 4 rm -f
+
+  Trace + prompt — dry-run before destructive op:
+    find . -name "*.old" -print0 | xargs -0 -t -p rm
+
+  Batch + trace — see what's happening in groups:
+    seq 1 10 | xargs -n 3 -t echo
+
+  Shell expansion inside substitution — wrap in bash -c:
+    find . -name "*.jpeg" -print0 | xargs -0 -I{} bash -c 'mv "$1" "${1%.jpeg}.jpg"' -- {}
+
+  Kill matching processes:
+    pgrep myapp | xargs -r kill -9
+
+  Grep only files containing a pattern, then open in editor:
+    grep -rl "TODO" ./src | xargs -o nvim
+
+  Batch convert images with parallel workers:
+    ls *.png | xargs -P 8 -I{} convert {} -resize 800x {}_resized.png
+
+--------------------------------------------------------------------------------
+  NOTES
+--------------------------------------------------------------------------------
+
+  - xargs does NOT invoke a shell — use bash -c '...' -- {} for shell features
+    like variable expansion, globbing, or pipes inside the substituted command.
+
+  - -I{} implies -n 1. If you combine -I{} with -n, -n is ignored.
+
+  - -L and -n both control invocation frequency but differ:
+      -n counts individual arguments (words)
+      -L counts lines from input
+
+  - On macOS (BSD xargs), some GNU flags like -r are unavailable.
+    Install GNU xargs via: brew install findutils  (then use gxargs)
+
+  - Default delimiter is any whitespace. Use -d or -0 whenever filenames
+    or values may contain spaces.
+
+================================================================================
