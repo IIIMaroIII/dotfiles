@@ -3,49 +3,47 @@ __OS=$(uname -a)
 export VISUAL=nvim
 export EDITOR=nvim
 
-	### Github vars
-	github_contents="https://api.github.com/repos/IIIMaroIII/dotfiles/contents"
-	github_fetch_raw_files="https://raw.githubusercontent.com/IIIMaroIII/dotfiles/refs/heads/main/bash/install.sh"
+### Github vars
+github_contents="https://api.github.com/repos/IIIMaroIII/dotfiles/contents"
+github_fetch_raw_files="https://raw.githubusercontent.com/IIIMaroIII/dotfiles/refs/heads/main/bash/install.sh"
 
+### PATH
+export PATH="$HOME/.scripts:$PATH"
 
-	### PATH
-	export PATH="$HOME/.scripts:$PATH"
+### SOURCE PERSONAL DOTFILES
+# source ~/dotfiles/bash/.bash-{aliases,vars}
 
+case "${__OS,,}" in
+*wsl*)
+	echo "	✔  Welcome in WSL on Windows, unfortunately ✔ "
+	;;
+*darwin*)
+	echo "	😎 Welcome, pal ✔  You're running macOS ❤ "
+	;;
+*)
+	echo "	😎 Welcome, pal ✔  You're running Linux❤ "
+	;;
+esac
 
-	### SOURCE PERSONAL DOTFILES
-	# source ~/dotfiles/bash/.bash-{aliases,vars}
-
-
-	case "${__OS,,}" in 
-		*wsl*) 
-			echo "	✔  Welcome in WSL on Windows, unfortunately ✔ ";;
-		*darwin*) 
-			echo "	😎 Welcome, pal ✔  You're running macOS ❤ ";;
-		*) 
-			echo "	😎 Welcome, pal ✔  You're running Linux❤ ";;
-	esac
-
-
-[[ -e ~/dotfiles/bash/.bash-vars ]] && .  ~/dotfiles/bash/.bash-vars
+[[ -e ~/dotfiles/bash/.bash-vars ]] && . ~/dotfiles/bash/.bash-vars
 [[ -e "$DOT"bash/.bash-aliases ]] && . "$DOT"bash/.bash-aliases
 
-	# source ~/dotfiles/bash/lib*
-	if [[ -d "$LIB" ]]; then
-		for f in "$LIB"*; do
-			[[ -r "$f" ]] && . "$f"
-		done
-	fi
-	### SOURCE PERSONAL DOTFILES
+# source ~/dotfiles/bash/lib*
+if [[ -d "$LIB" ]]; then
+	for f in "$LIB"*; do
+		[[ -r "$f" ]] && . "$f"
+	done
+fi
+### SOURCE PERSONAL DOTFILES
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
 # If not running interactively, don't do anything
 case $- in
-	*i*) ;;
-	*) return;;
+*i*) ;;
+*) return ;;
 esac
-
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -78,7 +76,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-	xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -106,11 +104,10 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-	xterm*|rxvt*)
-		PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-		;;
-	*)
-		;;
+xterm* | rxvt*)
+	PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+	;;
+*) ;;
 esac
 
 # enable color support of ls and also add handy aliases
