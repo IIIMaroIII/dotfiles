@@ -1,0 +1,53 @@
+TAR CHEAT SHEET
+===============
+
+SYNTAX
+------
+tar [options] [archive_name] [files/folders]
+
+
+CREATE
+------
+tar -czf archive.tar.gz folder/          # compress folder with gzip
+tar -cjf archive.tar.bz2 folder/         # compress with bzip2 (smaller, slower)
+tar -cJf archive.tar.xz folder/          # compress with xz (smallest, slowest)
+tar -czf archive.tar.gz file1 file2      # compress multiple files
+tar -czf archive.tar.gz -C /path/ .      # compress from specific directory
+tar -cvzf archive.tar.gz folder/         # compress with verbose output
+
+
+EXTRACT
+-------
+tar -xzf archive.tar.gz                  # extract gzip here
+tar -xjf archive.tar.bz2                 # extract bzip2 here
+tar -xJf archive.tar.xz                  # extract xz here
+tar -xzf archive.tar.gz -C /path/        # extract to specific folder
+tar -xzf archive.tar.gz file.txt         # extract single file
+
+
+LIST
+----
+tar -tzf archive.tar.gz                  # list contents (gzip)
+tar -tjf archive.tar.bz2                 # list contents (bzip2)
+tar -tJf archive.tar.xz                  # list contents (xz)
+
+
+FLAGS
+-----
+-c    create archive
+-x    extract archive
+-t    list contents
+-z    gzip compression   (.tar.gz)
+-j    bzip2 compression  (.tar.bz2)
+-J    xz compression     (.tar.xz)
+-f    filename           (always before the filename)
+-v    verbose            (show progress)
+-C    destination directory
+
+
+EXTENSIONS
+----------
+.tar        archive only, no compression
+.tar.gz     gzip compressed  (most common)
+.tar.bz2    bzip2 compressed (smaller, slower)
+.tar.xz     xz compressed    (smallest, slowest)
