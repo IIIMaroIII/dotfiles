@@ -1,6 +1,6 @@
 ### general
 alias ..='cd ..'
-alias ::='. ~/.bashrc' 
+alias ::='. ~/.bashrc'
 
 ### GIT
 alias gaa='git add .'
@@ -17,3 +17,6 @@ alias doc="cd $HOME/Documents"
 
 ### WSL (delete later)
 alias pr="cd $HOME/projects"
+
+### SCRIPTS
+alias fpr=". fpr.sh"

@@ -1,4 +1,5 @@
 # Desc: Looking for an order, if that exists then open stuff
+#!/bin/bash
 
 echo "All scripts args: $@"
 CMD="$1"
@@ -6,7 +7,7 @@ shift
 echo "Args after shift: $@"
 
 case "$CMD" in
-find)
+find | -f)
 	dir="$PR/$1"
 	EXCLUDE_FOLDERS="(bzs|log[s])"
 	order="$1"
@@ -33,22 +34,22 @@ find)
 		read -rp "	Wanna create?	" str_ans
 		if [[ "${str_ans,,}" == "y" ]]; then
 			mkdir -p "$dir"/{src/{skp,xlsx},assets/{docs,pics,appl},send,pdfs}
-		#tree -a "$dir"
+
+			read -rp "	Wanna open the $dir in explorer?	" open_dir
+
+			if [[ "${open_dir,,}" == "y" ]]; then
+				explorer.exe "$(wslpath -w "$dir")"
+			fi
+
+			echo "	Changing the pwd..."
+			cd "$dir"
 		fi
 	else
 		printf '%s\n' "Order $order exists."
 		#rm -irv "$dir"
 		printf '%s\n' "Exiting..."
 	fi
-
-	read -rp "	Wanna open the $dir in explorer?	" open_dir
-
-	if [[ "${open_dir,,}" == "y" ]]; then
-		explorer.exe "$(wslpath -w "$dir")"
-	fi
-
-	echo "	Changing the pwd..."
-	cd "$dir"
 	;;
--d) echo "	❌ You're trying to delete a stuff" ;;
+delete | -d) echo "	❌ You're trying to delete a stuff" ;;
+* | --help | -h) echo "	❓ Help ❓" ;;
 esac
