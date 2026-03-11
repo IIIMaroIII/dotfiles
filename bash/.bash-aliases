@@ -1,6 +1,6 @@
 ### general
 alias ..='cd ..'
-alias ::='. ~/.bashrc' 
+alias ::='. ~/.bashrc'
 
 ### GIT
 alias gaa='git add .'
@@ -17,4 +17,10 @@ alias doc="cd $HOME/Documents"
 
 ### WSL (delete later)
 alias pr="cd $HOME/projects"
+<<<<<<< HEAD
 alias reboot='sudo systemctl reboot --force'
+=======
+
+### SCRIPTS
+alias fpr=". fpr.sh"
+>>>>>>> cabd717e8464d8221e768acbd30cff602bf9ca2d
