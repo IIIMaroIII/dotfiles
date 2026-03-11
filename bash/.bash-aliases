@@ -17,3 +17,4 @@ alias doc="cd $HOME/Documents"
 
 ### WSL (delete later)
 alias pr="cd $HOME/projects"
+alias reboot='sudo systemctl reboot --force'

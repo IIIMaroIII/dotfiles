@@ -1,10 +1,13 @@
 [user]
-    name = rod
-    email = matveev.r.v@icloud.com
-[core]
-    editor = code
-    excludesfile = ~/.gitignore_global
-[credential]
-    helper = osxkeychain
+	email = matveev.r.v@icloud.com
+	name = Rodion Matvieiev
 [init]
 	defaultBranch = main
+[core]
+	editor = code --wait
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
