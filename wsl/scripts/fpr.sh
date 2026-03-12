@@ -5,6 +5,7 @@ echo "All scripts args: $@"
 CMD="$1"
 shift
 echo "Args after shift: $@"
+args=(${@})
 
 case "$CMD" in
 find | -f)
@@ -51,6 +52,24 @@ find | -f)
 	fi
 	;;
 delete | -d) echo "	❌ You're trying to delete a stuff" ;;
-open | --open | -o) [[ -e "$PR/$1" ]] && explorer.exe "$(wslpath -w $PR/$1)" ;;
+open | --open | -o)
+	clear
+	printf '[	Found a project: %s\n' ${args[@]} ]
+	echo "[		There are ${#args[@]} projects were found.	]"
+
+	read -rp "  Wanna open them all?" a
+	{
+		for fol in "$@"; do
+			if [[ "${a,,}" == "y" ]]; then
+				for match in $PR/$fol; do
+					[[ -d "$match" ]] && explorer.exe "$(wslpath -w "$match")"
+				done
+			else
+				return 0
+			fi
+		done
+	}
+	;;
+
 * | --help | -h) echo "	❓ Help ❓" ;;
 esac
