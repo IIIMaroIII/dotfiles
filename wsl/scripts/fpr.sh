@@ -51,5 +51,6 @@ find | -f)
 	fi
 	;;
 delete | -d) echo "	❌ You're trying to delete a stuff" ;;
+open | --open | -o) [[ -e "$PR/$1" ]] && explorer.exe "$(wslpath -w $PR/$1)" ;;
 * | --help | -h) echo "	❓ Help ❓" ;;
 esac
