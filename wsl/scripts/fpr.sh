@@ -1,5 +1,9 @@
 # Desc: Looking for an order, if that exists then open stuff
 #!/bin/bash
+cd $PR || {
+	echo "[		Couldn't switch pwd to a $PR	]"
+	exit 1
+}
 
 echo "All scripts args: $@"
 CMD="$1"
@@ -65,6 +69,7 @@ open | --open | -o)
 					[[ -d "$match" ]] && explorer.exe "$(wslpath -w "$match")"
 				done
 			else
+				printf '%s\n' "Exiting..."
 				return 0
 			fi
 		done

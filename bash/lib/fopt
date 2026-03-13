@@ -1,0 +1,8 @@
+# Desciption: Find all options in man page of given command
+
+fopt() {
+	man "$1" | grep -PA10 --color=always "^[ ']+--?\w+"| less -R
+}
+
+#Usage
+# fopt <command>
