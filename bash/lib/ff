@@ -1,0 +1,6 @@
+# Description: find all occurances recursevily 
+usage(){
+	cat <<EOF
+	ff [path] <NAME>
+EOF
+} 
