@@ -1,0 +1,16 @@
+configuration{
+    modi: "drun";
+    icon-theme: "Oranchelo";
+    show-icons: true;
+    terminal: "kitty";
+    drun-display-format: "{name}";
+    disable-history: false;
+    hide-scrollbar: true;
+    sidebar-mode: false;
+  kb-row-up:           "ctrl+k";
+  kb-row-down:         "ctrl+j";
+  kb-row-up:           "";
+  kb-row-down:         "";
+}
+
+@theme "catppuccin-mocha"

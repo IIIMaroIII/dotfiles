@@ -155,3 +155,4 @@ if ! shopt -oq posix; then
 	fi
 fi
 #. "$HOME/.cargo/env"
+export MOZ_ENABLE_WAYLAND=1

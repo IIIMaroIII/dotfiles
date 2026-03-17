@@ -1,0 +1,93 @@
+╔══════════════════════════════════════════════════════════════╗
+║                  PACMAN & YAY CHEAT SHEET                    ║
+╚══════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PACMAN — SYNC / INSTALL / UPDATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  sudo pacman -S package          install package
+  sudo pacman -S pkg1 pkg2        install multiple
+  sudo pacman -Sy                 sync package database
+  sudo pacman -Su                 upgrade all packages
+  sudo pacman -Syu                sync db + full upgrade (most common)
+  sudo pacman -Syyu               force double sync + upgrade
+  sudo pacman -S --needed pkg     skip if already installed
+  sudo pacman -S --noconfirm pkg  skip confirmation prompts
+  pacman -Ss keyword              search remote repos
+  pacman -Si package              full info on remote package
+  pacman -Sl                      list all available packages
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PACMAN — REMOVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  sudo pacman -R package          remove package only
+  sudo pacman -Rs package         remove + unused dependencies
+  sudo pacman -Rns package        remove + deps + configs (cleanest)
+  sudo pacman -Rdd package        remove ignoring deps (dangerous)
+  sudo pacman -Rns $(pacman -Qdtq)  remove all orphans
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PACMAN — QUERY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  pacman -Q                       list all installed packages
+  pacman -Qe                      explicitly installed
+  pacman -Qd                      installed as dependencies
+  pacman -Qdt                     orphans (no longer needed)
+  pacman -Qn                      from official repos
+  pacman -Qm                      foreign/AUR packages
+  pacman -Qu                      packages with available upgrades
+  pacman -Qi package              full info on installed package
+  pacman -Qs keyword              search locally installed
+  pacman -Ql package              list files owned by package
+  pacman -Qo /path/to/file        which package owns this file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PACMAN — CACHE & FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  sudo pacman -Sc                 remove old cached package versions
+  sudo pacman -Scc                remove entire package cache (nuclear)
+  sudo pacman -Fy                 sync files database
+  pacman -F filename              which package provides this file
+  pacman -Fl package              list files in a package
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PACMAN — FLAGS (combine with any command)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  --noconfirm                     skip all prompts
+  --needed                        skip if already up to date
+  -q                              quiet, minimal output
+  --overwrite '*'                 force overwrite file conflicts
+  --noprogressbar                 clean output in scripts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  YAY — SYNC / INSTALL / UPDATE  (no sudo needed)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  yay -S package                  install (AUR + official)
+  yay -Sy                         sync db
+  yay -Su                         upgrade all
+  yay -Syu                        sync + upgrade all (AUR + official)
+  yay -Ss keyword                 search AUR + official
+  yay -Si package                 remote package info
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  YAY — AUR SPECIFIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  yay -Sua                        upgrade AUR packages only
+  yay -Qm                         list AUR/foreign installed
+  yay -G pkgname                  download PKGBUILD only
+  yay --devel                     upgrade VCS/git packages
+  yay -Yc                         clean unneeded deps
+  yay --save                      save config options permanently
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  YAY — MISC FLAGS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  yay --answerdiff=None           skip diff prompts
+  yay --answerclean=None          skip clean prompts
+  yay -Rns package                remove + deps + configs
+  yay -Ps                         print system stats
+  yay --noconfirm                 skip all prompts
+  yay --needed                    skip if already installed
+  yay -q                          quiet output
+
+  NOTE: All pacman -Q query flags work identically with yay

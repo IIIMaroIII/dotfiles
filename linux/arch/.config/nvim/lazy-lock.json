@@ -1,0 +1,6 @@
+{
+  "conform.nvim": { "branch": "master", "commit": "086a40dc7ed8242c03be9f47fbcee68699cc2395" },
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "nvim-treesitter": { "branch": "main", "commit": "493890b87a81dfe6a7e577dbc364ae33fa482da9" },
+  "vim-be-good": { "branch": "master", "commit": "0ae3de14eb8efc6effe7704b5e46495e91931cc5" }
+}
