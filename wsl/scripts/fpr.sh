@@ -43,7 +43,7 @@ find | -f)
 			read -rp "	Wanna open the $dir in explorer?	" open_dir
 
 			if [[ "${open_dir,,}" == "y" ]]; then
-				explorer.exe "$(wslpath -w "$dir")"
+				yazi "$dir"
 			fi
 
 			echo "	Changing the pwd..."
@@ -66,7 +66,7 @@ open | --open | -o)
 		for fol in "$@"; do
 			if [[ "${a,,}" == "y" ]]; then
 				for match in $PR/$fol; do
-					[[ -d "$match" ]] && explorer.exe "$(wslpath -w "$match")"
+					[[ -d "$match" ]] && yazi "$match"
 				done
 			else
 				printf '%s\n' "Exiting..."

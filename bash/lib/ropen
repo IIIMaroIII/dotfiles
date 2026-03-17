@@ -1,8 +1,8 @@
 #!/bin/bash
 
-ropen(){
-	if command -v cmd.exe &>/dev/null; then 
-		explorer.exe "$(wslpath -w "$1")"
+ropen() {
+	if [[ -f /mnt/c/Windows/System32/cmd.exe ]] &>/dev/null; then
+		/mnt/c/Windows/explorer.exe "$(wslpath -w "$1")"
 	else
 
 		xdg-open "$1"
