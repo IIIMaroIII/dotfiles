@@ -1,0 +1,105 @@
+╔══════════════════════════════════════════════════════════════╗
+║                    YAZI CHEAT SHEET                          ║
+╚══════════════════════════════════════════════════════════════╝
+
+  Start:  yazi   or   y  (shell wrapper — changes CWD on exit)
+  Quit:   q  (keep CWD)  |  Q  (change CWD)
+  Help:   F1  or  ~
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  NAVIGATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  h / ←           leave current dir (go to parent)
+  j / ↓           move cursor down
+  k / ↑           move cursor up
+  l / →           enter hovered directory
+  K               seek up 5 units in preview
+  J               seek down 5 units in preview
+  gg              move cursor to top
+  G               move cursor to bottom
+  z               cd via fzf
+  Z               cd via zoxide
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SELECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Space           toggle selection of hovered file/dir
+  v               enter visual mode (select)
+  V               enter visual mode (unset)
+  ctrl+a          select all files
+  ctrl+r          inverse selection
+  Esc             cancel selection
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FILE OPERATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  o / Enter       open selected files
+  O               open selected files interactively
+  y               yank (copy)
+  x               yank (cut)
+  p               paste
+  P               paste (overwrite)
+  Y / X           cancel yank
+  d               trash selected files
+  D               permanently delete
+  a               create file (end with / for directory)
+  r               rename
+  .               toggle hidden files
+  ;               run shell command
+  :               run shell command (block until done)
+  -               symlink absolute path
+  _               symlink relative path
+  ctrl+-          hardlink
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COPY PATHS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  cc              copy file path
+  cd              copy directory path
+  cf              copy filename
+  cn              copy filename without extension
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FIND / SEARCH / FILTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  f               filter files
+  /               find next file
+  ?               find previous file
+  n               go to next found
+  N               go to previous found
+  s               search by name (fd)
+  S               search by content (ripgrep)
+  ctrl+s          cancel search
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SORTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ,m / ,M         sort by modified time / reverse
+  ,b / ,B         sort by birth time / reverse
+  ,e / ,E         sort by extension / reverse
+  ,a / ,A         sort alphabetically / reverse
+  ,n / ,N         sort naturally / reverse
+  ,s / ,S         sort by size / reverse
+  ,r              sort randomly
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TABS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  t               new tab (CWD)
+  1-9             switch to N-th tab
+  [               previous tab
+  ]               next tab
+  {               swap with previous tab
+  }               swap with next tab
+  ctrl+c          close current tab
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SHELL WRAPPER (add to .bashrc)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+  }
