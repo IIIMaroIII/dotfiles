@@ -6,6 +6,7 @@ return {
       formatters_by_ft = {
         sh = { "shfmt" },
         bash = { "shfmt" },
+        markdown = { "prettier" },
       },
       format_on_save = {
         timeout_ms = 500,

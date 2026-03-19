@@ -1,0 +1,123 @@
+==================================================
+ VIM YANK & PASTE CHEAT SHEET
+==================================================
+
+--------------------------------------------------
+ BASIC YANK (copy)
+--------------------------------------------------
+yy          yank current line
+Y           yank current line (same as yy)
+y$          yank from cursor to end of line
+y^          yank from cursor to first non-blank
+yiw         yank inner word (word under cursor)
+yaw         yank a word (includes surrounding space)
+yi"         yank inside quotes  → "hello world"
+ya"         yank around quotes  → includes the quotes
+yip         yank inner paragraph
+y2j         yank current line + 2 lines below
+y5k         yank current line + 5 lines above
+
+--------------------------------------------------
+ BASIC PASTE
+--------------------------------------------------
+p           paste after cursor / below current line
+P           paste before cursor / above current line
+gp          paste after, move cursor after pasted text
+gP          paste before, move cursor after pasted text
+
+--------------------------------------------------
+ NAMED REGISTERS  (a-z)
+--------------------------------------------------
+"ayy        yank line into register a
+"ap         paste from register a
+
+"byiw       yank word into register b
+"bp         paste from register b
+
+"Ayy        APPEND line to register a (capital = append)
+
+:reg        show all registers
+:reg a b    show registers a and b
+
+--------------------------------------------------
+ SPECIAL REGISTERS
+--------------------------------------------------
+""          default register (last yank or delete)
+"0          last YANK only (not affected by delete)
+"1 - "9     history of last 9 deletes
+"-          last small delete (less than 1 line)
+"+          system clipboard
+"*          primary selection (Linux middle-click)
+"_          black hole (delete without saving)
+".          last inserted text
+"%          current filename
+"/          last search pattern
+
+--------------------------------------------------
+ CLIPBOARD (system)
+--------------------------------------------------
+"+yy        yank line to system clipboard
+"+p         paste from system clipboard
+"*yy        yank to primary selection
+"*p         paste from primary selection
+
+-- tip: set clipboard=unnamedplus in config
+-- then yy/p work directly with system clipboard
+
+--------------------------------------------------
+ VISUAL MODE YANK
+--------------------------------------------------
+v           enter visual mode (char)
+V           enter visual mode (line)
+<C-v>       enter visual block mode
+
+-- select then:
+y           yank selection
+"ay         yank selection into register a
+"+y         yank selection to clipboard
+
+--------------------------------------------------
+ REPLACE WITHOUT LOSING REGISTER
+--------------------------------------------------
+-- problem: deleting overwrites your yank
+-- solution: paste over visual selection from "0
+
+viw         select word
+"0p         paste last YANK (not last delete) over it
+
+-- or use black hole register to delete:
+"_diw       delete word without touching any register
+p           paste your yank safely
+
+--------------------------------------------------
+ PRACTICAL EXAMPLES
+--------------------------------------------------
+
+-- duplicate a line:
+yy + p
+
+-- copy word and paste over another:
+yiw         (on source word)
+viw         (on target word)
+p           (paste, target replaced)
+
+-- save something important before operations:
+"ayy        save line to register a
+dd          delete stuff
+"ap         recover line from a
+
+-- copy inside function call:
+-- cursor inside: func(hello world)
+yi(         yanks: hello world
+
+-- copy line to clipboard and paste in browser:
+"+yy
+
+-- swap two words:
+yiw         yank word1
+ww          move to word2
+viw
+p           paste word1 over word2
+-- word1 is now in "" register, word2 in "0... complex, use plugin for this
+
+==================================================
