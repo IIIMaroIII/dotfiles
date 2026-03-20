@@ -1,9 +1,0 @@
-#Requires AutoHotkey v2.0
-
-j:: {
-    if KeyWait("k", "DT0.15") {
-        Send("{Esc}")
-    } else {
-        Send("j")
-    }
-}
