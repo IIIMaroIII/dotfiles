@@ -18,12 +18,19 @@ map("n", "<leader>w", ":w<CR>",  opts)                 -- save
 map("n", "<leader>q", ":q<CR>",  opts)                 -- quit
 map("n", "<leader>x", ":x<CR>",  opts)                 -- save and quit
 map("n", "<leader><leader>", ":", opts)
+map("n", "<leader>e", ":nohlsearch<CR>", opts)         -- clear search highlight
 
 -- --------------------------------------------------
--- LEADER: TABS
+-- LEADER: VIM COMMANDS 
 -- --------------------------------------------------
--- map("n", "<leader>t", ":tabnew<CR>", opts)             -- new tab
+map("n", "<leader>t", ":tabnew<CR>", opts)             -- new tab
+map("n", "<leader>c", ":tabclose<CR>", opts)             -- new tab
+map("n", "<leader>e", ":e ", opts)             -- new tab
 map("n", "<leader><leader>", ":", opts)
+map("n", "<leader>|", ":vsp<CR>", opts)
+map("n", "<leader>-", ":sp<CR>", opts)
+map("n", "<leader>s", ":%s/\v ", opts)
+map("v", "<leader>s", ":s/\v ", opts)
 
 -- --------------------------------------------------
 -- Normal Mode
@@ -33,7 +40,7 @@ map("n", "<C-u>", "<C-u>zz", opts)
 
 
 -- --------------------------------------------------
--- LEADER: SEARCH
+-- LEADER 
 -- --------------------------------------------------
 map("n", "<leader>n", ":nohlsearch<CR>", opts)         -- clear search highlight
 

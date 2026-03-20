@@ -1,0 +1,45 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+20. TELESCOPE (fuzzy finder)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHILOSOPHY
+  Never leave nvim to find files
+  Type fragments — telescope fuzzy matches in real time
+  Three parts: picker (what to search) + sorter (ranking) + previewer
+
+OPEN PICKERS  (your keymaps)
+  \f               find files from cwd
+  \F               find files from ~ (home, including hidden)
+  \g               live grep — search text inside files (cwd)
+  \G               live grep from ~ (home)
+  \b               open buffers — switch between open files
+  \r               recently opened files
+  \h               search nvim help tags
+
+INSIDE PICKER — NAVIGATION
+  type             filter/fuzzy search results
+  Ctrl-n / Ctrl-p  move down / up in results
+  Ctrl-j / Ctrl-k  move down / up (alternative)
+  Ctrl-u / Ctrl-d  scroll preview up / down
+  Ctrl-f / Ctrl-b  scroll preview page up / down
+
+INSIDE PICKER — OPENING FILES
+  Enter            open file in current window
+  Ctrl-v           open in vertical split
+  Ctrl-x           open in horizontal split
+  Ctrl-t           open in new tab
+
+INSIDE PICKER — OTHER
+  Ctrl-c / Esc     close picker
+  Tab              select/mark multiple files
+  Shift-Tab        deselect file
+  Ctrl-q           send all results to quickfix list
+  Ctrl-l           send selected to quickfix list
+  ?                show all keymaps (while picker is open)
+
+TIPS
+  \f then type parts of path:  "bzs doc flow" → matches bzs/docs/flow.md
+  \g to find by content when you don't remember filename
+  \b is fastest way to switch between files you already opened
+   for files you worked on recently across sessions
+  After Ctrl-q → use :copen to browse quickfix results in nvim
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

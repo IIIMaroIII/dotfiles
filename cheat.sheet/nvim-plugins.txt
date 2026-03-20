@@ -1,0 +1,132 @@
+══════════════════════════════════════════════════════════════════════
+                         NEOVIM PLUGINS CHEAT SHEET
+══════════════════════════════════════════════════════════════════════
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LAZY.NVIM (plugin manager)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  :Lazy              open plugin manager UI
+  :Lazy install      install missing plugins
+  :Lazy update       update all plugins
+  :Lazy sync         install + update + clean
+  :Lazy clean        remove unused plugins
+  :Lazy check        check for updates
+  :Lazy log          view plugin changelog
+  :Lazy restore      restore plugins to lockfile state
+  :Lazy profile      profile startup time
+  :Lazy debug        debug info
+  :Lazy help         show help
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NVIM-TREESITTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  :TSInstall {lang}      install parser for language (e.g. :TSInstall lua)
+  :TSUninstall {lang}    uninstall parser
+  :TSUpdate              update all parsers
+  :TSUpdate {lang}       update specific parser
+  :checkhealth nvim-treesitter   check status and installed parsers
+  :TSBufEnable {module}  enable module for buffer (highlight, indent...)
+  :TSBufDisable {module} disable module for buffer
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONFORM.NVIM (formatter)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  :ConformInfo           show formatters for current buffer
+  :Format                manually trigger format (if mapped)
+
+  Configured formatters:
+    sh / bash  →  shfmt
+    markdown   →  prettier
+
+  Format on save: enabled (BufWritePre, timeout 500ms)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VIM-BE-GOOD (training game)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  :VimBeGood             open game menu
+  :VimBeGood {game}      start specific game
+
+  Games:
+    hjkl                 basic movement
+    relative             relative line jumps
+    ci{                  text object practice
+    dd                   delete line speed
+    yy                   yank speed
+    dw                   delete word
+    visual               visual mode
+    random               random game
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LSP (built-in neovim lsp)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  gd               go to definition
+  gD               go to declaration
+  gr               go to references
+  gi               go to implementation
+  K                hover documentation
+  Ctrl-k           signature help
+  leader+rn        rename symbol
+  leader+ca        code action
+  leader+d         show diagnostics
+  [d / ]d          previous / next diagnostic
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RECOMMENDED FUTURE PLUGINS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  telescope.nvim         fuzzy finder (files, grep, buffers, LSP)
+  nvim-cmp               autocompletion (LSP, buffer, path, snippets)
+  mason.nvim             LSP/linter/formatter installer
+  gitsigns.nvim          git diff in gutter, hunk actions
+  nvim-surround          surround text objects (cs'" da{ ysiw[)
+  comment.nvim           gc to toggle comments
+  nvim-autopairs         auto close brackets/quotes
+  oil.nvim               file explorer as buffer
+  vim-fugitive           git integration inside nvim
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NVIM-SURROUND (when installed)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  cs'"             change surrounding ' to "
+  cs(}             change surrounding ( to }
+  cs({             change surrounding ( to { with space
+  ds'              delete surrounding '
+  dst              delete surrounding HTML tag
+  ysiw[            surround inner word with []
+  ysiw"            surround inner word with ""
+  S"               surround visual selection with "  (visual mode)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VIM-FUGITIVE (when installed)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  :Git             run any git command
+  :Git status      git status  (- to stage/unstage, p to patch)
+  :Git commit      git commit
+  :Git log         git log
+  :Git diff        vimdiff against last commit
+  :Git blame       open blame in vertical split
+  :Git mv          git mv
+  :Git rm          git rm
+  :Gread           revert buffer to last commit
+  :Gwrite          write + stage current file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TELESCOPE.NVIM (when installed)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  leader+ff        find files
+  leader+fg        live grep (search in files)
+  leader+fb        find buffers
+  leader+fh        help tags
+  leader+fr        recent files
+  leader+fs        find string under cursor
+
+  Inside telescope:
+  Ctrl-n / Ctrl-p  next / previous result
+  Ctrl-x           open in horizontal split
+  Ctrl-v           open in vertical split
+  Ctrl-t           open in new tab
+  Esc / q          close
+
+══════════════════════════════════════════════════════════════════════
+                              END OF GUIDE
+══════════════════════════════════════════════════════════════════════
