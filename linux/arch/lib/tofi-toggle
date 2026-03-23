@@ -1,0 +1,6 @@
+#!/bin/bash
+if pgrep -x tofi-drun > /dev/null; then
+    pkill -x tofi-drun
+else
+    tofi-drun --drun-launch=true
+fi

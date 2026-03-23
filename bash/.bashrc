@@ -2,6 +2,8 @@ __OS=$(uname -a)
 ### Set up defaults
 export VISUAL=nvim
 export EDITOR=nvim
+MOZ_ENABLE_WAYLAND=1
+MOZ_WEBRENDER=1
 
 ### Github vars
 github_contents="https://api.github.com/repos/IIIMaroIII/dotfiles/contents"

@@ -1,0 +1,9 @@
+[config]
+reload_apps = true
+
+[templates.foot]
+input_path = "~/.config/matugen/templates/foot.ini"
+output_path = "~/.config/foot/foot.ini"
+[templates.tofi]
+input_path = "~/.config/matugen/templates/tofi"
+output_path = "~/.config/tofi/config"
