@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vim / IdeaVim Reference</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;800&display=swap');
+
+  :root {
+    --bg:       #1e1e2e;
+    --surface:  #24273a;
+    --overlay:  #363a4f;
+    --muted:    #5b6078;
+    --text:     #cad3f5;
+    --subtext:  #a5adcb;
+    --lavender: #b7bdf8;
+    --blue:     #8aadf4;
+    --sapphire: #7dc4e4;
+    --sky:      #91d7e3;
+    --teal:     #8bd5ca;
+    --green:    #a6da95;
+    --yellow:   #eed49f;
+    --peach:    #f5a97f;
+    --red:      #ed8796;
+    --pink:     #f5bde6;
+    --mauve:    #c6a0f6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 40px 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--overlay);
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--mauve);
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--overlay);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--overlay);
+  }
+
+  .card-header .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--subtext);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 7px 16px;
+    vertical-align: middle;
+  }
+
+  td:first-child { width: 44%; }
+
+  .key {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-wrap: wrap;
+  }
+
+  kbd {
+    display: inline-block;
+    background: var(--overlay);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-bottom: 2px solid rgba(0,0,0,0.4);
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--lavender);
+    white-space: nowrap;
+  }
+
+  .desc {
+    color: var(--subtext);
+    font-size: 12px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .tag-new   { background: rgba(166,218,149,0.15); color: var(--green); }
+  .tag-idea  { background: rgba(199,160,246,0.15); color: var(--mauve); }
+  .tag-reg   { background: rgba(245,169,127,0.15); color: var(--peach); }
+
+  .section-note {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 6px 16px 10px;
+    border-top: 1px solid var(--overlay);
+    font-style: italic;
+  }
+
+  .concept-block {
+    background: var(--surface);
+    border: 1px solid var(--overlay);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .concept-block h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mauve);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .concept-item {
+    background: var(--overlay);
+    border-radius: 6px;
+    padding: 10px 14px;
+  }
+
+  .concept-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .concept-code {
+    color: var(--green);
+    font-size: 12px;
+  }
+
+  .concept-desc {
+    color: var(--subtext);
+    font-size: 11px;
+    margin-top: 3px;
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+
+  .pill {
+    background: var(--overlay);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11px;
+    color: var(--subtext);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pill kbd {
+    background: rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.08);
+    font-size: 10px;
+    padding: 0 5px;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--overlay);
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .color-escape  { color: var(--red); }
+  .color-nav     { color: var(--blue); }
+  .color-search  { color: var(--yellow); }
+  .color-reg     { color: var(--peach); }
+  .color-clip    { color: var(--green); }
+  .color-refac   { color: var(--mauve); }
+  .color-debug   { color: var(--pink); }
+  .color-git     { color: var(--teal); }
+  .color-window  { color: var(--sapphire); }
+  .color-file    { color: var(--sky); }
+  .color-fold    { color: var(--subtext); }
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Vim · IdeaVim Reference</h1>
+  <span class="subtitle">keymaps.lua + .ideavimrc · Catppuccin Mocha</span>
+</header>
+
+<!-- Register Hygiene Concept -->
+<div class="concept-block">
+  <h2>⚡ Register Hygiene — The Core Concept</h2>
+  <div class="concept-grid">
+    <div class="concept-item">
+      <div class="concept-label">The Problem</div>
+      <div class="concept-code">yiw → vap → p</div>
+      <div class="concept-desc">p pastes the deleted text, not your yank. Delete overwrote the unnamed register.</div>
+    </div>
+    <div class="concept-item">
+      <div class="concept-label">Black Hole Register</div>
+      <div class="concept-code">"_d  "_c  "_x</div>
+      <div class="concept-desc">Write-only void. Anything sent here never overwrites your yanks.</div>
+    </div>
+    <div class="concept-item">
+      <div class="concept-label">Paste Over Selection Fix</div>
+      <div class="concept-code">vmap p "_dP</div>
+      <div class="concept-desc">"_d = delete selection to void. P = paste from still-intact unnamed register.</div>
+    </div>
+    <div class="concept-item">
+      <div class="concept-label">System Clipboard</div>
+      <div class="concept-code">"+y  "+p</div>
+      <div class="concept-desc">+ register = system clipboard. Keep internal yank separate from OS clipboard.</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- Escape & Basics -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--red)"></div>
+      <span class="card-title">Escape & Basics</span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>j</kbd><kbd>k</kbd></span></td><td class="desc">Escape insert / visual mode <span class="tag tag-new">both</span></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>Spc</kbd></span></td><td class="desc">Enter command mode <code>:</code></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>w</kbd></span></td><td class="desc">Save <code>:w</code></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>q</kbd></span></td><td class="desc">Quit <code>:q</code></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>x</kbd></span></td><td class="desc">Save and quit <code>:x</code></td></tr>
+      <tr><td><span class="key"><kbd>Q</kbd></span></td><td class="desc">Disabled — Ex mode (accidental)</td></tr>
+    </table>
+  </div>
+
+  <!-- Scrolling & Search -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--yellow)"></div>
+      <span class="card-title">Scrolling & Search</span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>C-d</kbd></span></td><td class="desc">Scroll down + center cursor <span class="tag tag-new">new</span></td></tr>
+      <tr><td><span class="key"><kbd>C-u</kbd></span></td><td class="desc">Scroll up + center cursor <span class="tag tag-new">new</span></td></tr>
+      <tr><td><span class="key"><kbd>n</kbd></span></td><td class="desc">Next search result + center <span class="tag tag-new">new</span></td></tr>
+      <tr><td><span class="key"><kbd>N</kbd></span></td><td class="desc">Prev search result + center <span class="tag tag-new">new</span></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>n</kbd></span></td><td class="desc">Clear search highlight</td></tr>
+      <tr><td><span class="key"><kbd>C-a</kbd></span></td><td class="desc">Start of line (non-blank) <code>^</code></td></tr>
+      <tr><td><span class="key"><kbd>C-e</kbd></span></td><td class="desc">End of line <code>$</code></td></tr>
+    </table>
+  </div>
+
+  <!-- Register Hygiene -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--peach)"></div>
+      <span class="card-title">Register Hygiene <span class="tag tag-new">new</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>x</kbd> <kbd>X</kbd></span></td><td class="desc">Delete char → black hole (never pollutes) <span class="tag tag-reg">reg</span></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd></span></td><td class="desc">Delete → black hole (discard intent)</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>D</kbd></span></td><td class="desc">Delete to EOL → black hole</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>c</kbd></span></td><td class="desc">Change → black hole</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>C</kbd></span></td><td class="desc">Change to EOL → black hole</td></tr>
+      <tr><td><span class="key"><kbd>p</kbd> <small>(visual)</small></span></td><td class="desc"><code>"_dP</code> — paste over without clobbering yank</td></tr>
+    </table>
+    <div class="section-note">Keep d/D as-is for intentional yank. Use &lt;leader&gt;d when you want to discard.</div>
+  </div>
+
+  <!-- System Clipboard -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--green)"></div>
+      <span class="card-title">System Clipboard <span class="tag tag-new">new</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>y</kbd></span></td><td class="desc">Yank → system clipboard <code>"+y</code></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>Y</kbd></span></td><td class="desc">Yank line → system clipboard</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>p</kbd></span></td><td class="desc">Paste from system clipboard</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>P</kbd></span></td><td class="desc">Paste before from system clipboard</td></tr>
+    </table>
+    <div class="section-note">Internal y/p untouched. Clipboard is explicit, intentional.</div>
+  </div>
+
+  <!-- Window Management -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--sapphire)"></div>
+      <span class="card-title">Window / Splits</span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>h/j/k/l</kbd></span></td><td class="desc">Focus window left/down/up/right</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>w</kbd><kbd>v</kbd></span></td><td class="desc">Split vertical <span class="tag tag-new">new</span></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>w</kbd><kbd>h</kbd></span></td><td class="desc">Split horizontal <span class="tag tag-new">new</span></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>w</kbd><kbd>c</kbd></span></td><td class="desc">Close window <span class="tag tag-new">new</span></td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>w</kbd><kbd>e</kbd></span></td><td class="desc">Equalize window sizes <span class="tag tag-new">new</span></td></tr>
+    </table>
+  </div>
+
+  <!-- Quality of Life -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--sky)"></div>
+      <span class="card-title">Quality of Life <span class="tag tag-new">new</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>J</kbd></span></td><td class="desc"><code>mzJ`z</code> — join line, cursor stays in place</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>s</kbd></span></td><td class="desc">Rename word under cursor (in-buffer)</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>a</kbd></span></td><td class="desc">Select all <span class="tag tag-idea">idea</span></td></tr>
+    </table>
+  </div>
+
+  <!-- IdeaVim Plugins -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--mauve)"></div>
+      <span class="card-title">IdeaVim Plugin Emulation <span class="tag tag-idea">idea</span></span>
+    </div>
+    <div class="pill-row">
+      <div class="pill"><kbd>cs"'</kbd> surround</div>
+      <div class="pill"><kbd>gcc</kbd> commentary</div>
+      <div class="pill"><kbd>ia</kbd> argtextobj</div>
+      <div class="pill"><kbd>ae</kbd> textobj-entire</div>
+      <div class="pill"><kbd>gr</kbd> ReplaceWithRegister</div>
+      <div class="pill"><kbd>cx</kbd> exchange</div>
+      <div class="pill"><kbd>highlightedyank</kbd></div>
+      <div class="pill"><kbd>which-key</kbd></div>
+    </div>
+    <div class="section-note">All enabled via `set pluginname` in .ideavimrc — no install needed.</div>
+  </div>
+
+  <!-- IdeaVim Options -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--mauve)"></div>
+      <span class="card-title">IdeaVim Options <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><code>set ideajoin</code></span></td><td class="desc">J uses IntelliJ smart join</td></tr>
+      <tr><td><span class="key"><code>idearefactormode</code></span></td><td class="desc">Refactor dialogs → start in normal mode</td></tr>
+      <tr><td><span class="key"><code>set which-key</code></span></td><td class="desc">Pending keybind popup</td></tr>
+      <tr><td><span class="key"><code>set notimeout</code></span></td><td class="desc">No leader sequence timeout</td></tr>
+      <tr><td><span class="key"><code>clipboard+=unnamed</code></span></td><td class="desc">Sync vim clipboard with system</td></tr>
+    </table>
+  </div>
+
+  <!-- Go To Navigation -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--blue)"></div>
+      <span class="card-title">Navigation: Go To <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>d</kbd></span></td><td class="desc">Go to Declaration</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>i</kbd></span></td><td class="desc">Go to Implementation</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>u</kbd></span></td><td class="desc">Show Usages (popup)</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>U</kbd></span></td><td class="desc">Find Usages (panel)</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>t</kbd></span></td><td class="desc">Go to Test</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>s</kbd></span></td><td class="desc">Go to Super Method</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>e</kbd></span></td><td class="desc">Next Error</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>E</kbd></span></td><td class="desc">Previous Error</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>b</kbd></span></td><td class="desc">Navigate Back</td></tr>
+      <tr><td><span class="key"><kbd>g</kbd><kbd>n</kbd></span></td><td class="desc">Navigate Forward</td></tr>
+    </table>
+  </div>
+
+  <!-- Find / Open -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--sky)"></div>
+      <span class="card-title">Find / Open <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>g</kbd><kbd>f</kbd></span></td><td class="desc">Go to File</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>g</kbd><kbd>a</kbd></span></td><td class="desc">Go to Action</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>g</kbd><kbd>c</kbd></span></td><td class="desc">Go to Class</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>g</kbd><kbd>s</kbd></span></td><td class="desc">Go to Symbol</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>g</kbd><kbd>r</kbd></span></td><td class="desc">Recent Files</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>g</kbd><kbd>l</kbd></span></td><td class="desc">Recent Locations</td></tr>
+      <tr><td><span class="key"><kbd>S-f</kbd></span></td><td class="desc">Find in file</td></tr>
+      <tr><td><span class="key"><kbd>S-r</kbd></span></td><td class="desc">Replace in file</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>f</kbd><kbd>f</kbd></span></td><td class="desc">Find in Path (global)</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>f</kbd><kbd>r</kbd></span></td><td class="desc">Replace in Path (global)</td></tr>
+    </table>
+  </div>
+
+  <!-- Code Info -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--lavender)"></div>
+      <span class="card-title">Code Info <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>s</kbd><kbd>h</kbd></span></td><td class="desc">Show Hover Info</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>s</kbd><kbd>d</kbd></span></td><td class="desc">Quick JavaDoc</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>s</kbd><kbd>e</kbd></span></td><td class="desc">Show Error Description</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>s</kbd><kbd>i</kbd></span></td><td class="desc">Parameter Info</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>t</kbd><kbd>i</kbd></span></td><td class="desc">Expression Type Info</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>t</kbd><kbd>d</kbd></span></td><td class="desc">Quick Type Definition</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>i</kbd><kbd>m</kbd></span></td><td class="desc">Quick Implementations</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>o</kbd><kbd>o</kbd></span></td><td class="desc">File Structure Popup</td></tr>
+    </table>
+  </div>
+
+  <!-- Refactoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--mauve)"></div>
+      <span class="card-title">Refactoring <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>n</kbd></span></td><td class="desc">Rename Element</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>m</kbd></span></td><td class="desc">Extract Method</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>v</kbd></span></td><td class="desc">Introduce Variable</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>i</kbd></span></td><td class="desc">Inline</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>o</kbd></span></td><td class="desc">Optimize Imports</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>f</kbd></span></td><td class="desc">Reformat Code</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>r</kbd></span></td><td class="desc">Quick Refactor List (all options)</td></tr>
+    </table>
+  </div>
+
+  <!-- Run / Debug -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--pink)"></div>
+      <span class="card-title">Run / Debug <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>c</kbd></span></td><td class="desc">Run Class</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>R</kbd></span></td><td class="desc">Rerun</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>r</kbd><kbd>s</kbd></span></td><td class="desc">Stop</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd><kbd>c</kbd></span></td><td class="desc">Debug Class</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd><kbd>b</kbd></span></td><td class="desc">Toggle Breakpoint</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd><kbd>v</kbd></span></td><td class="desc">Evaluate Expression</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd><kbd>s</kbd></span></td><td class="desc">Step Over</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd><kbd>i</kbd></span></td><td class="desc">Step Into</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd><kbd>o</kbd></span></td><td class="desc">Step Out</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>d</kbd><kbd>r</kbd></span></td><td class="desc">Resume</td></tr>
+    </table>
+  </div>
+
+  <!-- Git / VCS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--teal)"></div>
+      <span class="card-title">Git / VCS <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>g</kbd></span></td><td class="desc">Git Annotate (blame)</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>h</kbd></span></td><td class="desc">File History</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>r</kbd></span></td><td class="desc">Revert File</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>c</kbd></span></td><td class="desc">Commit</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>p</kbd></span></td><td class="desc">Push</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>u</kbd></span></td><td class="desc">Update (Pull)</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>b</kbd></span></td><td class="desc">Branches</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>v</kbd><kbd>d</kbd></span></td><td class="desc">Diff with Last Version</td></tr>
+    </table>
+  </div>
+
+  <!-- Tabs -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--sky)"></div>
+      <span class="card-title">Tabs / Buffers <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>]</kbd></span></td><td class="desc">Next Tab</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>[</kbd></span></td><td class="desc">Previous Tab</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>t</kbd><kbd>c</kbd></span></td><td class="desc">Close Tab</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>t</kbd><kbd>o</kbd></span></td><td class="desc">Close All Other Tabs</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>t</kbd><kbd>p</kbd></span></td><td class="desc">Pin Active Tab</td></tr>
+    </table>
+  </div>
+
+  <!-- Tool Windows -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--subtext)"></div>
+      <span class="card-title">Tool Windows <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>o</kbd><kbd>t</kbd></span></td><td class="desc">Terminal</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>o</kbd><kbd>p</kbd></span></td><td class="desc">Project Panel</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>o</kbd><kbd>g</kbd></span></td><td class="desc">Version Control Panel</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>o</kbd><kbd>b</kbd></span></td><td class="desc">Build Panel</td></tr>
+      <tr><td><span class="key"><kbd>Spc</kbd><kbd>o</kbd><kbd>r</kbd></span></td><td class="desc">Run Panel</td></tr>
+    </table>
+  </div>
+
+  <!-- Folding -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--subtext)"></div>
+      <span class="card-title">Folding <span class="tag tag-idea">idea</span></span>
+    </div>
+    <table>
+      <tr><td><span class="key"><kbd>z</kbd><kbd>o</kbd></span></td><td class="desc">Expand region</td></tr>
+      <tr><td><span class="key"><kbd>z</kbd><kbd>c</kbd></span></td><td class="desc">Collapse region</td></tr>
+      <tr><td><span class="key"><kbd>z</kbd><kbd>O</kbd></span></td><td class="desc">Expand all</td></tr>
+      <tr><td><span class="key"><kbd>z</kbd><kbd>C</kbd></span></td><td class="desc">Collapse all</td></tr>
+      <tr><td><span class="key"><kbd>z</kbd><kbd>a</kbd></span></td><td class="desc">Toggle fold</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  keymaps.lua · .ideavimrc · Catppuccin Mocha · <span style="color:var(--mauve)">Spc</span> = Space leader
+</footer>
+
+</body>
+</html>

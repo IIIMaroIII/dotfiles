@@ -1,6 +1,13 @@
 apple-ib-drv-dkms-git r307.4afd309-1
-hyprnotify 0.8.0-1
+droidcam 1:2.1.5-1
+droidcam-debug 1:2.1.5-1
+firefox-bin 148.0.2-1
+mac-touchbar-plus 1.0.0-1
+mac-touchbar-plus-debug 1.0.0-1
+macbook12-spi-driver-dkms 0+git.315-1
 neofetch 7.1.0-2
+teams-for-linux 2.7.12-1
+teams-for-linux-debug 2.7.12-1
+tofi 0.9.1-2
 visual-studio-code-bin 1.111.0-1
-xremap-hypr-bin 0.14.18-1
 yay 12.5.7-1

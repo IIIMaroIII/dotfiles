@@ -1,0 +1,45 @@
+" ====================== Custom Remapping  ==============================
+
+let mapleader = " "
+map <leader>d "_d
+map <leader>D "_D
+map <leader>c "_c
+map <leader>C "_C
+map <leader>x "_x
+map <leader>X "_X
+map <leader>y "+y
+map <leader>Y "+Y
+map <leader>p "+p
+map <leader>P "+P
+
+" jump between angle brackets
+set
+" ====================== Handlers VIM ==============================
+sethandler <C-n> a:vim
+sethandler <C-p> a:vim
+sethandler <C-e> i:vim
+" ====================== Handlers IDE ==============================
+sethandler <C-n> a:ide
+sethandler <C-p> a:ide
+" ====================== Normal mode ==============================
+" map black whole  whole
+noremap \ "_
+
+" ====================== Insert mode ==============================
+" jk behaves like <Esc>
+imap jk <Esc>
+
+" ====================== Visual + select mode ==============================
+" jk behaves like <Esc>
+vmap jk <Esc>
+
+" ====================== Visual mode ONLY==============================
+
+" paste over without overwritting default register
+xnoremap p "_dP
+
+" ====================== Options ==============================
+
+" ====================== VIM ACTIONS ==============================
+
+map <leader>gr <Action>(RecentFiles)
